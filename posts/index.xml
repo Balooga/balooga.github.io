@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Balooga</title>
+    <link>https://www.balooga.com/posts/</link>
+    <description>Recent content in Posts on Balooga</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 29 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Installing Fedora 32 on a mid-2009 Macbook Pro; Part One</title>
+      <link>https://www.balooga.com/posts/fedora-on-macbook-part-one/</link>
+      <pubDate>Sat, 29 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/fedora-on-macbook-part-one/</guid>
+      <description>These two posts document my experience installing Fedora 32 onto a mid-2009 15&#34; Macbook Pro. Part One describes the initial installation of Fedora and necessary updates so that the internal WiFi hardware is detected, and Part Two describes configuring the window manager i3wm. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install. And, if you use the i3 Window Manager, there is additional work to allow the MacBook to return to active mode from standby when the lid is closed and subsequently re-opened.</description>
+    </item>
+    
+    <item>
+      <title>Future Legacy Applications</title>
+      <link>https://www.balooga.com/posts/code-for-the-future/</link>
+      <pubDate>Fri, 14 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/code-for-the-future/</guid>
+      <description>Applications become &#34;legacy&#34; when;
+   The target platform is deprecated and cannot be recreated, necessitating a rewrite,
+  The framework it is built on becomes passe and critical security fixes and new features are added only to a new non-backwards compatible version of the framework, necessitating a rewrite,
+  The 3&amp;#8217;rd party services the application depends on are deprecated or turned off, necessitating a rewrite,
+  The APIs the application uses are forcibly made obsolete in current releases of the OS (recent versions of iOS or OSX, for example.</description>
+    </item>
+    
+    <item>
+      <title>When Does New Code Become Legacy Code?</title>
+      <link>https://www.balooga.com/posts/legacy-code/</link>
+      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/legacy-code/</guid>
+      <description>Legacy code is code without tests   At what point does code become legacy? And what is good code? Answering the second question in a way that suits the rest of this blog post; Good code is code that does not require change, code that performs within spec and has no need of patching or updating even if years, perhaps decades, old.
+ Is legacy code just old code?</description>
+    </item>
+    
+    <item>
+      <title>Loops in Elixir</title>
+      <link>https://www.balooga.com/posts/loops-in-elixir/</link>
+      <pubDate>Sat, 11 Jul 2020 09:11:58 -0700</pubDate>
+      
+      <guid>https://www.balooga.com/posts/loops-in-elixir/</guid>
+      <description>Introduction In the following post we will look at a few ways to interate over the first one hundred integers (0 through 99) in Elixir calling FizzBuzz on each.
+ Elixir lacks the familiar for, while, until language control-flow constructs that exist in other languages, instead encouraging use of the enumeration capabilities available in the collection modules within the Elixir standard library.
+ The core requirements of a FizzBuzz, when passed an integer as a parameter, is to;</description>
+    </item>
+    
+    <item>
+      <title>Logging is not the same as Alerting</title>
+      <link>https://www.balooga.com/posts/logs-vs-alerting/</link>
+      <pubDate>Sat, 10 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/logs-vs-alerting/</guid>
+      <description>You&amp;rsquo;re developing the &amp;ldquo;Next Great Service X&amp;rdquo; and are knee deep in the logic managing reads and writes to a data store. Following good engineering practices, you log each read and write operation and cover the nominal use cases. But DevOps need to be notified when access to the data store is lost in production. Is &amp;ldquo;Service X&amp;rdquo;, in addition to logging the error, also responsible for raising an &amp;ldquo;Alert&amp;rdquo; with the Operations or DevOps team?</description>
+    </item>
+    
+    <item>
+      <title>Efficiency of the MPEG-2 (H.262), MPEG-4 Part 2 and H.264 codecs</title>
+      <link>https://www.balooga.com/posts/h264-codec/</link>
+      <pubDate>Sun, 07 Jun 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/h264-codec/</guid>
+      <description>The following post is quite dated and reflects a 2001 era worflow using ancient technology. These are the hoops we had to jump through.       Introduction Around 2001, I conducted a technology review comparing the coding efficiency of the MPEG-2, MPEG-4 Part 2 and H.264 (MPEG-4 Part 10) codecs in order to pick an effective and efficient compression algorithm to be used in a new satellite directv-to-home DBS system.</description>
+    </item>
+    
+    <item>
+      <title>Corman Lisp FFI Howto</title>
+      <link>https://www.balooga.com/posts/corman-lisp-ffi/</link>
+      <pubDate>Thu, 11 Dec 2003 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/corman-lisp-ffi/</guid>
+      <description>This document shall demonstrate the use of the Corman Common Lisp (CCL) FFI.[1] Specific examples demonstrate the use of SDL from Corman Common Lisp. As such, this document is not a general SDL[2] tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: This post describes interfacing Corman Lisp to SDL version 1.2.x. The SDL APIs described herein have changed in SDL version 2.x.     Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI.</description>
+    </item>
+    
+  </channel>
+</rss>
