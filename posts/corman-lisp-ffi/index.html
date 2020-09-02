@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en">
 
     <meta name="author" content="Luke Crook">
-    <meta name="description" content="This document shall demonstrate the use of the Corman Common Lisp (CCL) FFI.[1] Specific examples demonstrate the use of SDL from Corman Common Lisp. As such, this document is not a general SDL[2] tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: This post describes interfacing Corman Lisp to SDL version 1.2.x. The SDL APIs described herein have changed in SDL version 2.x.     Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI.">
+    <meta name="description" content="This post demonstrates the use of the Corman Common Lisp (CCL) FFI.[1] with the SDL[2] library. This post is not a general SDL tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: SDL version 1.2.x is described. SDL APIs described herein have changed in SDL version 2.x.     Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI.">
     <meta name="keywords" content="blog,developer,personal">
 
     
@@ -16,10 +16,10 @@
 
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Corman Lisp FFI Howto"/>
-<meta name="twitter:description" content="This document shall demonstrate the use of the Corman Common Lisp (CCL) FFI.[1] Specific examples demonstrate the use of SDL from Corman Common Lisp. As such, this document is not a general SDL[2] tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: This post describes interfacing Corman Lisp to SDL version 1.2.x. The SDL APIs described herein have changed in SDL version 2.x.     Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI."/>
+<meta name="twitter:description" content="This post demonstrates the use of the Corman Common Lisp (CCL) FFI.[1] with the SDL[2] library. This post is not a general SDL tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: SDL version 1.2.x is described. SDL APIs described herein have changed in SDL version 2.x.     Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI."/>
 
     <meta property="og:title" content="Corman Lisp FFI Howto" />
-<meta property="og:description" content="This document shall demonstrate the use of the Corman Common Lisp (CCL) FFI.[1] Specific examples demonstrate the use of SDL from Corman Common Lisp. As such, this document is not a general SDL[2] tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: This post describes interfacing Corman Lisp to SDL version 1.2.x. The SDL APIs described herein have changed in SDL version 2.x.     Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI." />
+<meta property="og:description" content="This post demonstrates the use of the Corman Common Lisp (CCL) FFI.[1] with the SDL[2] library. This post is not a general SDL tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: SDL version 1.2.x is described. SDL APIs described herein have changed in SDL version 2.x.     Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.balooga.com/posts/corman-lisp-ffi/" />
 <meta property="article:published_time" content="2003-12-11T00:00:00+00:00" />
@@ -138,13 +138,12 @@
 <div class="sectionbody">
 <div class="quoteblock abstract">
 <blockquote>
-This document shall demonstrate the use of the Corman Common Lisp
-(CCL) FFI.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> Specific
-examples demonstrate the use of SDL from Corman Common Lisp. As such, this
-document is not a general SDL<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> tutorial, nor
-should it be considered a primer for learning Common Lisp. NOTE: This post
-describes interfacing Corman Lisp to SDL version 1.2.x. The SDL APIs described
-herein have changed in SDL version 2.x.
+This post demonstrates the use of the Corman Common Lisp (CCL)
+FFI.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> with the
+SDL<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> library. This post is not a general SDL
+tutorial, nor should it be considered a primer for learning Common Lisp. NOTE:
+SDL version 1.2.x is described. SDL APIs described herein have changed in SDL
+version 2.x.
 </blockquote>
 </div>
 </div>

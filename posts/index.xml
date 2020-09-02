@@ -78,7 +78,7 @@
       <pubDate>Thu, 11 Dec 2003 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/corman-lisp-ffi/</guid>
-      <description>This document shall demonstrate the use of the Corman Common Lisp (CCL) FFI.[1] Specific examples demonstrate the use of SDL from Corman Common Lisp. As such, this document is not a general SDL[2] tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: This post describes interfacing Corman Lisp to SDL version 1.2.x. The SDL APIs described herein have changed in SDL version 2.x.     Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI.</description>
+      <description>This post demonstrates the use of the Corman Common Lisp (CCL) FFI.[1] with the SDL[2] library. This post is not a general SDL tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: SDL version 1.2.x is described. SDL APIs described herein have changed in SDL version 2.x.     Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI.</description>
     </item>
     
   </channel>
