@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en">
 
     <meta name="author" content="Luke Crook">
-    <meta name="description" content="These posts document an installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. It is in two parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, and Part Two describes configuring the window manager i3wm. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install. And, if you use the i3 Window Manager, there is additional work to allow the MacBook to return to active mode from standby when the lid is closed and subsequently re-opened.">
+    <meta name="description" content="A series of posts documenting the installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. In three parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, Part Two describes configuring the window manager i3wm, and Part Three details the installation of the applications that I use daily. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install.">
     <meta name="keywords" content="blog,developer,personal">
 
     
@@ -16,10 +16,10 @@
 
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Installing Fedora 32 on a mid-2009 Macbook Pro - Part One; WiFi"/>
-<meta name="twitter:description" content="These posts document an installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. It is in two parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, and Part Two describes configuring the window manager i3wm. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install. And, if you use the i3 Window Manager, there is additional work to allow the MacBook to return to active mode from standby when the lid is closed and subsequently re-opened."/>
+<meta name="twitter:description" content="A series of posts documenting the installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. In three parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, Part Two describes configuring the window manager i3wm, and Part Three details the installation of the applications that I use daily. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install."/>
 
     <meta property="og:title" content="Installing Fedora 32 on a mid-2009 Macbook Pro - Part One; WiFi" />
-<meta property="og:description" content="These posts document an installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. It is in two parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, and Part Two describes configuring the window manager i3wm. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install. And, if you use the i3 Window Manager, there is additional work to allow the MacBook to return to active mode from standby when the lid is closed and subsequently re-opened." />
+<meta property="og:description" content="A series of posts documenting the installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. In three parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, Part Two describes configuring the window manager i3wm, and Part Three details the installation of the applications that I use daily. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.balooga.com/posts/fedora-on-macbook-part-one/" />
 <meta property="article:published_time" content="2020-08-29T00:00:00+00:00" />
@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              3-minute read
+              4-minute read
             </span>
           </div>
           
@@ -138,35 +138,69 @@
 <div class="sectionbody">
 <div class="quoteblock abstract">
 <blockquote>
-These posts document an installation of Fedora 32 onto a mid-2009 15"
-Macbook Pro. It is in two parts; Part One describes the initial installation of
-Fedora and necessary updates to detect the internal WiFi hardware, and Part Two
-describes configuring the window manager i3wm. As is usual with Linux
-installations, forewarned is forearmed. Prepare for the lack of internal WiFi
-capability in the base Fedora install. And, if you use the i3 Window Manager,
-there is additional work to allow the MacBook to return to active mode from
-standby when the lid is closed and subsequently re-opened.
+A series of posts documenting the installation of Fedora 32 onto a
+mid-2009 15" Macbook Pro. In three parts; Part One describes the initial
+installation of Fedora and necessary updates to detect the internal WiFi
+hardware, Part Two describes configuring the window manager i3wm, and Part Three
+details the installation of the applications that I use daily. As is usual
+with Linux installations, forewarned is forearmed. Prepare for the lack of
+internal WiFi capability in the base Fedora install. And, if you use the i3
+Window Manager, there is additional work to allow the MacBook to return to
+active mode from standby when the lid is closed and subsequently re-opened.
 </blockquote>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_why_move_from_osx_to_fedora"><a class="anchor" href="#_why_move_from_osx_to_fedora"></a><a class="link" href="#_why_move_from_osx_to_fedora">Why move from OSX to Fedora?</a></h2>
+<h2 id="_things_to_consider"><a class="anchor" href="#_things_to_consider"></a><a class="link" href="#_things_to_consider">Things to Consider</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Linux power management, at least in Fedora 32 and on this Macbook Pro,
+sucks. Don&#8217;t expect to be able to use the laptop on battery power for any
+length of time. Even under <em>idle load</em> and with a new battery, the power
+drain is something to behold. <code>powertop</code> reports the main cuprits as
+<code>dbs_work_handler</code>, <code>tick_sched_timer</code> and <code>hrtimer_wakup</code>, eclipsing even
+<code>firefox</code> in mW usage. These conspire to cause the Macbook to run hot; you
+really don&#8217;t want to place this thing on your lap for any length of time.
+There doesn&#8217;t seem to be a workaround available but hopefully this will be
+addressed in a future update.</p>
+</li>
+<li>
+<p>The default power management behaviour when the lid is closed causes the
+Macbook Pro is to transition from active to standby/suspend mode.
+Unfortunately opening the lid does not trigger the reverse and a return to
+active mode which means a reboot is needed. I use <code>xfce4-power-manager</code> to
+change the action on lid close to simply turn off the display as a
+workaround. This also means that using the laptop as a laptop isn&#8217;t
+feasible.</p>
+</li>
+<li>
+<p>Expect to install the Nvidia graphics drivers to drive an external monitor.
+Not a big deal but it is something else that needs to be done.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_move_from_osx_to_linux"><a class="anchor" href="#_why_move_from_osx_to_linux"></a><a class="link" href="#_why_move_from_osx_to_linux">Why Move from OSX to Linux?</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Why bother running Fedora when Apple does a pretty good job of supporting their
-old hardware? Apple officially only supports OSX "El
+<p>Why run Linux when Apple does a decent job of supporting their hardware? Apple
+officially only supports OSX "El
 Capitan"<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> on this mid 2009
-Macbook Pro. El Capitan is old enough even Homebrew doesn&#8217;t support it, and
+Macbook Pro. El Capitan is old enough that even Homebrew doesn&#8217;t support it, and
 that&#8217;s a problem for me as almost all the software that I use I install using
-Homebrew. This also makes the decision to switch that much easier, as all the
+Homebrew. This makes the decision to switch that much easier, as all the
 software I use is also available on Linux. Even Spotify and Zoom!</p>
 </div>
 <div class="paragraph">
-<p>Although I love Homebrew it does compile a lot of packages from source which
-means that Rust can take hours to install or upgrade on such dated hardware. In
-Fedora, it is just a <code>sudo yum -y install &lt;blah&gt;</code> and a few seconds later &lt;blah&gt;
-is installed.</p>
+<p>As much as I like Homebrew it does compile many packages from source. So for
+example, Rust can take hours to install or upgrade on old hardware. On Fedora,
+packages are precompiled and are installed using <code>sudo yum -y install &lt;blah&gt;</code> in
+a few seconds.</p>
 </div>
 </div>
 </div>

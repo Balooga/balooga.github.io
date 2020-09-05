@@ -17,7 +17,7 @@
       <pubDate>Wed, 02 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/fedora-on-macbook-part-two/</guid>
-      <description>These posts document an installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. It is in two parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, and Part Two describes configuring the window manager i3wm. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install. And, if you use the i3 Window Manager, there is additional work to allow the MacBook to return to active mode from standby when the lid is closed and subsequently re-opened.</description>
+      <description>These posts document an installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. It is in two parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, and Part Two describes configuring the window manager i3wm. As is usual with Linux installations, forewarned is forearmed. Be prepared for the lack of internal WiFi capability in the base Fedora install. And, if you use the i3 Window Manager, there is additional work to allow the MacBook to return to active mode from standby when the lid is closed and subsequently re-opened.</description>
     </item>
     
     <item>
@@ -26,7 +26,7 @@
       <pubDate>Sat, 29 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/fedora-on-macbook-part-one/</guid>
-      <description>These posts document an installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. It is in two parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, and Part Two describes configuring the window manager i3wm. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install. And, if you use the i3 Window Manager, there is additional work to allow the MacBook to return to active mode from standby when the lid is closed and subsequently re-opened.</description>
+      <description>A series of posts documenting the installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. In three parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, Part Two describes configuring the window manager i3wm, and Part Three details the installation of the applications that I use daily. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install.</description>
     </item>
     
     <item>
