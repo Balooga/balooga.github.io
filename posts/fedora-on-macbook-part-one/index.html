@@ -15,10 +15,10 @@
     
 
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Installing Fedora 32 on a mid-2009 Macbook Pro - Part One; WiFi"/>
+<meta name="twitter:title" content="Installing Fedora 32 on a mid-2009 Macbook Pro - Part One, WiFi"/>
 <meta name="twitter:description" content="A series of posts documenting the installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. In three parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, Part Two describes configuring the window manager i3wm, and Part Three details the installation of the applications that I use daily. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install."/>
 
-    <meta property="og:title" content="Installing Fedora 32 on a mid-2009 Macbook Pro - Part One; WiFi" />
+    <meta property="og:title" content="Installing Fedora 32 on a mid-2009 Macbook Pro - Part One, WiFi" />
 <meta property="og:description" content="A series of posts documenting the installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. In three parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, Part Two describes configuring the window manager i3wm, and Part Three details the installation of the applications that I use daily. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.balooga.com/posts/fedora-on-macbook-part-one/" />
@@ -30,7 +30,7 @@
       <base href="https://www.balooga.com/posts/fedora-on-macbook-part-one/">
     
     <title>
-  Installing Fedora 32 on a mid-2009 Macbook Pro - Part One; WiFi · Balooga
+  Installing Fedora 32 on a mid-2009 Macbook Pro - Part One, WiFi · Balooga
 </title>
 
     
@@ -112,7 +112,7 @@
     <article>
       <header>
         <div class="post-title">
-          <h1 class="title">Installing Fedora 32 on a mid-2009 Macbook Pro - Part One; WiFi</h1>
+          <h1 class="title">Installing Fedora 32 on a mid-2009 Macbook Pro - Part One, WiFi</h1>
         </div>
         <div class="post-meta">
           <div class="date">
@@ -149,10 +149,24 @@ Window Manager, there is additional work to allow the MacBook to return to
 active mode from standby when the lid is closed and subsequently re-opened.
 </blockquote>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>&gt;&gt;Part One&lt;&lt;</p>
+</li>
+<li>
+<p><a href="https://www.balooga.com/posts/fedora-on-macbook-part-two/">Part Two</a></p>
+</li>
+<li>
+<p><a href="https://www.balooga.com/posts/fedora-on-macbook-part-three/">Part Three</a></p>
+</li>
+</ul>
+</div>
+<hr>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_things_to_consider"><a class="anchor" href="#_things_to_consider"></a><a class="link" href="#_things_to_consider">Things to Consider</a></h2>
+<h2 id="_things_to_consider_before_switching_to_fedora"><a class="anchor" href="#_things_to_consider_before_switching_to_fedora"></a><a class="link" href="#_things_to_consider_before_switching_to_fedora">Things to Consider Before Switching to Fedora</a></h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -168,10 +182,10 @@ There doesn&#8217;t seem to be a workaround available but hopefully this will be
 addressed in a future update.</p>
 </li>
 <li>
-<p>The default power management behaviour when the lid is closed causes the
-Macbook Pro to transition to standby/suspend mode. Unfortunately opening
-the lid does not trigger a return to active mode which means a reboot is
-needed. I use <code>xfce4-power-manager</code> to change the action on lid close to
+<p>When the lid is closed the default power management behaviour causes the
+Macbook Pro to transition to standby/suspend mode. Subsequently opening the
+lid unfortunately does not trigger a return to active mode forcing a
+reboot. I use <code>xfce4-power-manager</code> to change the action on lid close to
 simply turn off the display as a workaround. This also means that using the
 laptop as a laptop isn&#8217;t feasible.</p>
 </li>
@@ -183,8 +197,9 @@ while the Xfce window manager does respect the user&#8217;s choice. So for now
 I&#8217;m stuck having to click the touchpad.</p>
 </li>
 <li>
-<p>Expect to install the Nvidia graphics drivers to drive an external monitor.
-Not a big deal but it is something else that needs to be done.</p>
+<p>Expect to have to install the proprietary Nvidia graphics drivers to
+support an external monitor. Not a big deal but it is something else that
+needs to be done.</p>
 </li>
 </ul>
 </div>
