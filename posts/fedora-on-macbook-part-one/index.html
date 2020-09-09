@@ -178,23 +178,29 @@ drain is something to behold. <code>powertop</code> reports the main cuprits as
 <code>dbs_work_handler</code>, <code>tick_sched_timer</code> and <code>hrtimer_wakup</code>, eclipsing even
 <code>firefox</code> in mW usage. These conspire to cause the Macbook to run hot; you
 really don&#8217;t want to place this thing on your lap for any length of time.
-There doesn&#8217;t seem to be a workaround available but hopefully this will be
-addressed in a future update.</p>
+There does not seem to be a workaround available but hopefully this will be
+addressed in a future Fedora update. I plan to try
+Pop!_OS<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> at some future stage as it has
+built in support for AMD and Nvidia GPUs and apparently a power management
+package from Intel Clear
+Linux.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>. In the meantime,
+I&#8217;ll have to digest the Fedora _Power Management
+Guide_.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup></p>
 </li>
 <li>
 <p>When the lid is closed the default power management behaviour causes the
-Macbook Pro to transition to standby/suspend mode. Subsequently opening the
-lid unfortunately does not trigger a return to active mode forcing a
-reboot. I use <code>xfce4-power-manager</code> to change the action on lid close to
-simply turn off the display as a workaround. This also means that using the
-laptop as a laptop isn&#8217;t feasible.</p>
+Macbook Pro to transition immediately to standby/suspend mode. Subsequently
+opening the lid does not trigger a return to active mode, forcing a reboot.
+As a workaround I used <code>xfce4-power-manager</code> and changed the <em>action on lid
+close</em> setting to to simply turn off the display. But this means that using
+the laptop as a laptop isn&#8217;t feasible as the machine runs at full tilt
+regardless.</p>
 </li>
 <li>
-<p>I much prefer <em>tap to click</em> than having to click the trackpad.
-<code>xfce4-mouse-settings</code> allows this and other mouse/trackpad settings to be
-modified, but any modification seems to be ignored by i3wm for some reason,
-while the Xfce window manager does respect the user&#8217;s choice. So for now
-I&#8217;m stuck having to click the touchpad.</p>
+<p>I much prefer <em>tap to click</em> than having to actually press and click the
+trackpad. <code>xfce4-mouse-settings</code> allows this and other mouse/trackpad
+settings to be modified, but any modification seems to be ignored by i3wm&#8201;&#8212;&#8201;the Xfce window manager does respect the user&#8217;s choice. So for now I&#8217;m
+stuck having to click the touchpad.</p>
 </li>
 <li>
 <p>Expect to have to install the proprietary Nvidia graphics drivers to
@@ -211,17 +217,15 @@ needs to be done.</p>
 <div class="paragraph">
 <p>Why run Linux when Apple does a decent job of supporting their hardware? Apple
 officially only supports OSX "El
-Capitan"<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> on this mid 2009
-Macbook Pro. El Capitan is old enough that even Homebrew doesn&#8217;t support it, and
-that&#8217;s a problem for me as almost all the software that I use I install using
-Homebrew. This makes the decision to switch that much easier, as all the
-software I use is also available on Linux. Even Spotify and Zoom!</p>
-</div>
-<div class="paragraph">
-<p>As much as I like Homebrew it does compile many packages from source. So for
-example, Rust can take hours to install or upgrade on old hardware. On Fedora,
-packages are precompiled and are installed using <code>sudo yum -y install &lt;blah&gt;</code> in
-a few seconds.</p>
+Capitan"<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> on this mid 2009
+Macbook Pro. El Capitan is old enough that even Homebrew has dropped support for
+it, and that&#8217;s a problem as almost all the software I use I install using
+Homebrew. As much as I like Homebrew it does tend to compile many packages from
+source. Rust, for example, can take hours to install or upgrade on this
+hardware. While on Fedora, precompiled packages are installed using <code>sudo yum
+install &lt;blah&gt;</code> in a few seconds. This makes the decision to switch that much
+easier as all the software I use is also available on Linux&#8201;&#8212;&#8201;even Spotify and
+Zoom!</p>
 </div>
 </div>
 </div>
@@ -253,8 +257,8 @@ a few seconds.</p>
 <ul>
 <li>
 <p>Fedora 32 Xfce Live
-Image<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>&#8201;&#8212;&#8201;just because it
-integrates well with i3wm<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>&#8201;&#8212;&#8201;installed onto a</p>
+Image<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>&#8201;&#8212;&#8201;just because it
+integrates well with i3wm<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup>&#8201;&#8212;&#8201;installed onto a</p>
 </li>
 <li>
 <p>USB Flash drive. I used a 64GB device from PNY.</p>
@@ -269,8 +273,8 @@ integrates well with i3wm<sup class="footnote">[<a id="_footnoteref_3" class="fo
 </td>
 <td class="content">
 Use a USB flash drive. Do not use an SD card inserted into the SD card
-reader on the left side of the Macbook, as the Macbook is unable to boot from
-the SD reader.
+reader on the left side of the Macbook as the Macbook is unable to boot from the
+SD reader.
 </td>
 </tr>
 </table>
@@ -281,7 +285,7 @@ the SD reader.
 <p>A wired Ethernet connection to complete the installation, or</p>
 </li>
 <li>
-<p>A USB WiFi dongle with driver support in the base Fedora installation. I
+<p>A USB WiFi dongle having driver support in the base Fedora installation. I
 chose a "Panda Wireless" dongle having a chipset supported by the Raspberry
 Pi. I started by searching Amazon for devices having the <code>AR9271</code> chipset.</p>
 </li>
@@ -294,11 +298,11 @@ Pi. I started by searching Amazon for devices having the <code>AR9271</code> chi
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-Expect that the internal WiFi of the Macbook will not work. The
-internal Bluetooth interface worked&#8201;&#8212;&#8201;for me&#8201;&#8212;&#8201;so I was able to tether the
-Macbook to a mobile Bluetooth hotspot&#8201;&#8212;&#8201;my iPhone&#8201;&#8212;&#8201;but a Bluetooth connection
-is slow and not as reliable as I would have liked. I was unsuccessful in
-tethering the 2009 MacBook Pro to my 2012 MacBook Pro.
+Expect that the Macbook internal WiFi will not work. The internal
+Bluetooth interface worked&#8201;&#8212;&#8201;for me&#8201;&#8212;&#8201;so I was able to tether the Macbook to a
+mobile Bluetooth hotspot&#8201;&#8212;&#8201;my iPhone&#8201;&#8212;&#8201;but a Bluetooth connection is slow and
+not as reliable as I would have liked. I was unsuccessful in tethering the 2009
+MacBook Pro to my 2012 MacBook Pro.
 </td>
 </tr>
 </table>
@@ -329,8 +333,8 @@ devices are displayed.</p>
 to the internal drive.</p>
 </li>
 <li>
-<p>When the MacBook reboots, log into the desktop and connect to the Internet
-using wired ethernet, USB WiFi dongle, or bluetooth tethering.</p>
+<p>When the MacBook reboots, log into the Xfce desktop and connect to the
+Internet using wired ethernet, USB WiFi dongle, or bluetooth tethering.</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
@@ -378,7 +382,7 @@ covers only the "happy path".</p>
 </li>
 <li>
 <p>If successful then the WiFi dongle (or Ethernet cable, or Bluetooth
-hotspot) may be removed and the internal WiFi adapter may be configured.</p>
+hotspot) may be removed and the internal WiFi adapter configured.</p>
 </li>
 </ul>
 </div>
@@ -387,13 +391,22 @@ hotspot) may be removed and the internal WiFi adapter may be configured.</p>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. <a href="https://support.apple.com/en-us/HT206886" class="bare">https://support.apple.com/en-us/HT206886</a>
+<a href="#_footnoteref_1">1</a>. <a href="https://pop.system76.com/" class="bare">https://pop.system76.com/</a>
 </div>
 <div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. <a href="https://spins.fedoraproject.org/en/xfce/" class="bare">https://spins.fedoraproject.org/en/xfce/</a>
+<a href="#_footnoteref_2">2</a>. <a href="https://en.wikipedia.org/wiki/Pop!_OS" class="bare">https://en.wikipedia.org/wiki/Pop!_OS</a>
 </div>
 <div class="footnote" id="_footnotedef_3">
-<a href="#_footnoteref_3">3</a>. <a href="https://i3wm.org" class="bare">https://i3wm.org</a>
+<a href="#_footnoteref_3">3</a>. <a href="https://docs.fedoraproject.org/en-US/Fedora/19/html/Power_Management_Guide/index.html" class="bare">https://docs.fedoraproject.org/en-US/Fedora/19/html/Power_Management_Guide/index.html</a>
+</div>
+<div class="footnote" id="_footnotedef_4">
+<a href="#_footnoteref_4">4</a>. <a href="https://support.apple.com/en-us/HT206886" class="bare">https://support.apple.com/en-us/HT206886</a>
+</div>
+<div class="footnote" id="_footnotedef_5">
+<a href="#_footnoteref_5">5</a>. <a href="https://spins.fedoraproject.org/en/xfce/" class="bare">https://spins.fedoraproject.org/en/xfce/</a>
+</div>
+<div class="footnote" id="_footnotedef_6">
+<a href="#_footnoteref_6">6</a>. <a href="https://i3wm.org" class="bare">https://i3wm.org</a>
 </div>
 </div>
 

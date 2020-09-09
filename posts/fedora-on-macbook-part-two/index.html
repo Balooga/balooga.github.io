@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              7-minute read
+              8-minute read
             </span>
           </div>
           
@@ -172,7 +172,7 @@ active mode from standby when the lid is closed and subsequently re-opened.
 <p><a href="#xfce">Niceties in the Xfce4 installation image</a></p>
 </li>
 <li>
-<p><a href="#nvidia">NVidia driver support for additional display</a></p>
+<p><a href="#nvidia">NVidia Driver Support for the Additional Display</a></p>
 </li>
 <li>
 <p><a href="#timezone">Setting the timezone</a></p>
@@ -184,7 +184,7 @@ active mode from standby when the lid is closed and subsequently re-opened.
 <p><a href="#lock-screen">Lock the screen from a keypress</a></p>
 </li>
 <li>
-<p><a href="#background">Setting the background image</a></p>
+<p><a href="#background">Setting the Background Image</a></p>
 </li>
 <li>
 <p><a href="#rofi">Using the Rofi app launcher instead of Dmenu</a></p>
@@ -193,7 +193,7 @@ active mode from standby when the lid is closed and subsequently re-opened.
 <p><a href="#terminator">Use Terminator as the default terminal emulator</a></p>
 </li>
 <li>
-<p><a href="#workspaces">Configure workspaces</a></p>
+<p><a href="#workspaces">Configure Workspaces</a></p>
 </li>
 <li>
 <p><a href="#i3status">Configure the i3status bar</a></p>
@@ -206,7 +206,7 @@ active mode from standby when the lid is closed and subsequently re-opened.
 <h2 id="i3wm"><a class="anchor" href="#i3wm"></a><a class="link" href="#i3wm">Installing i3wm</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>I&#8217;m using i3wm<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>, a fast but bare-bones "tiling" Window
+<p>I use i3wm<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>, a fast and bare-bones "tiling" Window
 Manager.</p>
 </div>
 <div class="listingblock">
@@ -217,8 +217,8 @@ Manager.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Log into i3wm and set your mod key. i3wm then creates the <code>~/.config/i3/config</code>
-configuration file.</p>
+<p>The first time you run i3wm it will prompt to run its initial setup and to
+choose your mod key which i3wm then writes to <code>~/.config/i3/config</code>.</p>
 </div>
 </div>
 </div>
@@ -267,7 +267,7 @@ The power management icon is displayed in the the i3 status bar.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="nvidia"><a class="anchor" href="#nvidia"></a><a class="link" href="#nvidia">NVidia driver support for additional display</a></h3>
+<h3 id="nvidia"><a class="anchor" href="#nvidia"></a><a class="link" href="#nvidia">NVidia Driver Support for the Additional Display</a></h3>
 <div class="paragraph">
 <p>The Nouvea drivers<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>
 seem to work well for screen modes up to the MacBook Pro&#8217;s native screen
@@ -287,14 +287,6 @@ drivers.<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_f
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Use lspci to list the model of graphics hardware.</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
-</pre></td><td class="code"><pre><span class="nv">$ </span>lspci <span class="nt">-vnn</span> | <span class="nb">grep </span>VGA
-</pre></td></tr></tbody></table></code></pre>
-</div>
-</div>
-<div class="listingblock">
 <div class="title">The Macbook Pro 2009 15" requires the oldest nvidia-340xx series drivers.</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
@@ -308,6 +300,14 @@ drivers.<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_f
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
+<div class="listingblock">
+<div class="title">You can use lspci to list the model of graphics hardware.</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="nv">$ </span>lspci <span class="nt">-vnn</span> | <span class="nb">grep </span>VGA
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -315,7 +315,27 @@ drivers.<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_f
 <h2 id="timezone"><a class="anchor" href="#timezone"></a><a class="link" href="#timezone">Setting the timezone</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
-<div class="title">Determine the current timezone</div>
+<div class="title">To set a valid timezone</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="nv">$ </span>timedatectl set-timezone America/Los_Angeles
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">The timedatectl command creates a symbolic link to the actual timezone file</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="code"><pre><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span> /etc/locatime
+
+lrwxrwxrwx 1 root root 27 Dec  3 16:29 /etc/localtime -&gt; /usr/share/zoneinfo/Etc/UTC
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Determine the current timezone as follows</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -339,19 +359,7 @@ systemd-timesyncd.service active: <span class="nb">yes
 </div>
 </div>
 <div class="listingblock">
-<div class="title">A symbolic link is created to the actual timezone</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
-2
-3
-</pre></td><td class="code"><pre><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span> /etc/locatime
-
-lrwxrwxrwx 1 root root 27 Dec  3 16:29 /etc/localtime -&gt; /usr/share/zoneinfo/Etc/UTC
-</pre></td></tr></tbody></table></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">This command will list all available timezones</div>
+<div class="title">List all available timezones as follows</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
  2
@@ -376,23 +384,15 @@ America/Noronha
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="title">Set a valid timezone</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
-</pre></td><td class="code"><pre><span class="nv">$ </span>timedatectl set-timezone America/Los_Angeles
-</pre></td></tr></tbody></table></code></pre>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="caps-and-control"><a class="anchor" href="#caps-and-control"></a><a class="link" href="#caps-and-control">Swap CAPS and Control</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Log out and back into i3wm for these settings to take effect. Or use something
-like the HHKB<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>
-keybaord and skip this section.</p>
+<p>Log out and back into i3wm for an updated key map to take effect. Or use the
+HHKB<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup> keyboard and
+skip this section.</p>
 </div>
 <div class="listingblock">
 <div class="title">Add the following to ~/.config/i3/config</div>
@@ -448,7 +448,7 @@ add Control <span class="o">=</span> Control_R
 </div>
 </div>
 <div class="sect1">
-<h2 id="background"><a class="anchor" href="#background"></a><a class="link" href="#background">Setting the background image</a></h2>
+<h2 id="background"><a class="anchor" href="#background"></a><a class="link" href="#background">Setting the Background Image</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">The following command creates a ~/.fehbg file to run at i3wm startup</div>
@@ -513,7 +513,7 @@ bindsym <span class="nv">$mod</span>+Return <span class="nb">exec </span>termina
 </div>
 </div>
 <div class="sect1">
-<h2 id="workspaces"><a class="anchor" href="#workspaces"></a><a class="link" href="#workspaces">Configure workspaces</a></h2>
+<h2 id="workspaces"><a class="anchor" href="#workspaces"></a><a class="link" href="#workspaces">Configure Workspaces</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Add the following to .~/.config/i3/config</p>
