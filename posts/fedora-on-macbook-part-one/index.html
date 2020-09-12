@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              5-minute read
+              6-minute read
             </span>
           </div>
           
@@ -388,6 +388,81 @@ hotspot) may be removed and the internal WiFi adapter configured.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_changing_the_hostname"><a class="anchor" href="#_changing_the_hostname"></a><a class="link" href="#_changing_the_hostname">Changing the Hostname</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>My Fedora install sets the hostname to the generic <code>localhost.localdomain</code>. Lets
+change that;<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></p>
+</div>
+<div class="listingblock">
+<div class="title">To query for the current Hostname</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="code"><pre><span class="nv">$ </span><span class="nb">hostname
+
+</span>localhost.localdomain
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">or,</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+</pre></td><td class="code"><pre><span class="nv">$ </span>hostnamectl
+
+   Static <span class="nb">hostname</span>: localhost.localdomain
+         Icon name: computer-laptop
+           Chassis: laptop
+        Machine ID: ff9d8caadacc46c7872dafe65f5b7840
+           Boot ID: 9d634fa9edc34fab96881e7115809558
+  Operating System: Fedora 32 <span class="o">(</span>Thirty Two<span class="o">)</span>
+       CPE OS Name: cpe:/o:fedoraproject:fedora:32
+            Kernel: Linux 5.7.17-200.fc32.x86_64
+      Architecture: x86-64
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">To change the Hostname</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="nv">$ </span><span class="nb">sudo </span>hostnamectl set-hostname &lt;new-name&gt;
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The above will set the <code>static</code>, <code>dynamic</code>, and <code>pretty</code> hostnames to the same
+value. To set each hostname to a different value use the following options to
+<code>hostnamectl</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>--transient         Only set transient hostname</p>
+</li>
+<li>
+<p>--static            Only set static hostname</p>
+</li>
+<li>
+<p>--pretty            Only set pretty hostname</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
@@ -407,6 +482,9 @@ hotspot) may be removed and the internal WiFi adapter configured.</p>
 </div>
 <div class="footnote" id="_footnotedef_6">
 <a href="#_footnoteref_6">6</a>. <a href="https://i3wm.org" class="bare">https://i3wm.org</a>
+</div>
+<div class="footnote" id="_footnotedef_7">
+<a href="#_footnoteref_7">7</a>. <a href="https://fedoramagazine.org/set-hostname-fedora/" class="bare">https://fedoramagazine.org/set-hostname-fedora/</a>
 </div>
 </div>
 
