@@ -190,7 +190,7 @@ active mode from standby when the lid is closed and subsequently re-opened.
 <p><a href="#rofi">Using the Rofi app launcher instead of Dmenu</a></p>
 </li>
 <li>
-<p><a href="#terminator">Use Terminator as the default terminal emulator</a></p>
+<p><a href="#terminator">Use an alternate terminal emulator</a></p>
 </li>
 <li>
 <p><a href="#workspaces">Configure Workspaces</a></p>
@@ -212,7 +212,7 @@ Manager.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
-</pre></td><td class="code"><pre><span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>i3 i3status dmenu feh rofi terminator i3lock
+</pre></td><td class="code"><pre><span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>i3 i3status dmenu feh rofi terminator i3lock st
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
@@ -242,7 +242,7 @@ in a way that integrates well with i3wm.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
-</pre></td><td class="code"><pre><span class="nb">exec</span> <span class="nt">--no-startup-id</span> /usr/bin/blueman-applet                <span class="c"># Bluetooth Manager</span>
+</pre></td><td class="code"><pre><span class="nb">exec</span> <span class="nt">--no-startup-id</span> /usr/bin/blueberry-tray                <span class="c"># Bluetooth Manager</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
@@ -471,6 +471,33 @@ add Control <span class="o">=</span> Control_R
 </div>
 </div>
 <div class="sect1">
+<h2 id="font-awesome"><a class="anchor" href="#font-awesome"></a><a class="link" href="#font-awesome">Font-Awesome</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Fontawesome contains the glyphs referenced in my i3status config.</p>
+</div>
+<div class="listingblock">
+<div class="title">Install the Fontawesome font package</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="c"># Set the background image</span>
+<span class="nb">sudo </span>yum <span class="nb">install </span>fontawesome-fonts
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Take note of the version of Fontawesome that is installed as new versions of
+Fontawesome contain additional glyphs. Also, Fontawesome is distributed as as
+<em>free</em> and <em>pro</em> versions, with <em>pro</em> containing substantially more glyphs. It&#8217;s
+best to look at the Fontawesome<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup> website,
+choose the version installed and browse the available glyphs. Optionally,
+install the latest version of Fontawesome manually. Or take a look at
+NerdFonts.<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="rofi"><a class="anchor" href="#rofi"></a><a class="link" href="#rofi">Using the Rofi app launcher instead of Dmenu</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -496,7 +523,7 @@ bindsym <span class="nv">$mod</span>+Shift+d <span class="nb">exec </span>dmenu_
 </div>
 </div>
 <div class="sect1">
-<h2 id="terminator"><a class="anchor" href="#terminator"></a><a class="link" href="#terminator">Use Terminator as the default terminal emulator</a></h2>
+<h2 id="terminator"><a class="anchor" href="#terminator"></a><a class="link" href="#terminator">Use an alternate terminal emulator</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Add the following to .~/.config/i3/config</p>
@@ -506,7 +533,7 @@ bindsym <span class="nv">$mod</span>+Shift+d <span class="nb">exec </span>dmenu_
 <pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
 </pre></td><td class="code"><pre><span class="c"># start a terminal</span>
-bindsym <span class="nv">$mod</span>+Return <span class="nb">exec </span>terminator <span class="c"># i3-sensible-terminal</span>
+bindsym <span class="nv">$mod</span>+Return <span class="nb">exec </span>st <span class="c"># terminator # i3-sensible-terminal</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
@@ -602,6 +629,10 @@ for_window <span class="o">[</span><span class="nv">class</span><span class="o">
 <div class="sect1">
 <h2 id="i3status"><a class="anchor" href="#i3status"></a><a class="link" href="#i3status">Configure the i3status bar</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>See the full list of i3status
+options.<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p>
+</div>
 <div class="listingblock">
 <div class="title">Add the following to ~/.config/i3/config</div>
 <div class="content">
@@ -824,6 +855,61 @@ wlp4s0    IEEE 802.11  ESSID:<span class="s2">"xxxxxxxxxxx"</span>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_setup_periodic_trim_for_ssds"><a class="anchor" href="#_setup_periodic_trim_for_ssds"></a><a class="link" href="#_setup_periodic_trim_for_ssds">Setup periodic TRIM for SSDs</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Set up a periodic
+TRIM<sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup>
+to run for mounted SSDs.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="conf"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">enable</span> <span class="n">fstrim</span>.<span class="n">timer</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_enable_tap_to_click_on_the_touchpad"><a class="anchor" href="#_enable_tap_to_click_on_the_touchpad"></a><a class="link" href="#_enable_tap_to_click_on_the_touchpad">Enable "Tap to Click" on the Touchpad</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The touchpad can be configured by
+creating<sup class="footnote">[<a id="_footnoteref_10" class="footnote" href="#_footnotedef_10" title="View footnote.">10</a>]</sup><sup class="footnote">[<a id="_footnoteref_11" class="footnote" href="#_footnotedef_11" title="View footnote.">11</a>]</sup><sup class="footnote">[<a id="_footnoteref_12" class="footnote" href="#_footnotedef_12" title="View footnote.">12</a>]</sup>
+<code>/etc/X11/xorg.conf.d/30-touchpad.conf</code> file as follows;</p>
+</div>
+<div class="paragraph">
+<p>/etc/X11/xorg.conf.d/30-touchpad.conf</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="conf"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+</pre></td><td class="code"><pre><span class="n">Section</span> <span class="s2">"InputClass"</span>
+    <span class="n">Identifier</span> <span class="s2">"touchpad"</span>
+    <span class="n">Driver</span> <span class="s2">"libinput"</span>
+    <span class="n">MatchIsTouchpad</span> <span class="s2">"on"</span>
+    <span class="n">Option</span> <span class="s2">"Tapping"</span> <span class="s2">"off"</span>
+    <span class="n">Option</span> <span class="s2">"NaturalScrolling"</span> <span class="s2">"true"</span>
+    <span class="n">Option</span> <span class="s2">"HorizontalScrolling"</span> <span class="s2">"false"</span>
+    <span class="n">Option</span> <span class="s2">"ScrollMethod"</span> <span class="s2">"twofinger"</span>
+    <span class="n">Option</span> <span class="s2">"TappingButtonMap"</span> <span class="s2">"lmr"</span>
+<span class="n">EndSection</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+</div>
+</div>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
@@ -840,6 +926,27 @@ wlp4s0    IEEE 802.11  ESSID:<span class="s2">"xxxxxxxxxxx"</span>
 </div>
 <div class="footnote" id="_footnotedef_5">
 <a href="#_footnoteref_5">5</a>. <a href="https://en.wikipedia.org/wiki/Happy_Hacking_Keyboard" class="bare">https://en.wikipedia.org/wiki/Happy_Hacking_Keyboard</a>
+</div>
+<div class="footnote" id="_footnotedef_6">
+<a href="#_footnoteref_6">6</a>. <a href="https://fontawesome.com/" class="bare">https://fontawesome.com/</a>
+</div>
+<div class="footnote" id="_footnotedef_7">
+<a href="#_footnoteref_7">7</a>. <a href="https://www.nerdfonts.com/" class="bare">https://www.nerdfonts.com/</a>
+</div>
+<div class="footnote" id="_footnotedef_8">
+<a href="#_footnoteref_8">8</a>. <a href="https://manpages.ubuntu.com/manpages/trusty/man1/i3status.1.html" class="bare">https://manpages.ubuntu.com/manpages/trusty/man1/i3status.1.html</a>
+</div>
+<div class="footnote" id="_footnotedef_9">
+<a href="#_footnoteref_9">9</a>. <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-periodic-trim-for-ssd-storage-on-linux-servers" class="bare">https://www.digitalocean.com/community/tutorials/how-to-configure-periodic-trim-for-ssd-storage-on-linux-servers</a>
+</div>
+<div class="footnote" id="_footnotedef_10">
+<a href="#_footnoteref_10">10</a>. <a href="https://confluence.jaytaala.com/display/TKB/My+Manjaro+i3+setup#MyManjaroi3setup-Trackpadsetup" class="bare">https://confluence.jaytaala.com/display/TKB/My+Manjaro+i3+setup#MyManjaroi3setup-Trackpadsetup</a>
+</div>
+<div class="footnote" id="_footnotedef_11">
+<a href="#_footnoteref_11">11</a>. <a href="https://cravencode.com/post/essentials/enable-tap-to-click-in-i3wm/" class="bare">https://cravencode.com/post/essentials/enable-tap-to-click-in-i3wm/</a>
+</div>
+<div class="footnote" id="_footnotedef_12">
+<a href="#_footnoteref_12">12</a>. <a href="https://wiki.archlinux.org/index.php/Libinput" class="bare">https://wiki.archlinux.org/index.php/Libinput</a>
 </div>
 </div>
 
