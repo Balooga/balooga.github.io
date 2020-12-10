@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Balooga</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 22 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Dec 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Prolog Learnings</title>
+      <link>https://www.balooga.com/posts/prolog-learn/</link>
+      <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/prolog-learn/</guid>
+      <description>Unification versus Assignment Every language I&amp;#8217;ve used up to now assigns values to variables. For example;
+ 1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
+ 1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter.</description>
+    </item>
     
     <item>
       <title>Microservice Logging, Monitoring and Alerting Food Fight</title>

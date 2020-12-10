@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+
+    <meta name="author" content="Luke Crook">
+    <meta name="description" content="Unification versus Assignment Every language I&#8217;ve used up to now assigns values to variables. For example;
+ 1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
+ 1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter.">
+    <meta name="keywords" content="blog,developer,personal">
+
+    
+      <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Prolog Learnings"/>
+<meta name="twitter:description" content="Unification versus Assignment Every language I&#8217;ve used up to now assigns values to variables. For example;
+ 1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
+ 1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter."/>
+
+    <meta property="og:title" content="Prolog Learnings" />
+<meta property="og:description" content="Unification versus Assignment Every language I&#8217;ve used up to now assigns values to variables. For example;
+ 1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
+ 1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.balooga.com/posts/prolog-learn/" />
+<meta property="article:published_time" content="2020-12-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-09T00:00:00+00:00" />
+
+
+    
+      <base href="https://www.balooga.com/posts/prolog-learn/">
+    
+    <title>
+  Prolog Learnings · Balooga
+</title>
+
+    
+      <link rel="canonical" href="https://www.balooga.com/posts/prolog-learn/">
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://www.balooga.com/css/coder.min.0e5ce5b959a68dfe0232c6ddcec1e8ef154517c968464707f3181c437fe611c0.css" integrity="sha256-DlzluVmmjf4CMsbdzsHo7xVFF8loRkcH8xgcQ3/mEcA=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/github.css" />
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/custom.css" />
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-16x16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.74.3" />
+  </head>
+  
+  
+  
+  <body class="colorscheme-light"
+        onload=" twemoji.parse(document.body); "
+  >
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://www.balooga.com/">
+      Balooga
+    </a>
+    
+      <span id="dark-mode-toggle" class="float-right">
+        <i class="fas fa-adjust fa-fw"></i>
+      </span>
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fas fa-bars fa-fw"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/about/">About</a>
+            </li>
+          
+        
+        
+        <li class="navigation-item separator">
+          <span>|</span>
+        </li>
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Prolog Learnings</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2020-12-09T00:00:00Z'>
+                December 9, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              3-minute read
+            </span>
+          </div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <div class="sect1">
+<h2 id="unification"><a class="anchor" href="#unification"></a><a class="link" href="#unification">Unification versus Assignment</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Every language I&#8217;ve used up to now assigns values to variables. For example;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="c"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The statement above causes zero to be assigned to <code>x</code>, resulting in <code>x</code> having
+the value of zero. Prolog uses "Unification" which on the surface resembles
+assignment but is more powerful.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="nv">X</span> <span class="o">=</span> <span class="m">0</span><span class="p">.</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="m">0</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The 'clause' above (Prolog uses the terms clauses, predicates and rules) results
+in <code>X</code> having the value of zero through a process called Unification (variables
+in Prolog must start with an uppercase letter.) Prolog attempts to make the
+clause evaulate to "true" by "Unifying" (make the same) the terms on the left of
+the <code>=</code> with the terms on the right. In this example, Prolog unifies the left
+and right sides by making <code>X</code> equal zero, which results in the left and the
+right evaluating to <code>true</code>.</p>
+</div>
+<div class="paragraph">
+<p>Unification works both ways as the following examples show;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="m">0</span> <span class="o">=</span> <span class="nv">X</span><span class="p">.</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="m">0</span><span class="p">.</span>
+
+<span class="o">?-</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">=</span> <span class="nv">A</span>
+<span class="nv">A</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
+
+<span class="o">?-</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="nv">Second</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
+<span class="nv">Second</span> <span class="o">=</span> <span class="m">2</span><span class="p">.</span>
+
+<span class="o">?-</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
+<span class="ss">true</span><span class="p">.</span>
+
+<span class="o">?-</span> <span class="ss">reverse</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">Output</span><span class="p">).</span>
+<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">].</span>
+
+<span class="o">?-</span> <span class="ss">reverse</span><span class="p">(</span><span class="nv">Input</span><span class="p">,</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]).</span>
+<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
+
+<span class="o">?-</span> <span class="ss">reverse</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]).</span>
+<span class="ss">true</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This concept of Unification is an underpinning of Prolog and is why functions
+are called "predicates". Because unlike a function that only evaluates inputs to
+create an output, predicates also evaluate an output to create possible inputs.
+In idiomatic Prolog, predicates work both ways. Think of it as being able to ask
+Prolog "What is a possible input to drive this output?".</p>
+</div>
+<div class="paragraph">
+<p>Even when not provided an input and output, Prolog will still attempt to unify
+by creating anonymous variables as needed (anonymous variables are prefixed with
+an underscore). In the example below, the semicolon (<code>;</code>) prompts Prolog to
+continue to find alternates that unify to <code>true</code> by using backtracking.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">reverse</span><span class="p">(</span><span class="nv">Input</span><span class="p">,</span> <span class="nv">Output</span><span class="p">).</span>
+<span class="nv">Input</span> <span class="o">=</span> <span class="nv">Output</span><span class="p">,</span> <span class="nv">Output</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">;</span>
+
+<span class="nv">Input</span> <span class="o">=</span> <span class="nv">Output</span><span class="p">,</span> <span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">]</span> <span class="p">;</span>
+
+<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">],</span>
+<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25892180</span><span class="p">]</span> <span class="p">;</span>
+
+<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">],</span>
+<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25892180</span><span class="p">]</span> <span class="p">;</span>
+
+<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">],</span>
+<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25892180</span><span class="p">]</span> <span class="p">;</span>
+
+<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25896454</span><span class="p">],</span>
+<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25896454</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25892180</span><span class="p">]</span> <span class="p">;</span>
+
+<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25896454</span><span class="p">,</span> <span class="nv">_25897584</span><span class="p">],</span>
+<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25897584</span><span class="p">,</span> <span class="nv">_25896454</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25892180</span><span class="p">]</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+</div>
+</div>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js" id="MathJax-script"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ['$', '$'], ['\\(', '\\)']
+        ],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>Between a REPL and a hard place</p>
+      
+      
+        ©
+        
+        2020
+         Luke Crook 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+    </main>
+
+    
+      
+      <script src="https://www.balooga.com/js/dark-mode.min.0213e1773e6d1c5a644f847c67a6f8abac49a3776e2976f6008038af8c5b76a1.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+  </body>
+
+</html>
