@@ -130,7 +130,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              3-minute read
+              2-minute read
             </span>
           </div>
           
@@ -167,14 +167,13 @@ assignment but is more powerful.</p>
 <div class="paragraph">
 <p>The 'clause' above (Prolog uses the terms clauses, predicates and rules) results
 in <code>X</code> having the value of zero through a process called Unification (variables
-in Prolog must start with an uppercase letter.) Prolog attempts to make the
-clause evaulate to "true" by "Unifying" (make the same) the terms on the left of
-the <code>=</code> with the terms on the right. In this example, Prolog unifies the left
-and right sides by making <code>X</code> equal zero, which results in the left and the
-right evaluating to <code>true</code>.</p>
+in Prolog must start with an uppercase letter.) Prolog attempts to evaulate the
+clause to "true" by "Unifying" (make the same) the terms on the left of the <code>=</code>
+with the terms on the right. In this example, Prolog can unify left and right by
+making <code>X</code> equal zero.</p>
 </div>
 <div class="paragraph">
-<p>Unification works both ways as the following examples show;</p>
+<p>And unification works both ways as the following examples show;</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -224,7 +223,7 @@ right evaluating to <code>true</code>.</p>
 <div class="paragraph">
 <p>This concept of Unification is an underpinning of Prolog and why Prolog
 functions are called "predicates". Because unlike a function that only evaluates
-inputs to create an output, predicates also evaluate an output to create
+its inputs to create an output, predicates can evaluate an output to create
 possible inputs. In idiomatic Prolog, predicates work both ways. Think of
 predicates as a way to ask Prolog the question "What are the possible inputs to
 drive this output?"</p>
