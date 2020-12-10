@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Balooga</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 02 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Microservice Logging, Monitoring and Alerting Food Fight</title>
+      <link>https://www.balooga.com/posts/free-for-all/</link>
+      <pubDate>Thu, 22 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/free-for-all/</guid>
+      <description>A subset of folks who advocate for microservices also consider affording each team the freedom to choose their software stack a good thing.
+ What then if each team also had the freedom to choose their own logging, monitoring, and alerting stack? Services are monitored using a hodgepodge of Splunk, Moogsoft, Kibana, New Relic, Graphana, and Jira, as well as a collection of homegrown tools. And that&amp;#8217;s just within engineering. Ops have their own alerting and ticketing systems, while product rely on handcrafted reports periodically pulled from various sources upon request, manually compiled into Excel or Powerpoint, and then uploaded into Confluence.</description>
+    </item>
     
     <item>
       <title>Installing Fedora 32 on a mid-2009 Macbook Pro - Part Two, i3wm</title>
@@ -88,6 +98,16 @@
       
       <guid>https://www.balooga.com/posts/corman-lisp-ffi/</guid>
       <description>This post demonstrates the use of the Corman Common Lisp (CCL) FFI.[1] with the SDL[2] library. This post is not a general SDL tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: SDL version 1.2.x is described. SDL APIs described herein have changed in SDL version 2.x.     Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://www.balooga.com/posts/elixir-learn/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/elixir-learn/</guid>
+      <description>Digit groups for large integers Elixir supports splitting long integers into digit groups separated by an _. Seems kind of weird, but this syntax is also supported by Prolog.
+ Digit Groups 1_000_000     Function Naming Elixir appends the number of arguments - the arity - in the function definition notation to differentiate between functions of the same name. For example, cd/0 and cd/. The first function takes no arguments, and the second takes one argument.</description>
     </item>
     
   </channel>

@@ -4,16 +4,21 @@
   
   <url>
     <loc>https://www.balooga.com/</loc>
-    <lastmod>2020-09-02T00:00:00+00:00</lastmod>
+    <lastmod>2020-10-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.balooga.com/posts/fedora-on-macbook-part-two/</loc>
-    <lastmod>2020-09-02T00:00:00+00:00</lastmod>
+    <loc>https://www.balooga.com/posts/free-for-all/</loc>
+    <lastmod>2020-10-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://www.balooga.com/posts/</loc>
+    <lastmod>2020-10-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.balooga.com/posts/fedora-on-macbook-part-two/</loc>
     <lastmod>2020-09-02T00:00:00+00:00</lastmod>
   </url>
   
@@ -55,6 +60,10 @@
   <url>
     <loc>https://www.balooga.com/about/</loc>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.balooga.com/posts/elixir-learn/</loc>
   </url>
   
   <url>

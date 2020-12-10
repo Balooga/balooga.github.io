@@ -62,7 +62,7 @@
     <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-16x16.png" sizes="16x16">
 
-    <meta name="generator" content="Hugo 0.69.0" />
+    <meta name="generator" content="Hugo 0.74.3" />
   </head>
   
   
@@ -199,13 +199,18 @@ regardless.</p>
 <li>
 <p>I much prefer <em>tap to click</em> than having to actually press and click the
 trackpad. <code>xfce4-mouse-settings</code> allows this and other mouse/trackpad
-settings to be modified, but any modification seems to be ignored by i3wm&#8201;&#8212;&#8201;the Xfce window manager does respect the user&#8217;s choice. So for now I&#8217;m
-stuck having to click the touchpad.</p>
+settings to be modified, but any modification seems to be ignored by i3wm&#8201;&#8212;&#8201;the Xfce window manager respects the user&#8217;s choice. In i3wm this will
+need to be <a href="https://www.balooga.com/posts/fedora-on-macbook-part-two#tap-click">manualy
+configured</a>.</p>
 </li>
 <li>
 <p>Expect to have to install the proprietary Nvidia graphics drivers to
 support an external monitor. Not a big deal but it is something else that
 needs to be done.</p>
+</li>
+<li>
+<p>The internal MacBook WiFi interface seems to break after a kernel update,
+so always keep a working USB WiFi dongle close at hand.</p>
 </li>
 </ul>
 </div>
@@ -335,14 +340,6 @@ to the internal drive.</p>
 <li>
 <p>When the MacBook reboots, log into the Xfce desktop and connect to the
 Internet using wired ethernet, USB WiFi dongle, or bluetooth tethering.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>The faster the Macbook&#8217;s connection to the Internet the less time the steps
-in Section <a href="#internal-wifi">Setting up the internal WiFi</a> will take.</p>
-</li>
-</ol>
-</div>
 </li>
 </ol>
 </div>
@@ -351,6 +348,24 @@ in Section <a href="#internal-wifi">Setting up the internal WiFi</a> will take.<
 <div class="sect1">
 <h2 id="internal-wifi"><a class="anchor" href="#internal-wifi"></a><a class="link" href="#internal-wifi">Setting up the internal WiFi</a></h2>
 <div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Expect that the internal Wifi will break after each kernel upgrade. Not
+quite sure what to do about this, as what was once working for me now no longer
+works.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>See the ArchLinux wiki for details on the Broadcom wireless
+hardware.<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup><sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p>
+</div>
 <div class="listingblock">
 <div class="title">Install the Dynamic Kernel Modules, update Fedora, and reboot</div>
 <div class="content">
@@ -367,7 +382,13 @@ in Section <a href="#internal-wifi">Setting up the internal WiFi</a> will take.<
 <div class="title">Install the Broadcom dkns firmware</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
-</pre></td><td class="code"><pre><span class="nb">sudo </span>dnf <span class="nb">install </span>broadcom-wl-dkms
+2
+3
+4
+</pre></td><td class="code"><pre><span class="nb">sudo </span>rpm <span class="nt">--import</span> https://raw.githubusercontent.com/UnitedRPMs/unitedrpms/master/URPMS-GPG-PUBLICKEY-Fedora
+<span class="nb">sudo </span>dnf <span class="nt">-y</span> <span class="nb">install </span>https://github.com/UnitedRPMs/unitedrpms/releases/download/17/unitedrpms-<span class="si">$(</span>rpm <span class="nt">-E</span> %fedora<span class="si">)</span><span class="nt">-17</span>.fc<span class="si">$(</span>rpm <span class="nt">-E</span> %fedora<span class="si">)</span>.noarch.rpm
+
+<span class="nb">sudo </span>dnf <span class="nb">install </span>broadcom-wl-dkms
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
@@ -393,7 +414,7 @@ hotspot) may be removed and the internal WiFi adapter configured.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>My Fedora install sets the hostname to the generic <code>localhost.localdomain</code>. Lets
-change that;<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></p>
+change that;<sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup></p>
 </div>
 <div class="listingblock">
 <div class="title">To query for the current Hostname</div>
@@ -484,7 +505,13 @@ value. To set each hostname to a different value use the following options to
 <a href="#_footnoteref_6">6</a>. <a href="https://i3wm.org" class="bare">https://i3wm.org</a>
 </div>
 <div class="footnote" id="_footnotedef_7">
-<a href="#_footnoteref_7">7</a>. <a href="https://fedoramagazine.org/set-hostname-fedora/" class="bare">https://fedoramagazine.org/set-hostname-fedora/</a>
+<a href="#_footnoteref_7">7</a>. <a href="https://wiki.archlinux.org/index.php/Broadcom_wireless" class="bare">https://wiki.archlinux.org/index.php/Broadcom_wireless</a>
+</div>
+<div class="footnote" id="_footnotedef_8">
+<a href="#_footnoteref_8">8</a>. <a href="https://wiki.archlinux.org/index.php/Talk:Broadcom_wireless#Installation:_broadcom-wl_is_in_the_official_repos_now" class="bare">https://wiki.archlinux.org/index.php/Talk:Broadcom_wireless#Installation:_broadcom-wl_is_in_the_official_repos_now</a>
+</div>
+<div class="footnote" id="_footnotedef_9">
+<a href="#_footnoteref_9">9</a>. <a href="https://fedoramagazine.org/set-hostname-fedora/" class="bare">https://fedoramagazine.org/set-hostname-fedora/</a>
 </div>
 </div>
 

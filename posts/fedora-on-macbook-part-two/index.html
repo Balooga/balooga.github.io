@@ -62,7 +62,7 @@
     <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-16x16.png" sizes="16x16">
 
-    <meta name="generator" content="Hugo 0.69.0" />
+    <meta name="generator" content="Hugo 0.74.3" />
   </head>
   
   
@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              8-minute read
+              10-minute read
             </span>
           </div>
           
@@ -163,6 +163,10 @@ active mode from standby when the lid is closed and subsequently re-opened.
 </ul>
 </div>
 <hr>
+<div class="paragraph">
+<p>Trying to use apps and tools that are less demanding of computational resources.
+Tools that suck less.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -206,7 +210,7 @@ active mode from standby when the lid is closed and subsequently re-opened.
 <h2 id="i3wm"><a class="anchor" href="#i3wm"></a><a class="link" href="#i3wm">Installing i3wm</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>I use i3wm<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>, a fast and bare-bones "tiling" Window
+<p>I use i3wm<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>, a fast and bare-bones "tiling" Window
 Manager.</p>
 </div>
 <div class="listingblock">
@@ -229,7 +233,7 @@ choose your mod key which i3wm then writes to <code>~/.config/i3/config</code>.<
 <p>i3wm requires additional utilities and applets to perform network management and
 configuration, bluetooth pairing, power management, and mouse/trackpad and
 brightness controls for screen and keyboard. Installing the
-Xfce<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> Fedora "Spins" Live
+Xfce<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> Fedora "Spins" Live
 Image&#8201;&#8212;&#8201;as I described in <a href="#part-one">[part-one]</a>&#8201;&#8212;&#8201;provides much of this functionality
 in a way that integrates well with i3wm.</p>
 </div>
@@ -269,12 +273,12 @@ The power management icon is displayed in the the i3 status bar.</p>
 <div class="sect2">
 <h3 id="nvidia"><a class="anchor" href="#nvidia"></a><a class="link" href="#nvidia">NVidia Driver Support for the Additional Display</a></h3>
 <div class="paragraph">
-<p>The Nouvea drivers<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>
+<p>The Nouvea drivers<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup>
 seem to work well for screen modes up to the MacBook Pro&#8217;s native screen
 resolution of 1440x900. However monitors having a resolution greater than this
 seem to exhibit flickering and tearing. To fix this, install the <em>correct
 version</em> of the NVidia graphics
-drivers.<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup></p>
+drivers.<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></p>
 </div>
 <div class="listingblock">
 <div class="title">Install all updates, and add the RPMFusion repo that contains the nvidia drivers.</div>
@@ -391,7 +395,7 @@ America/Noronha
 <div class="sectionbody">
 <div class="paragraph">
 <p>Log out and back into i3wm for an updated key map to take effect. Or use the
-HHKB<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup> keyboard and
+HHKB<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup> keyboard and
 skip this section.</p>
 </div>
 <div class="listingblock">
@@ -429,6 +433,51 @@ add Lock <span class="o">=</span> Caps_Lock
 add Control <span class="o">=</span> Control_R
 </pre></td></tr></tbody></table></code></pre>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="control-and-alt"><a class="anchor" href="#control-and-alt"></a><a class="link" href="#control-and-alt">Swap Command with ALT</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A typical PC keyboard layout has <code>Control</code>, <code>Windows</code>, <code>Alt</code>, then <code>Space</code>.
+Whereas Mac keyboards have <code>Control</code>, <code>Alt</code>, <code>Command</code>, then <code>Space</code>.</p>
+</div>
+<div class="paragraph">
+<p>Because we are running Linux on a Macbook, with Emacs as well as i3wm, we need
+an adjustment to key layouts. The default modfier for i3wm is <code>Alt</code> which is
+also the much used <code>META</code> key in Emacs. The <code>Command</code> key (like the Windows key)
+maps to <code>Super</code> which is almost unused.</p>
+</div>
+<div class="paragraph">
+<p>We want to swap <code>Alt</code> and <code>Command</code> such that <code>Alt</code> is immediately to the left
+of the spacebar allowing much easier use with Emacs. <code>Command</code> can then be used
+as the i3wm default modifier.</p>
+</div>
+<div class="paragraph">
+<p>The easiest is to use a keyboard with firmware that allows these keys to be
+mapped on the keyboard itself. The Kinesis Advantage, Happy Hacking, or a
+mechanical keyboard with reprogrammable firmware.</p>
+</div>
+<div class="listingblock">
+<div class="title">An alternative is to swap these keys in the <code>/.config/i3/config</code> file.</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre>setxkbmap <span class="nt">-option</span> altwin:swap_lalt_lwin
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Swap Command and
+ALT.<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></p>
+</li>
+<li>
+<p>Swap Control and
+ALT.<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -490,10 +539,10 @@ add Control <span class="o">=</span> Control_R
 <p>Take note of the version of Fontawesome that is installed as new versions of
 Fontawesome contain additional glyphs. Also, Fontawesome is distributed as as
 <em>free</em> and <em>pro</em> versions, with <em>pro</em> containing substantially more glyphs. It&#8217;s
-best to look at the Fontawesome<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup> website,
+best to look at the Fontawesome<sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup> website,
 choose the version installed and browse the available glyphs. Optionally,
 install the latest version of Fontawesome manually. Or take a look at
-NerdFonts.<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup>.</p>
+NerdFonts.<sup class="footnote">[<a id="_footnoteref_10" class="footnote" href="#_footnotedef_10" title="View footnote.">10</a>]</sup>.</p>
 </div>
 </div>
 </div>
@@ -535,6 +584,32 @@ bindsym <span class="nv">$mod</span>+Shift+d <span class="nb">exec </span>dmenu_
 </pre></td><td class="code"><pre><span class="c"># start a terminal</span>
 bindsym <span class="nv">$mod</span>+Return <span class="nb">exec </span>st <span class="c"># terminator # i3-sensible-terminal</span>
 </pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="fish"><a class="anchor" href="#fish"></a><a class="link" href="#fish">(Optionally) install a command line shell</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Install
+Fish.<sup class="footnote">[<a id="_footnoteref_11" class="footnote" href="#_footnotedef_11" title="View footnote.">11</a>]</sup></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="code"><pre><span class="nb">sudo </span>yum <span class="nb">install </span>fish
+
+chsh <span class="nt">-s</span> /usr/bin/fish
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Add some paths to fish otherwise commands like <code>ifconfig</code> are inaccessible</div>
+<div class="content">
+<pre>set -U fish_user_paths /usr/sbin $fish_user_paths</pre>
 </div>
 </div>
 </div>
@@ -631,7 +706,7 @@ for_window <span class="o">[</span><span class="nv">class</span><span class="o">
 <div class="sectionbody">
 <div class="paragraph">
 <p>See the full list of i3status
-options.<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p>
+options.<sup class="footnote">[<a id="_footnoteref_12" class="footnote" href="#_footnotedef_12" title="View footnote.">12</a>]</sup></p>
 </div>
 <div class="listingblock">
 <div class="title">Add the following to ~/.config/i3/config</div>
@@ -860,7 +935,7 @@ wlp4s0    IEEE 802.11  ESSID:<span class="s2">"xxxxxxxxxxx"</span>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Set up a periodic
-TRIM<sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup>
+TRIM<sup class="footnote">[<a id="_footnoteref_13" class="footnote" href="#_footnotedef_13" title="View footnote.">13</a>]</sup>
 to run for mounted SSDs.</p>
 </div>
 <div class="listingblock">
@@ -873,11 +948,11 @@ to run for mounted SSDs.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_enable_tap_to_click_on_the_touchpad"><a class="anchor" href="#_enable_tap_to_click_on_the_touchpad"></a><a class="link" href="#_enable_tap_to_click_on_the_touchpad">Enable "Tap to Click" on the Touchpad</a></h2>
+<h2 id="tap-click"><a class="anchor" href="#tap-click"></a><a class="link" href="#tap-click">Enable "Tap to Click" on the Touchpad</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The touchpad can be configured by
-creating<sup class="footnote">[<a id="_footnoteref_10" class="footnote" href="#_footnotedef_10" title="View footnote.">10</a>]</sup><sup class="footnote">[<a id="_footnoteref_11" class="footnote" href="#_footnotedef_11" title="View footnote.">11</a>]</sup><sup class="footnote">[<a id="_footnoteref_12" class="footnote" href="#_footnotedef_12" title="View footnote.">12</a>]</sup>
+creating<sup class="footnote">[<a id="_footnoteref_14" class="footnote" href="#_footnotedef_14" title="View footnote.">14</a>]</sup><sup class="footnote">[<a id="_footnoteref_15" class="footnote" href="#_footnotedef_15" title="View footnote.">15</a>]</sup><sup class="footnote">[<a id="_footnoteref_16" class="footnote" href="#_footnotedef_16" title="View footnote.">16</a>]</sup>
 <code>/etc/X11/xorg.conf.d/30-touchpad.conf</code> file as follows;</p>
 </div>
 <div class="paragraph">
@@ -910,43 +985,75 @@ creating<sup class="footnote">[<a id="_footnoteref_10" class="footnote" href="#_
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_volume_icon_in_i3_status_bar"><a class="anchor" href="#_volume_icon_in_i3_status_bar"></a><a class="link" href="#_volume_icon_in_i3_status_bar">Volume icon in i3-status bar</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="nb">sudo </span>dnf <span class="nb">install </span>volumeicon
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">~/.config/i3/config</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="config"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="n">exec</span> --<span class="n">no</span>-<span class="n">startup</span>-<span class="n">id</span> <span class="n">volumeicon</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+</div>
+</div>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. <a href="https://i3wm.org" class="bare">https://i3wm.org</a>
+<a href="#_footnoteref_1">1</a>. <a href="https://suckless.org/" class="bare">https://suckless.org/</a>
 </div>
 <div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. <a href="https://spins.fedoraproject.org/en/xfce/" class="bare">https://spins.fedoraproject.org/en/xfce/</a>
+<a href="#_footnoteref_2">2</a>. <a href="https://i3wm.org" class="bare">https://i3wm.org</a>
 </div>
 <div class="footnote" id="_footnotedef_3">
-<a href="#_footnoteref_3">3</a>. <a href="https://en.wikipedia.org/wiki/Nouveau_(software" class="bare">https://en.wikipedia.org/wiki/Nouveau_(software</a>)
+<a href="#_footnoteref_3">3</a>. <a href="https://spins.fedoraproject.org/en/xfce/" class="bare">https://spins.fedoraproject.org/en/xfce/</a>
 </div>
 <div class="footnote" id="_footnotedef_4">
-<a href="#_footnoteref_4">4</a>. <a href="https://itsfoss.com/install-nvidia-drivers-fedora/" class="bare">https://itsfoss.com/install-nvidia-drivers-fedora/</a>
+<a href="#_footnoteref_4">4</a>. <a href="https://en.wikipedia.org/wiki/Nouveau_(software" class="bare">https://en.wikipedia.org/wiki/Nouveau_(software</a>)
 </div>
 <div class="footnote" id="_footnotedef_5">
-<a href="#_footnoteref_5">5</a>. <a href="https://en.wikipedia.org/wiki/Happy_Hacking_Keyboard" class="bare">https://en.wikipedia.org/wiki/Happy_Hacking_Keyboard</a>
+<a href="#_footnoteref_5">5</a>. <a href="https://itsfoss.com/install-nvidia-drivers-fedora/" class="bare">https://itsfoss.com/install-nvidia-drivers-fedora/</a>
 </div>
 <div class="footnote" id="_footnotedef_6">
-<a href="#_footnoteref_6">6</a>. <a href="https://fontawesome.com/" class="bare">https://fontawesome.com/</a>
+<a href="#_footnoteref_6">6</a>. <a href="https://en.wikipedia.org/wiki/Happy_Hacking_Keyboard" class="bare">https://en.wikipedia.org/wiki/Happy_Hacking_Keyboard</a>
 </div>
 <div class="footnote" id="_footnotedef_7">
-<a href="#_footnoteref_7">7</a>. <a href="https://www.nerdfonts.com/" class="bare">https://www.nerdfonts.com/</a>
+<a href="#_footnoteref_7">7</a>. <a href="https://unix.stackexchange.com/questions/86933/swap-alt-and-super" class="bare">https://unix.stackexchange.com/questions/86933/swap-alt-and-super</a>
 </div>
 <div class="footnote" id="_footnotedef_8">
-<a href="#_footnoteref_8">8</a>. <a href="https://manpages.ubuntu.com/manpages/trusty/man1/i3status.1.html" class="bare">https://manpages.ubuntu.com/manpages/trusty/man1/i3status.1.html</a>
+<a href="#_footnoteref_8">8</a>. <a href="http://xahlee.info/linux/linux_swap_control_and_alt_xmodmap.html" class="bare">http://xahlee.info/linux/linux_swap_control_and_alt_xmodmap.html</a>
 </div>
 <div class="footnote" id="_footnotedef_9">
-<a href="#_footnoteref_9">9</a>. <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-periodic-trim-for-ssd-storage-on-linux-servers" class="bare">https://www.digitalocean.com/community/tutorials/how-to-configure-periodic-trim-for-ssd-storage-on-linux-servers</a>
+<a href="#_footnoteref_9">9</a>. <a href="https://fontawesome.com/" class="bare">https://fontawesome.com/</a>
 </div>
 <div class="footnote" id="_footnotedef_10">
-<a href="#_footnoteref_10">10</a>. <a href="https://confluence.jaytaala.com/display/TKB/My+Manjaro+i3+setup#MyManjaroi3setup-Trackpadsetup" class="bare">https://confluence.jaytaala.com/display/TKB/My+Manjaro+i3+setup#MyManjaroi3setup-Trackpadsetup</a>
+<a href="#_footnoteref_10">10</a>. <a href="https://www.nerdfonts.com/" class="bare">https://www.nerdfonts.com/</a>
 </div>
 <div class="footnote" id="_footnotedef_11">
-<a href="#_footnoteref_11">11</a>. <a href="https://cravencode.com/post/essentials/enable-tap-to-click-in-i3wm/" class="bare">https://cravencode.com/post/essentials/enable-tap-to-click-in-i3wm/</a>
+<a href="#_footnoteref_11">11</a>. <a href="https://fishshell.com/docs/current/tutorial.html#switching-to-fish" class="bare">https://fishshell.com/docs/current/tutorial.html#switching-to-fish</a>
 </div>
 <div class="footnote" id="_footnotedef_12">
-<a href="#_footnoteref_12">12</a>. <a href="https://wiki.archlinux.org/index.php/Libinput" class="bare">https://wiki.archlinux.org/index.php/Libinput</a>
+<a href="#_footnoteref_12">12</a>. <a href="https://manpages.ubuntu.com/manpages/trusty/man1/i3status.1.html" class="bare">https://manpages.ubuntu.com/manpages/trusty/man1/i3status.1.html</a>
+</div>
+<div class="footnote" id="_footnotedef_13">
+<a href="#_footnoteref_13">13</a>. <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-periodic-trim-for-ssd-storage-on-linux-servers" class="bare">https://www.digitalocean.com/community/tutorials/how-to-configure-periodic-trim-for-ssd-storage-on-linux-servers</a>
+</div>
+<div class="footnote" id="_footnotedef_14">
+<a href="#_footnoteref_14">14</a>. <a href="https://confluence.jaytaala.com/display/TKB/My+Manjaro+i3+setup#MyManjaroi3setup-Trackpadsetup" class="bare">https://confluence.jaytaala.com/display/TKB/My+Manjaro+i3+setup#MyManjaroi3setup-Trackpadsetup</a>
+</div>
+<div class="footnote" id="_footnotedef_15">
+<a href="#_footnoteref_15">15</a>. <a href="https://cravencode.com/post/essentials/enable-tap-to-click-in-i3wm/" class="bare">https://cravencode.com/post/essentials/enable-tap-to-click-in-i3wm/</a>
+</div>
+<div class="footnote" id="_footnotedef_16">
+<a href="#_footnoteref_16">16</a>. <a href="https://wiki.archlinux.org/index.php/Libinput" class="bare">https://wiki.archlinux.org/index.php/Libinput</a>
 </div>
 </div>
 
