@@ -85,6 +85,16 @@
     </item>
     
     <item>
+      <title>Prolog Learnings: FizzBuzz</title>
+      <link>https://www.balooga.com/posts/prolog-fizzbuzz/</link>
+      <pubDate>Sat, 11 Jul 2020 09:11:58 -0700</pubDate>
+      
+      <guid>https://www.balooga.com/posts/prolog-fizzbuzz/</guid>
+      <description>Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so it shouldn&amp;#8217;t have come as such as surprise to me that Prolog and Elixier share a number of similarities. For example, both Prolog and Elixir support argument pattern matching and using _ as an anonymous variable. However in Prolog, pattern matching behaves differently as shown below.
+ Here is an example of FizzBuzz as implemented in Elizir (Fizzbuzz in Elixir).</description>
+    </item>
+    
+    <item>
       <title>Logging is not the same as Alerting</title>
       <link>https://www.balooga.com/posts/logs-vs-alerting/</link>
       <pubDate>Sat, 10 Feb 2018 00:00:00 +0000</pubDate>
