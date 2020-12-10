@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en">
 
     <meta name="author" content="Luke Crook">
-    <meta name="description" content="Unification versus Assignment Every language I&#8217;ve used up to now assigns values to variables. For example;
+    <meta name="description" content="Every language I&#8217;ve used up to now assigns values to variables. For example;
  1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
  1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter.">
     <meta name="keywords" content="blog,developer,personal">
@@ -17,13 +17,13 @@
     
 
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Prolog Learnings"/>
-<meta name="twitter:description" content="Unification versus Assignment Every language I&#8217;ve used up to now assigns values to variables. For example;
+<meta name="twitter:title" content="Prolog Learnings: Unification"/>
+<meta name="twitter:description" content="Every language I&#8217;ve used up to now assigns values to variables. For example;
  1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
  1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter."/>
 
-    <meta property="og:title" content="Prolog Learnings" />
-<meta property="og:description" content="Unification versus Assignment Every language I&#8217;ve used up to now assigns values to variables. For example;
+    <meta property="og:title" content="Prolog Learnings: Unification" />
+<meta property="og:description" content="Every language I&#8217;ve used up to now assigns values to variables. For example;
  1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
  1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter." />
 <meta property="og:type" content="article" />
@@ -36,7 +36,7 @@
       <base href="https://www.balooga.com/posts/prolog-learn/">
     
     <title>
-  Prolog Learnings · Balooga
+  Prolog Learnings: Unification · Balooga
 </title>
 
     
@@ -118,7 +118,7 @@
     <article>
       <header>
         <div class="post-title">
-          <h1 class="title">Prolog Learnings</h1>
+          <h1 class="title">Prolog Learnings: Unification</h1>
         </div>
         <div class="post-meta">
           <div class="date">
@@ -140,10 +140,7 @@
 
       <div>
         
-        <div class="sect1">
-<h2 id="unification"><a class="anchor" href="#unification"></a><a class="link" href="#unification">Unification versus Assignment</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
+        <div class="paragraph">
 <p>Every language I&#8217;ve used up to now assigns values to variables. For example;</p>
 </div>
 <div class="listingblock">
@@ -279,8 +276,6 @@ Prolog to use backtracking to attempt to find alternates that unify to <code>tru
 <span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25896454</span><span class="p">,</span> <span class="nv">_25897584</span><span class="p">],</span>
 <span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25897584</span><span class="p">,</span> <span class="nv">_25896454</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25892180</span><span class="p">]</span>
 </pre></td></tr></tbody></table></code></pre>
-</div>
-</div>
 </div>
 </div>
 
