@@ -225,18 +225,19 @@ right evaluating to <code>true</code>.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>This concept of Unification is an underpinning of Prolog and is why in Prolog
+<p>This concept of Unification is an underpinning of Prolog and why Prolog
 functions are called "predicates". Because unlike a function that only evaluates
 inputs to create an output, predicates also evaluate an output to create
 possible inputs. In idiomatic Prolog, predicates work both ways. Think of
-predicates as a way to ask Prolog "What are the possible inputs to drive this
-output?"</p>
+predicates as a way to ask Prolog the question "What are the possible inputs to
+drive this output?"</p>
 </div>
 <div class="paragraph">
-<p>Even when not provided an input and output, Prolog will still attempt to unify
-by creating anonymous variables as needed (anonymous variables are prefixed with
-an underscore). In the example below, the semicolon (<code>;</code>) prompts Prolog to
-continue to find alternates that unify to <code>true</code> by using backtracking.</p>
+<p>Even when a predicate is not provided an input and output, Prolog will attempt
+to unify by creating anonymous variables as needed (anonymous variables are
+prefixed with an underscore). In the example below, the semicolon (<code>;</code>) prompts
+Prolog to use backtracking to attempt to find alternates that unify to <code>true</code> by
+using backtracking.</p>
 </div>
 <div class="listingblock">
 <div class="content">
