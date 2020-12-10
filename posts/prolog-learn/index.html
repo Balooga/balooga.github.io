@@ -8,8 +8,8 @@
 
     <meta name="author" content="Luke Crook">
     <meta name="description" content="Every language I&#8217;ve used up to now assigns values to variables. For example;
- 1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
- 1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter.">
+ C 1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
+ Prolog 1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter.">
     <meta name="keywords" content="blog,developer,personal">
 
     
@@ -19,13 +19,13 @@
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prolog Learnings: Unification"/>
 <meta name="twitter:description" content="Every language I&#8217;ve used up to now assigns values to variables. For example;
- 1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
- 1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter."/>
+ C 1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
+ Prolog 1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter."/>
 
     <meta property="og:title" content="Prolog Learnings: Unification" />
 <meta property="og:description" content="Every language I&#8217;ve used up to now assigns values to variables. For example;
- 1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
- 1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter." />
+ C 1 int x = 0;    The statement above causes zero to be assigned to x, resulting in x having the value of zero. Prolog uses &#34;Unification&#34; which on the surface resembles assignment but is more powerful.
+ Prolog 1 2 ?- X = 0. X = 0    The &#39;clause&#39; above (Prolog uses the terms clauses, predicates and rules) results in X having the value of zero through a process called Unification (variables in Prolog must start with an uppercase letter." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.balooga.com/posts/prolog-learn/" />
 <meta property="article:published_time" content="2020-12-09T00:00:00+00:00" />
@@ -144,6 +144,7 @@
 <p>Every language I&#8217;ve used up to now assigns values to variables. For example;</p>
 </div>
 <div class="listingblock">
+<div class="title">C</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="c"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 </pre></td><td class="code"><pre><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -156,6 +157,7 @@ the value of zero. Prolog uses "Unification" which on the surface resembles
 assignment but is more powerful.</p>
 </div>
 <div class="listingblock">
+<div class="title">Prolog</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -176,6 +178,7 @@ making <code>X</code> equal zero.</p>
 <p>And unification works both ways as the following examples show;</p>
 </div>
 <div class="listingblock">
+<div class="title">Prolog</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
  2
@@ -235,6 +238,7 @@ prefixed with an underscore). In the example below, the semicolon (<code>;</code
 Prolog to use backtracking to attempt to find alternates that unify to <code>true</code>.</p>
 </div>
 <div class="listingblock">
+<div class="title">Prolog</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
  2
