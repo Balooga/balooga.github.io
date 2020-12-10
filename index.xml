@@ -6,10 +6,20 @@
     <description>Recent content on Balooga</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Dec 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.balooga.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Prolog Learnings: FizzBuzz</title>
+      <link>https://www.balooga.com/posts/prolog-fizzbuzz/</link>
+      <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/prolog-fizzbuzz/</guid>
+      <description>Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so it shouldn&amp;#8217;t have come as such as surprise to me that Prolog and Elixier share a number of similarities. For example, both Prolog and Elixir support argument pattern matching and using _ as an anonymous variable. However in Prolog, pattern matching behaves differently as shown below.
+ Here is an example of FizzBuzz as implemented in Elizir (Fizzbuzz in Elixir).</description>
+    </item>
     
     <item>
       <title>Prolog Learnings: Unification</title>
@@ -82,16 +92,6 @@
       <description>Introduction In the following post we will look at a few ways to interate over the first one hundred integers (0 through 99) in Elixir calling FizzBuzz on each.
  Elixir lacks the familiar for, while, until language control-flow constructs that exist in other languages, instead encouraging use of the enumeration capabilities available in the collection modules within the Elixir standard library.
  The core requirements of a FizzBuzz, when passed an integer as a parameter, is to;</description>
-    </item>
-    
-    <item>
-      <title>Prolog Learnings: FizzBuzz</title>
-      <link>https://www.balooga.com/posts/prolog-fizzbuzz/</link>
-      <pubDate>Sat, 11 Jul 2020 09:11:58 -0700</pubDate>
-      
-      <guid>https://www.balooga.com/posts/prolog-fizzbuzz/</guid>
-      <description>Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so it shouldn&amp;#8217;t have come as such as surprise to me that Prolog and Elixier share a number of similarities. For example, both Prolog and Elixir support argument pattern matching and using _ as an anonymous variable. However in Prolog, pattern matching behaves differently as shown below.
- Here is an example of FizzBuzz as implemented in Elizir (Fizzbuzz in Elixir).</description>
     </item>
     
     <item>
