@@ -7,8 +7,9 @@
     <meta http-equiv="Content-Language" content="en">
 
     <meta name="author" content="Luke Crook">
-    <meta name="description" content="Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so it shouldn&#8217;t have come as such as surprise to me that Prolog and Elixier share a number of similarities. For example, both Prolog and Elixir support argument pattern matching and using _ as an anonymous variable. However in Prolog, pattern matching behaves differently as shown below.
- Here is an example of FizzBuzz as implemented in Elixir (Fizzbuzz in Elixir).">
+    <meta name="description" content="Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so it shouldn&#8217;t have come as such as surprise to me that Prolog and Elixier share a number of similarities. For example, Elixir and Prolog support pattern matching of function arguments, but;
+   Elixir performs pattern matching on an argument following any evaluation.
+  Prolog does not perform argument evaluation, pattern matching is performed on the shape of whatever is passed as the argument.">
     <meta name="keywords" content="blog,developer,personal">
 
     
@@ -17,12 +18,14 @@
 
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prolog Learnings: FizzBuzz"/>
-<meta name="twitter:description" content="Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so it shouldn&#8217;t have come as such as surprise to me that Prolog and Elixier share a number of similarities. For example, both Prolog and Elixir support argument pattern matching and using _ as an anonymous variable. However in Prolog, pattern matching behaves differently as shown below.
- Here is an example of FizzBuzz as implemented in Elixir (Fizzbuzz in Elixir)."/>
+<meta name="twitter:description" content="Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so it shouldn&#8217;t have come as such as surprise to me that Prolog and Elixier share a number of similarities. For example, Elixir and Prolog support pattern matching of function arguments, but;
+   Elixir performs pattern matching on an argument following any evaluation.
+  Prolog does not perform argument evaluation, pattern matching is performed on the shape of whatever is passed as the argument."/>
 
     <meta property="og:title" content="Prolog Learnings: FizzBuzz" />
-<meta property="og:description" content="Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so it shouldn&#8217;t have come as such as surprise to me that Prolog and Elixier share a number of similarities. For example, both Prolog and Elixir support argument pattern matching and using _ as an anonymous variable. However in Prolog, pattern matching behaves differently as shown below.
- Here is an example of FizzBuzz as implemented in Elixir (Fizzbuzz in Elixir)." />
+<meta property="og:description" content="Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so it shouldn&#8217;t have come as such as surprise to me that Prolog and Elixier share a number of similarities. For example, Elixir and Prolog support pattern matching of function arguments, but;
+   Elixir performs pattern matching on an argument following any evaluation.
+  Prolog does not perform argument evaluation, pattern matching is performed on the shape of whatever is passed as the argument." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.balooga.com/posts/prolog-fizzbuzz/" />
 <meta property="article:published_time" content="2020-12-10T00:00:00+00:00" />
@@ -140,9 +143,19 @@
         <div class="paragraph">
 <p>Elixir builds on Erlang, and the first versions of Erlang were implemented in
 Prolog, so it shouldn&#8217;t have come as such as surprise to me that Prolog and
-Elixier share a number of similarities. For example, both Prolog and Elixir
-support argument pattern matching and using <code>_</code> as an anonymous variable.
-However in Prolog, pattern matching behaves differently as shown below.</p>
+Elixier share a number of similarities. For example, Elixir and Prolog support
+pattern matching of function arguments, but;</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Elixir performs pattern matching on an argument following any evaluation.</p>
+</li>
+<li>
+<p>Prolog does not perform argument evaluation, pattern matching is performed
+on the shape of whatever is passed as the argument.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>Here is an example of FizzBuzz as implemented in Elixir
@@ -236,32 +249,18 @@ However in Prolog, pattern matching behaves differently as shown below.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Elixir and Prolog support pattern matching of function arguments, but;</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Elixir performs pattern matching on an argument following any evaluation.</p>
-</li>
-<li>
-<p>Prolog does not perform argument evaluation, pattern matching is performed
-on the shape of whatever is passed as the argument.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>This is why in the Prolog version of FizzBuzz, the modulo calculations are first
-unified (<a href="https://www.balooga.com/posts/prolog-learn/">Unification</a>) with <code>Fizz</code> and <code>Buzz</code>
-variables which are subsequently passed as arguments to the <code>fizzbuzz_</code>
-auxilliary (helper) function. In Elixir, the modulo is calculated and the
-results are passed directly as arguments to the <code>fb</code> helper functions.</p>
+<p>In the Prolog version of FizzBuzz, the modulo calculations are first unified
+(<a href="https://www.balooga.com/posts/prolog-learn/">Unification</a>) with <code>Fizz</code> and <code>Buzz</code> variables which
+are subsequently passed as arguments to the <code>fizzbuzz_</code> auxilliary (helper)
+function. In Elixir, the modulo is calculated and the results are passed
+directly as arguments to the <code>fb</code> helper functions.</p>
 </div>
 <div class="paragraph">
 <p>The Elixir code looks cleaner that the equivalent Prolog, but this shouldn&#8217;t be
 something to become hung up on. Every language has its warts.</p>
 </div>
 <div class="paragraph">
-<p>Here is another example - calculating the Greatest Common Denominator (GCD). In
+<p>Here is an example that calculates the Greatest Common Denominator (GCD). In
 Elixir, the modulo is evaulated and the result is passed as the second argument
 in the recursive call to <code>gcd</code>.</p>
 </div>
@@ -280,9 +279,8 @@ in the recursive call to <code>gcd</code>.</p>
 </div>
 <div class="paragraph">
 <p>In Prolog, the modulo is first calculated and unified with the variable <code>Rem</code>
-and then subsequently passed as an argument to <code>gcd</code>. Because Prolog does not
-first evaulate arguments and thus attempts to match the second arguament <code>A mod
-B</code> with <code>0</code> and fails.</p>
+and then subsequently passed as an argument to <code>gcd</code>. Otherwise Prolog will
+attempt to match the second arguament <code>A mod B</code> with <code>0</code> and fail.</p>
 </div>
 <div class="listingblock">
 <div class="content">
