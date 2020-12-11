@@ -17,8 +17,8 @@
       <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/prolog-fizzbuzz/</guid>
-      <description>Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so it shouldn&amp;#8217;t have come as such as surprise to me that Prolog and Elixier share a number of similarities. For example, Elixir and Prolog support pattern matching of function arguments, but;
-   Elixir performs pattern matching on an argument following any evaluation.
+      <description>Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so the number of similarities that shared between Prolog and Elixir should not have come as such a surprise. For example, Elixir and Prolog support pattern matching with function arguments, but;
+   Elixir evaluates arguments prior to performing pattern matching, while
   Prolog does not perform argument evaluation, pattern matching is performed on the shape of whatever is passed as the argument.</description>
     </item>
     
