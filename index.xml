@@ -17,9 +17,10 @@
       <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/prolog-fizzbuzz/</guid>
-      <description>Elixir builds on Erlang, and the first versions of Erlang were implemented in Prolog, so the number of similarities that shared between Prolog and Elixir should not have come as such a surprise. For example, Elixir and Prolog support pattern matching with function arguments, but;
+      <description>Elixir builds on Erlang and the first versions of Erlang were implemented in Prolog, so Prolog and Elixir share a number of similarities. For example, Elixir and Prolog support pattern matching with function arguments, but;
    Elixir evaluates arguments prior to performing pattern matching, while
-  Prolog does not perform argument evaluation, pattern matching is performed on the shape of whatever is passed as the argument.</description>
+  Prolog does not perform argument evaluation, pattern matching is performed on the shape of whatever is passed as the argument.
+   Here is an example of FizzBuzz as implemented in Elixir (Fizzbuzz in Elixir).</description>
     </item>
     
     <item>
