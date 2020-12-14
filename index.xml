@@ -28,7 +28,7 @@
       <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/prolog-learn/</guid>
-      <description>The concept of Unification is an underpinning of Prolog and why functions in Prolog are called &#34;predicates&#34;. Because unlike a function that can only evaluate its inputs to create an output, predicates can derive possible inputs from an output. In idiomatic Prolog, predicates work both ways.   Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero.</description>
+      <description>The concept of Unification is an underpinning of Prolog and why functions in Prolog are called &#34;predicates&#34;. Because unlike a function that can only evaluate its inputs to create an output, predicates can derive possible inputs from an output. In idiomatic Prolog, a predicate is a function that works both ways.   Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero.</description>
     </item>
     
     <item>
