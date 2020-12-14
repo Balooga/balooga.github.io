@@ -7,8 +7,7 @@
     <meta http-equiv="Content-Language" content="en">
 
     <meta name="author" content="Luke Crook">
-    <meta name="description" content="Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero.
- Prolog performs &#34;Unification&#34; which resembles assignment but is more powerful. The &#39;clause&#39; below (Prolog uses the terms clauses, predicates and rules) results in X being assigned a value of zero (variables in Prolog must start with an uppercase letter), as a result of Prolog evaulating the clause to &#34;">
+    <meta name="description" content="The concept of Unification is an underpinning of Prolog and why functions in Prolog are called &#34;predicates&#34;. Because unlike a function that can only evaluate its inputs to create an output, predicates can derive possible inputs from an output. In idiomatic Prolog, predicates work both ways.   Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero.">
     <meta name="keywords" content="blog,developer,personal">
 
     
@@ -17,12 +16,10 @@
 
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prolog Learnings: Unification"/>
-<meta name="twitter:description" content="Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero.
- Prolog performs &#34;Unification&#34; which resembles assignment but is more powerful. The &#39;clause&#39; below (Prolog uses the terms clauses, predicates and rules) results in X being assigned a value of zero (variables in Prolog must start with an uppercase letter), as a result of Prolog evaulating the clause to &#34;"/>
+<meta name="twitter:description" content="The concept of Unification is an underpinning of Prolog and why functions in Prolog are called &#34;predicates&#34;. Because unlike a function that can only evaluate its inputs to create an output, predicates can derive possible inputs from an output. In idiomatic Prolog, predicates work both ways.   Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero."/>
 
     <meta property="og:title" content="Prolog Learnings: Unification" />
-<meta property="og:description" content="Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero.
- Prolog performs &#34;Unification&#34; which resembles assignment but is more powerful. The &#39;clause&#39; below (Prolog uses the terms clauses, predicates and rules) results in X being assigned a value of zero (variables in Prolog must start with an uppercase letter), as a result of Prolog evaulating the clause to &#34;" />
+<meta property="og:description" content="The concept of Unification is an underpinning of Prolog and why functions in Prolog are called &#34;predicates&#34;. Because unlike a function that can only evaluate its inputs to create an output, predicates can derive possible inputs from an output. In idiomatic Prolog, predicates work both ways.   Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.balooga.com/posts/prolog-learn/" />
 <meta property="article:published_time" content="2020-12-09T00:00:00+00:00" />
@@ -137,19 +134,24 @@
 
       <div>
         
-        <div class="paragraph">
-<p>Most languages assign values to variables. For example, the statement <code>int x =
-0;</code> causes the value zero to be assigned to <code>x</code>, resulting in <code>x</code> having a value
-of zero.</p>
+        <div class="quoteblock abstract">
+<blockquote>
+The concept of Unification is an underpinning of Prolog and why functions in
+Prolog are called "predicates". Because unlike a function that can only evaluate
+its inputs to create an output, predicates can derive possible inputs from an
+output. In idiomatic Prolog, predicates work both ways.
+</blockquote>
 </div>
 <div class="paragraph">
-<p>Prolog performs "Unification" which resembles assignment but is more powerful.
-The 'clause' below (Prolog uses the terms clauses, predicates and rules) results
-in <code>X</code> being assigned a value of zero (variables in Prolog must start with an
-uppercase letter), as a result of Prolog evaulating the clause to "true" by
-"Unifying" (make the same) the terms on the left of the <code>=</code> with the terms on
-the right. In this example, Prolog unifies left and right by making <code>X</code> equal
-zero.</p>
+<p>Most languages assign values to variables. For example, the statement <code>int x =
+0;</code> causes the value zero to be assigned to <code>x</code>, resulting in <code>x</code> having a value
+of zero. Prolog performs "Unification" which resembles assignment but is more
+powerful. The 'clause' below (Prolog uses the terms clauses, predicates and
+rules) results in <code>X</code> being assigned a value of zero (variables in Prolog must
+start with an uppercase letter), as a result of Prolog evaulating the clause to
+"true" by "Unifying" (make the same) the terms on the left of the <code>=</code> with the
+terms on the right. In this example, Prolog unifies left and right by making <code>X</code>
+equal zero.</p>
 </div>
 <div class="listingblock">
 <div class="title">Prolog</div>

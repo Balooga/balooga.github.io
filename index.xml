@@ -28,8 +28,7 @@
       <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/prolog-learn/</guid>
-      <description>Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero.
- Prolog performs &#34;Unification&#34; which resembles assignment but is more powerful. The &#39;clause&#39; below (Prolog uses the terms clauses, predicates and rules) results in X being assigned a value of zero (variables in Prolog must start with an uppercase letter), as a result of Prolog evaulating the clause to &#34;</description>
+      <description>The concept of Unification is an underpinning of Prolog and why functions in Prolog are called &#34;predicates&#34;. Because unlike a function that can only evaluate its inputs to create an output, predicates can derive possible inputs from an output. In idiomatic Prolog, predicates work both ways.   Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero.</description>
     </item>
     
     <item>
