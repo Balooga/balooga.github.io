@@ -226,7 +226,15 @@ which are subsequently passed as arguments to the <code>fizzbuzz_</code> auxilli
 26
 27
 28
-</pre></td><td class="code"><pre><span class="c1">%% Matches when Count is divisible by 15.</span>
+</pre></td><td class="code"><pre><span class="ss">fizzbuzz</span><span class="p">(</span><span class="nv">Count</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="nv">Count</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">,</span>
+    <span class="nv">Fizz</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="ss">mod</span> <span class="m">5</span><span class="p">,</span>
+    <span class="nv">Buzz</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="ss">mod</span> <span class="m">3</span><span class="p">,</span>
+    <span class="ss">fizzbuzz_</span><span class="p">(</span><span class="nv">Fizz</span><span class="p">,</span> <span class="nv">Buzz</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span>
+    <span class="nv">CC</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">-</span> <span class="m">1</span><span class="p">,</span>
+    <span class="ss">fizzbuzz</span><span class="p">(</span><span class="nv">CC</span><span class="p">).</span>
+
+<span class="c1">%% Matches when Count is divisible by 15.</span>
 <span class="c1">%% Both 3 and 5.</span>
 <span class="ss">fizzbuzz_</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="nv">_</span><span class="p">)</span> <span class="p">:-</span>
     <span class="p">!,</span>
@@ -246,20 +254,12 @@ which are subsequently passed as arguments to the <code>fizzbuzz_</code> auxilli
 <span class="ss">fizzbuzz_</span><span class="p">(</span><span class="nv">_</span><span class="p">,</span> <span class="nv">_</span><span class="p">,</span> <span class="nv">N</span><span class="p">)</span> <span class="p">:-</span>
     <span class="p">!,</span>
     <span class="ss">write</span><span class="p">(</span><span class="nv">N</span><span class="p">),</span> <span class="ss">nl</span><span class="p">.</span>
-
-<span class="ss">fizzbuzz</span><span class="p">(</span><span class="nv">Count</span><span class="p">)</span> <span class="p">:-</span>
-    <span class="nv">Count</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">,</span>
-    <span class="nv">Fizz</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="ss">mod</span> <span class="m">5</span><span class="p">,</span>
-    <span class="nv">Buzz</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="ss">mod</span> <span class="m">3</span><span class="p">,</span>
-    <span class="ss">fizzbuzz_</span><span class="p">(</span><span class="nv">Fizz</span><span class="p">,</span> <span class="nv">Buzz</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span>
-    <span class="nv">CC</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">-</span> <span class="m">1</span><span class="p">,</span>
-    <span class="ss">fizzbuzz</span><span class="p">(</span><span class="nv">CC</span><span class="p">).</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The example calculates the Greatest Common Denominator (GCD). Again, in Elixir the
-modulo is evaulated and the result is passed as the second argument in the
+<p>This example calculates the Greatest Common Denominator (GCD). Again, in Elixir
+the modulo is evaulated and the result is passed as the second argument in the
 recursive call to <code>gcd</code>.</p>
 </div>
 <div class="listingblock">
@@ -278,7 +278,7 @@ recursive call to <code>gcd</code>.</p>
 </div>
 <div class="paragraph">
 <p>However in Prolog, the modulo is first calculated and unified with the variable
-<code>Rem</code> which is then subsequently passed as an argument to <code>gcd</code>.</p>
+<code>Rem</code> which is then passed as an argument to <code>gcd</code>.</p>
 </div>
 <div class="listingblock">
 <div class="title">Prolog</div>
@@ -296,7 +296,7 @@ recursive call to <code>gcd</code>.</p>
 </div>
 <div class="paragraph">
 <p>Copying the Elixir syntax produces unexpected results as Prolog will search for
-a GCD function matching the second argument <code>A mod B</code> and fail.</p>
+a GCD function with a pattern matching the second argument <code>A mod B</code> and fail.</p>
 </div>
 <div class="listingblock">
 <div class="title">Prolog</div>
