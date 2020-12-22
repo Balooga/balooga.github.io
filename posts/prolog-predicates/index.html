@@ -338,7 +338,7 @@ Output = [_25894194, _25893064, _25892180] ;</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>With each semicolon, Prolog will continue providing additional answers for which
+<p>With each successive semicolon, Prolog will provide additional answers for which
 the predicate <code>reverse/2</code> evaulates to <code>true</code>. So first a list of zero elements
 is reversed, then a list of one element, then two, then three, etc.</p>
 </div>
@@ -444,7 +444,7 @@ evaluates to <code>true</code>.</p>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>An empty list <code>[]</code> and a list count <code>0</code> matches the first and second arguments, so the predicate evaulates to <code>true</code>. Anything other values and the predicate will evaluate to <code>false</code>.</td>
+<td>An empty list <code>[]</code> and a list count <code>0</code> matches the first and second arguments, so the predicate evaulates to <code>true</code>. Any other values and the predicate will evaluate to <code>false</code>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -452,13 +452,19 @@ evaluates to <code>true</code>.</p>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Prolog can only evaluate the base case to <code>true</code> with an empty list <code>[]</code> and a list count of <code>0</code>. Anything else will evaulate to <code>false</code>.</td>
+<td>Prolog can only evaluate the base case to <code>true</code> with an empty list <code>[]</code> and a list count of <code>0</code>. Anything else will evaluate to <code>false</code>.</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
 <p>Now that the base case is defined to handle all possbile use cases, we can
 define the main recursive procedure.</p>
+</div>
+<div class="paragraph">
+<p>Note that the base case <em>must always</em> come before the recursive call. This is
+because Prolog (and Elixir) evaluate procedures in order. So on each call to
+<code>list_length/2</code> Prolog will first attempt to pattern match to the base case,
+fail, then call the recusive case.</p>
 </div>
 <div class="listingblock">
 <div class="title">list_length/2 recusive procedure</div>
