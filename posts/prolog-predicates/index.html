@@ -540,11 +540,7 @@ parameter will be very familiar.</p>
 </ol>
 </div>
 <div class="paragraph">
-<p>Prolog does not support common notation such as <code>C is C + 1</code>, or <code>C++</code>, which is why we
-need the intermediate <code>Count</code> variable.</p>
-</div>
-<div class="paragraph">
-<p>Note the difference between <code>=</code> and <code>is</code> in Prolog.</p>
+<p>There is a difference between <code>=</code> and <code>is</code> in Prolog.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -555,6 +551,15 @@ need the intermediate <code>Count</code> variable.</p>
 <p><code>is</code> assigns the result of a calculation.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Prolog does not support common notation such as <code>C is C + 1</code>, or <code>C++</code>, which is
+why we need the intermediate <code>Count</code> variable due to the immutability of
+variables in Prolog. Because once a variable is assigned a value, that variable
+has that value throughout its scope. So in the case of <code>C is C + 1</code>, Prolog
+cannot assign the <code>C</code> on the left of the <code>is</code> a different value to whatever <code>C</code>
+is already assigned on the right side of the <code>is</code>. This does take some getting
+used to.</p>
 </div>
 <div class="paragraph">
 <p>The base case must always come before the recursive call because Prolog
