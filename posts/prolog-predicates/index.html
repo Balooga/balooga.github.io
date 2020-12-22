@@ -469,7 +469,7 @@ define the main recursive procedure.</p>
 <td class="content">
 The base case <em>must always</em> come before the recursive call because Prolog
 (and Elixir) evaluate procedures in order that these appear in the source file.
-So on each call to <code>list_length/2</code> Prolog will first attempt to pattern match to
+So on each call to list_length/2 Prolog will first attempt to pattern match to
 the base case, and if this fails, call the recusive case.
 </td>
 </tr>
