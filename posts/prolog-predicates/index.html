@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              7-minute read
+              8-minute read
             </span>
           </div>
           
@@ -492,13 +492,13 @@ the base case, and if this fails, call the recusive case.
 <div class="paragraph">
 <p>The notation <code>[First|Rest]</code> pattern matches on a list, assigning the first
 element in a list to <code>First</code> and the remaining list elements to <code>Rest</code>. Here,
-<code><em></code> is effectively used to throw away the first item of the list. If you are
-used to Elixir then the Prolog list notation and the use of <code></em></code> to ignore a
+"<em>" is effectively used to throw away the first item of the list. If you are
+used to Elixir then the Prolog list notation and the use of "</em>" to ignore a
 parameter will be very familiar.</p>
 </div>
 <div class="paragraph">
-<p>For the use case of returning the number of elements in a list, <code>list_length</code>
-works as follows;</p>
+<p>For the first use case of returning the number of elements in a list,
+<code>list_length</code> works as follows;</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -513,7 +513,8 @@ works as follows;</p>
 <p>Return to (1) until the list is empty, matching <code>[]</code> to the base case.</p>
 </li>
 <li>
-<p>Return <code>0</code>, because this is the number of elements in a empty list.</p>
+<p>Return <code>0</code> from the base case, because this is the number of elements in
+<code>[]</code>, the empty list.</p>
 </li>
 <li>
 <p>Returning from <code>list_count</code>, <code>Count</code> will have a value <code>0</code>,</p>
@@ -537,6 +538,29 @@ works as follows;</p>
 <p><code>C</code> will now have the total number of elements of the list.</p>
 </li>
 </ol>
+</div>
+<div class="paragraph">
+<p>Prolog does not support common notation such as <code>C is C + 1</code>, or <code>C++</code>, which is why we
+need the intermediate <code>Count</code> variable.</p>
+</div>
+<div class="paragraph">
+<p>Note the difference between <code>=</code> and <code>is</code> in Prolog.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>=</code> is used for Unification,</p>
+</li>
+<li>
+<p><code>is</code> assigns the result of a calculation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The base case must always come before the recursive call because Prolog
+(and Elixir) evaluate procedures in order that these appear in the source file.
+So on each call to list_length/2 Prolog will first attempt to pattern match to
+the base case, and if this fails, call the recusive case.</p>
 </div>
 
       </div>
