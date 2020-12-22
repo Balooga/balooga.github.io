@@ -384,17 +384,17 @@ list.</p>
 <ul>
 <li>
 <p>The base case must always come before the recursive call because Prolog
-(and Elixir) evaluate procedures in order that these appear in the source
-file. So on each call to list_length/2 Prolog will first attempt to
+(and Elixir) evaluate procedures in order of appearance in the source
+file. So on each call to <code>list_length/2</code> Prolog will first attempt to
 pattern match to the base case, and if this fails, call the recusive
 case.</p>
 </li>
 <li>
 <p>The notation <code>[First|Rest]</code> pattern matches on a list, assigning the
 first element in a list to <code>First</code> and the remaining list elements to
-<code>Rest</code>. Here, "<em>" is effectively used to throw away the first item of the
+<code>Rest</code>. Here, "_" is effectively used to throw away the first item of the
 list. If you are used to Elixir then the Prolog list notation and the use
-of "</em>" to ignore a parameter will be very familiar.</p>
+of "\_" to ignore a parameter will be very familiar.</p>
 </li>
 <li>
 <p>There is a difference between <code>=</code> and <code>is</code> in Prolog.</p>
@@ -406,13 +406,13 @@ of "</em>" to ignore a parameter will be very familiar.</p>
 <p><code>is</code> assigns the result of a calculation.</p>
 </li>
 <li>
-<p>Prolog does not support common notation such as <code>C is C + 1</code>, or <code>C++</code>,
-which is why we need the intermediate <code>Count</code> variable due to the
-immutability of variables in Prolog. Because once a variable is assigned a
-value, that variable has that value throughout its scope. So in the case
-of <code>C is C + 1</code>, Prolog cannot assign the <code>C</code> on the left of the <code>is</code> a
-different value to whatever <code>C</code> is already assigned on the right side of
-the <code>is</code>. This does take some getting used to.</p>
+<p>Prolog does not support common notation such as <code>C is C + 1</code>, or
+<code>count++</code>, which is why we need the intermediate <code>Count</code> variable due to
+the immutability of variables in Prolog. Because once a variable is
+assigned a value, that variable has that value throughout its scope. So in
+the case of <code>C is C + 1</code>, Prolog cannot assign the <code>C</code> on the left of the
+<code>is</code> a different value to whatever <code>C</code> is already assigned on the right
+side of the <code>is</code>. This does take some getting used to.</p>
 </li>
 </ul>
 </div>
