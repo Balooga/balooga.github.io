@@ -52,6 +52,15 @@
     </item>
     
     <item>
+      <title>Installing Fedora 32 on a mid-2009 Macbook Pro - Part Three, Applications</title>
+      <link>https://www.balooga.com/posts/fedora-on-macbook-part-three/</link>
+      <pubDate>Wed, 02 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/fedora-on-macbook-part-three/</guid>
+      <description>A series of posts documenting the installation of Fedora 32 onto a mid-2009 15&#34; Macbook Pro. In three parts; Part One describes the initial installation of Fedora and necessary updates to detect the internal WiFi hardware, Part Two describes configuring the window manager i3wm, and Part Three details the installation of the applications that I use daily. As is usual with Linux installations, forewarned is forearmed. Prepare for the lack of internal WiFi capability in the base Fedora install.</description>
+    </item>
+    
+    <item>
       <title>Installing Fedora 32 on a mid-2009 Macbook Pro - Part Two, i3wm</title>
       <link>https://www.balooga.com/posts/fedora-on-macbook-part-two/</link>
       <pubDate>Wed, 02 Sep 2020 00:00:00 +0000</pubDate>
@@ -137,16 +146,6 @@
       
       <guid>https://www.balooga.com/about/</guid>
       <description>About Luke Crook</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://www.balooga.com/posts/elixir-learn/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.balooga.com/posts/elixir-learn/</guid>
-      <description>Digit groups for large integers Elixir supports splitting long integers into digit groups separated by an _. Seems kind of weird, but this syntax is also supported by Prolog.
- Digit Groups 1_000_000     Function Naming Elixir appends the number of arguments - the arity - in the function definition notation to differentiate between functions of the same name. For example, cd/0 and cd/. The first function takes no arguments, and the second takes one argument.</description>
     </item>
     
   </channel>
