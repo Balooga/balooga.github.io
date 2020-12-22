@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              4-minute read
+              7-minute read
             </span>
           </div>
           
@@ -341,6 +341,187 @@ Output = [_25894194, _25893064, _25892180] ;</pre>
 <p>With each semicolon, Prolog will continue providing additional answers for which
 the predicate <code>reverse/2</code> evaulates to <code>true</code>. So first a list of zero elements
 is reversed, then a list of one element, then two, then three, etc.</p>
+</div>
+<div class="paragraph">
+<p>One more example; <code>list_length/2</code> will count the number of elements in a list,
+where the first argument is a list, and the second argument is the number of
+elements in the list.</p>
+</div>
+<div class="paragraph">
+<p>It is good Prolog practice to try and encode the intent, order and type of
+arguments in the functor name. So <code>list_length</code> defines what the predicate does
+and that the first argument should be a list and the second the length of the
+list.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length/2 example in Prolog</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="c1">%% list_length/2 counts the elements in a list.</span>
+
+<span class="c1">%% The base case terminating recursion.</span>
+<span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+
+<span class="c1">%% Recurse through the list, counting each element.</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using a single code path, it should be possible to;</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Return the number of elements in a list,</p>
+</li>
+<li>
+<p>Validate that the number of elements in the list equals a specified <code>C</code>,</p>
+</li>
+<li>
+<p>Return a new list containing the number of elements specified in <code>C</code>,</p>
+</li>
+<li>
+<p>If a list and count unspecified then return values where <code>list_length</code>
+evaluates to <code>true</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>We can actually see all of the above from just looking at the base case.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length/2 base case</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="code"><pre><span class="c1">%% The base case terminating recursion.</span>
+<span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+
+<span class="o">?-</span> <span class="ss">list_length</span><span class="p">([],</span> <span class="nv">C</span><span class="p">).</span> <span class="c1">% </span><i class="conum" data-value="1"></i><b>(1)</b>
+<span class="nv">C</span> <span class="o">=</span> <span class="m">0</span>
+
+<span class="o">?-</span> <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span> <span class="c1">% </span><i class="conum" data-value="2"></i><b>(2)</b>
+<span class="ss">true</span><span class="p">.</span>
+
+<span class="o">?-</span> <span class="ss">list_length</span><span class="p">(</span><span class="nv">L</span><span class="p">,</span> <span class="m">0</span><span class="p">).</span> <span class="c1">% </span><i class="conum" data-value="3"></i><b>(3)</b>
+<span class="nv">L</span> <span class="o">=</span> <span class="p">[].</span>
+
+<span class="o">?-</span> <span class="ss">list_length</span><span class="p">(</span><span class="nv">L</span><span class="p">,</span> <span class="nv">C</span><span class="p">).</span> <span class="c1">% </span><i class="conum" data-value="4"></i><b>(4)</b>
+<span class="nv">L</span> <span class="o">=</span> <span class="p">[],</span>
+<span class="nv">C</span> <span class="o">=</span> <span class="m">0</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>An empty list <code>[]</code> matches the first argument of the functor definition, so the second argument <code>C</code> is returned with a value of <code>0</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>An empty list <code>[]</code> and a list count <code>0</code> matches the first and second arguments, so the predicate evaulates to <code>true</code>. Anything other values and the predicate will evaluate to <code>false</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>A list count <code>0</code> matches the second argument, so an empty list <code>[]</code> is returned.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Prolog can only evaluate the base case to <code>true</code> with an empty list <code>[]</code> and a list count of <code>0</code>. Anything else will evaulate to <code>false</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now that the base case is defined to handle all possbile use cases, we can
+define the main recursive procedure.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length/2 recusive procedure</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="c1">%% Recurse through the list, counting each element.</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The notation <code>[First|Rest]</code> pattern matches on a list, assigning the first
+element in a list to <code>First</code> and the remaining list elements to <code>Rest</code>. Here,
+<code><em></code> is effectively used to throw away the first item of the list. If you are
+used to Elixir then the Prolog list notation and the use of <code></em></code> to ignore a
+parameter will be very familiar.</p>
+</div>
+<div class="paragraph">
+<p>For the use case of returning the number of elements in a list, <code>list_length</code>
+works as follows;</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Throw away the first element of the list, then</p>
+</li>
+<li>
+<p>Call <code>list_length</code> with the remaining list, passing in a new variable
+<code>Count</code>.</p>
+</li>
+<li>
+<p>Return to (1) until the list is empty, matching <code>[]</code> to the base case.</p>
+</li>
+<li>
+<p>Return <code>0</code>, because this is the number of elements in a empty list.</p>
+</li>
+<li>
+<p>Returning from <code>list_count</code>, <code>Count</code> will have a value <code>0</code>,</p>
+</li>
+<li>
+<p>Add <code>1</code> to <code>Count</code>, and assign this to <code>C</code>.</p>
+</li>
+<li>
+<p>Return the value of <code>C</code>,</p>
+</li>
+<li>
+<p>Returning from <code>list_count</code>, <code>Count</code> now has the value of <code>C</code>,</p>
+</li>
+<li>
+<p>Add <code>1</code> to <code>Count</code>, and assign this to <code>C</code>.</p>
+</li>
+<li>
+<p>Return to (7), and repeat until we have climbed back up the stack.</p>
+</li>
+<li>
+<p><code>C</code> will now have the total number of elements of the list.</p>
+</li>
+</ol>
 </div>
 
       </div>
