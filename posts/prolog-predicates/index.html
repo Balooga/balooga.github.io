@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+
+    <meta name="author" content="Luke Crook">
+    <meta name="description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   So what does this mean and why should we care? Being a declarative logic programming language, problems are solved differently in Prolog. It is one of the languages that every developer should have some exposure to.">
+    <meta name="keywords" content="blog,developer,personal">
+
+    
+      <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Prolog Learnings: Predicates"/>
+<meta name="twitter:description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   So what does this mean and why should we care? Being a declarative logic programming language, problems are solved differently in Prolog. It is one of the languages that every developer should have some exposure to."/>
+
+    <meta property="og:title" content="Prolog Learnings: Predicates" />
+<meta property="og:description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   So what does this mean and why should we care? Being a declarative logic programming language, problems are solved differently in Prolog. It is one of the languages that every developer should have some exposure to." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.balooga.com/posts/prolog-predicates/" />
+<meta property="article:published_time" content="2020-12-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-22T00:00:00+00:00" />
+
+
+    
+      <base href="https://www.balooga.com/posts/prolog-predicates/">
+    
+    <title>
+  Prolog Learnings: Predicates · Balooga
+</title>
+
+    
+      <link rel="canonical" href="https://www.balooga.com/posts/prolog-predicates/">
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://www.balooga.com/css/coder.min.0e5ce5b959a68dfe0232c6ddcec1e8ef154517c968464707f3181c437fe611c0.css" integrity="sha256-DlzluVmmjf4CMsbdzsHo7xVFF8loRkcH8xgcQ3/mEcA=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/github.css" />
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/custom.css" />
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-16x16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.74.3" />
+  </head>
+  
+  
+  
+  <body class="colorscheme-light"
+        onload=" twemoji.parse(document.body); "
+  >
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://www.balooga.com/">
+      Balooga
+    </a>
+    
+      <span id="dark-mode-toggle" class="float-right">
+        <i class="fas fa-adjust fa-fw"></i>
+      </span>
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fas fa-bars fa-fw"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/about/">About</a>
+            </li>
+          
+        
+        
+        <li class="navigation-item separator">
+          <span>|</span>
+        </li>
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Prolog Learnings: Predicates</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2020-12-22T00:00:00Z'>
+                December 22, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              4-minute read
+            </span>
+          </div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <div class="quoteblock abstract">
+<blockquote>
+Functions (or procedures) in Prolog are called "predicates", but unlike
+functions in other languages that can only evaluate inputs to create an output,
+predicates do not have defined inputs and outputs. In idiomatic Prolog, a
+predicate is a function that <em>works both ways</em>.
+</blockquote>
+</div>
+<div class="paragraph">
+<p>So what does this mean and why should we care? Being a declarative logic
+programming language, problems are solved differently in Prolog. It is one of
+the languages that every developer should have some exposure to. Modern
+languages have closures, classes, generics, macros, etc. Prolog supports pattern
+matching, backtracking, and inference and sits on top of a relational database.</p>
+</div>
+<div class="paragraph">
+<p>Similar to functions, a predicate can be defined to sum two arguments and return
+the result. In the examples below, <code>total</code> and <code>Total</code> are assigned the value of
+<code>3</code> as a result of evaluting <code>sum</code> (in Prolog, variables must start with an
+uppercase letter.)</p>
+</div>
+<div class="listingblock">
+<div class="title">The sum of two arguments in Python</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="python"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">The sum of two arguments in Prolog</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">sum</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that Prolog requires that <code>Total</code> is passed as an argument to <code>sum</code>.
+Because in Prolog, predicates can only return <code>true</code> or <code>false</code>. This may seem
+archaic at first (Prolog was invented in 1972 after all. And in France.) But
+this is key to how Prolog works, as explained below.</p>
+</div>
+<div class="paragraph">
+<p>A predicate defines <em>a relationship</em> between its arguments. Prolog then attempts
+to derive values for the arguments in an attempt to evaluate the predicate to
+true.</p>
+</div>
+<div class="paragraph">
+<p>Prolog evaluates <code>sum(1, 2, Total)</code> to <code>true</code> by assigning <code>3</code> to Total. Simple
+enough. But here is where things get a little weird because you can pass a value
+into the third argument. Now Prolog returns <code>true</code> for <code>sum(1,2,3)</code>, because <code>3</code>
+is the sum of <code>1</code> and <code>2</code>. This would be something like <code>3 = sum(1, 2)</code> which is
+a total syntax error in Python but is actually valid syntax in Prolog due to
+Prologs use of "Unification" (<a href="https://www.balooga.com/posts/prolog-learn/">Unification</a>) not
+"Assignment".</p>
+</div>
+<div class="paragraph">
+<p>Conversely, Prolog returns <code>false</code> for <code>sum(1,2,5)</code> because the sum of <code>1</code> and
+<code>2</code> does not equal <code>5</code> and there is no way for Prolog to make that <code>true</code>.</p>
+</div>
+<div class="paragraph">
+<p>It gets better.</p>
+</div>
+<div class="paragraph">
+<p><code>sum(1, X, 3)</code> and Prolog returns <code>X = 2</code>, because for <code>sum</code> to evaulate to
+<code>true</code>, <code>X</code> must be <code>2</code>. <code>sum(X, 2, 3)</code> results in <code>X = 1</code> for the same reason.</p>
+</div>
+<div class="paragraph">
+<p>It gets better still.</p>
+</div>
+<div class="paragraph">
+<p><code>sum(X, Y, 3)</code> and Prolog will return all combinations of <code>X</code> and <code>Y</code> that sum
+to <code>3</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Prolog, you crazy!!!</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="m">3</span><span class="p">).</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span>
+<span class="nv">Y</span> <span class="o">=</span> <span class="m">3</span><span class="p">;</span>
+
+<span class="nv">X</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span>
+<span class="nv">Y</span> <span class="o">=</span> <span class="m">2</span><span class="p">;</span>
+
+<span class="nv">X</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span>
+<span class="nv">Y</span> <span class="o">=</span> <span class="m">1</span><span class="p">;</span>
+
+<span class="nv">X</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span>
+<span class="nv">Y</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After returning an answer for <code>X</code> and <code>Y</code>, the user can enter a semicolon (<code>;</code>)
+to instruct Prolog to use backtracking to attempt to find alternate values for
+<code>X</code> and <code>y</code> that evaluate to <code>true</code>.</p>
+</div>
+<div class="paragraph">
+<p>And even better.</p>
+</div>
+<div class="paragraph">
+<p>For <code>sum(X, Y, Total)</code> and helpful Prolog will return an "infinite" number of
+combinations of <code>X</code> and <code>Y</code> that sum to <code>Total</code>.</p>
+</div>
+<div class="paragraph">
+<p>To continue with another example, <code>reverse/2</code> which is defined as follows;
+<code>reverse/2</code> accepts a list of 'n' elements and returns a new list containing
+these elements reversed. In the examples below, <code>reverse/2</code> will generate
+expected results when both arguments receive values, no arguments receive
+values, or only one argument receives a value.</p>
+</div>
+<div class="paragraph">
+<p>In the first example, Prolog is able to evaluate the predicate <code>reverse/2</code> to
+true as the list provided in the second argument contains all the elements of
+the first argument, but reversed.</p>
+</div>
+<div class="listingblock">
+<div class="title">Prolog</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">reverse</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]).</span>
+<span class="ss">true</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the second example, the predicate evaluates to false because <code>[1,2,3]</code> is not
+the reverse of <code>[3,2]</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Prolog</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">reverse</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">]).</span>
+<span class="ss">false</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the next example, to evaluate the predicate <code>reverse/2</code> to true, Prolog will
+create and return a new list for <code>Output</code> containing the elements from the first
+list, but reversed.</p>
+</div>
+<div class="listingblock">
+<div class="title">Prolog</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">reverse</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">Output</span><span class="p">).</span>
+<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">].</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Because of the relationship between the arguments, either argument can be passed
+a list.</p>
+</div>
+<div class="listingblock">
+<div class="title">Prolog</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">reverse</span><span class="p">(</span><span class="nv">Input</span><span class="p">,</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]).</span>
+<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And when values for either argument are not provided, Prolog creates a new list
+of anonymous variables and returns a second list with the elements reversed
+(anonymous variables in Prolog start with the underscore character <code>_</code>).</p>
+</div>
+<div class="listingblock">
+<div class="title">Prolog [source,prolog,linenums]</div>
+<div class="content">
+<pre>?- reverse(Input, Output). Input = Output, Output = [] ;
+
+Input = Output, Output = [_25892180] ;
+
+Input = [_25892180, _25893064],
+Output = [_25893064, _25892180] ;
+
+Input = [_25892180, _25893064, _25894194],
+Output = [_25894194, _25893064, _25892180] ;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With each semicolon, Prolog will continue providing additional answers for which
+the predicate <code>reverse/2</code> evaulates to <code>true</code>. So first a list of zero elements
+is reversed, then a list of one element, then two, then three, etc.</p>
+</div>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js" id="MathJax-script"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ['$', '$'], ['\\(', '\\)']
+        ],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>Between a REPL and a hard place</p>
+      
+      
+        ©
+        
+        2020
+         Luke Crook 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+    </main>
+
+    
+      
+      <script src="https://www.balooga.com/js/dark-mode.min.0213e1773e6d1c5a644f847c67a6f8abac49a3776e2976f6008038af8c5b76a1.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+  </body>
+
+</html>

@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Balooga</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 10 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 22 Dec 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Prolog Learnings: Predicates</title>
+      <link>https://www.balooga.com/posts/prolog-predicates/</link>
+      <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/prolog-predicates/</guid>
+      <description>Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   So what does this mean and why should we care? Being a declarative logic programming language, problems are solved differently in Prolog. It is one of the languages that every developer should have some exposure to.</description>
+    </item>
     
     <item>
       <title>Prolog Learnings: FizzBuzz</title>
@@ -17,10 +26,9 @@
       <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/prolog-fizzbuzz/</guid>
-      <description>Elixir builds on Erlang and the first versions of Erlang were implemented in Prolog, so Prolog and Elixir share a number of similarities. For example, Elixir and Prolog support pattern matching with function arguments, but;
+      <description>Elixir builds on Erlang and the first versions of Erlang were implemented in Prolog, so it makes sense that Prolog and Elixir share a number of similarities. For example, Elixir and Prolog support pattern matching with function arguments, but;
    Elixir evaluates arguments prior to performing pattern matching, while
-  Prolog does not perform argument evaluation, pattern matching is performed on the shape of whatever is passed as the argument.
-   Here is an example of FizzBuzz as implemented in Elixir (Fizzbuzz in Elixir).</description>
+  Prolog does not perform argument evaluation, pattern matching is performed on the shape of whatever is passed as the argument.</description>
     </item>
     
     <item>
@@ -29,7 +37,8 @@
       <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/prolog-learn/</guid>
-      <description>The concept of Unification is an underpinning of Prolog and why functions in Prolog are called &#34;predicates&#34;. Because unlike a function that can only evaluate its inputs to create an output, predicates can derive possible inputs from an output. In idiomatic Prolog, a predicate is a function that works both ways.   Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero.</description>
+      <description>The concept of Unification is an underpinning of Prolog. Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero. But a statement like int 0 = x; is a syntax error.
+ Prolog performs &#34;Unification&#34; which superficially resembles assignment but is more powerful. Prolog attempts to evaluate the clause below to &#34;</description>
     </item>
     
     <item>

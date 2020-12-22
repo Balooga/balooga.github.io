@@ -1,0 +1,54 @@
+Perltidy version is 20201001
+
+<stdin>: Begin Error Output Stream
+
+There is no previous '?' to match a ':' on line 2
+2: title: "Prolog Learnings: Unification"
+        ^
+
+3: date: 2020-12-09
+   ^
+found bareword where operator expected
+
+Missing ';' or ',' above?
+
+There is no previous '?' to match a ':' on line 3
+3: date: 2020-12-09
+       ^
+
+4: draft: false
+   ^
+found bareword where operator expected
+
+Missing ';' or ',' above?
+
+There is no previous '?' to match a ':' on line 4
+4: draft: false
+        ^
+
+There is no previous '?' to match a ':' on line 10
+10: :sectanchors:
+    ^
+
+There is no previous '?' to match a ':' on line 10
+10: :sectanchors:
+                ^
+
+There is no previous '?' to match a ':' on line 11
+11: :sectlinks:
+    ^
+
+There is no previous '?' to match a ':' on line 11
+11: :sectlinks:
+              ^
+
+28: 0;` causes the value zero to be assigned to `x`, resulting in `x ...
+        ^
+found bareword where operator expected
+
+28: ... e assigned to `x`, resulting in `x` having a value
+                                        --- ^
+found bareword where operator expected (previous token underlined)
+
+29: of zero. Prolog performs "Unification" which resembles assignmen ...
+No further warnings will be given

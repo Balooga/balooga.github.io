@@ -7,7 +7,8 @@
     <meta http-equiv="Content-Language" content="en">
 
     <meta name="author" content="Luke Crook">
-    <meta name="description" content="The concept of Unification is an underpinning of Prolog and why functions in Prolog are called &#34;predicates&#34;. Because unlike a function that can only evaluate its inputs to create an output, predicates can derive possible inputs from an output. In idiomatic Prolog, a predicate is a function that works both ways.   Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero.">
+    <meta name="description" content="The concept of Unification is an underpinning of Prolog. Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero. But a statement like int 0 = x; is a syntax error.
+ Prolog performs &#34;Unification&#34; which superficially resembles assignment but is more powerful. Prolog attempts to evaluate the clause below to &#34;">
     <meta name="keywords" content="blog,developer,personal">
 
     
@@ -16,10 +17,12 @@
 
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prolog Learnings: Unification"/>
-<meta name="twitter:description" content="The concept of Unification is an underpinning of Prolog and why functions in Prolog are called &#34;predicates&#34;. Because unlike a function that can only evaluate its inputs to create an output, predicates can derive possible inputs from an output. In idiomatic Prolog, a predicate is a function that works both ways.   Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero."/>
+<meta name="twitter:description" content="The concept of Unification is an underpinning of Prolog. Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero. But a statement like int 0 = x; is a syntax error.
+ Prolog performs &#34;Unification&#34; which superficially resembles assignment but is more powerful. Prolog attempts to evaluate the clause below to &#34;"/>
 
     <meta property="og:title" content="Prolog Learnings: Unification" />
-<meta property="og:description" content="The concept of Unification is an underpinning of Prolog and why functions in Prolog are called &#34;predicates&#34;. Because unlike a function that can only evaluate its inputs to create an output, predicates can derive possible inputs from an output. In idiomatic Prolog, a predicate is a function that works both ways.   Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero." />
+<meta property="og:description" content="The concept of Unification is an underpinning of Prolog. Most languages assign values to variables. For example, the statement int x = 0; causes the value zero to be assigned to x, resulting in x having a value of zero. But a statement like int 0 = x; is a syntax error.
+ Prolog performs &#34;Unification&#34; which superficially resembles assignment but is more powerful. Prolog attempts to evaluate the clause below to &#34;" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.balooga.com/posts/prolog-learn/" />
 <meta property="article:published_time" content="2020-12-09T00:00:00+00:00" />
@@ -124,7 +127,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              3-minute read
+              2-minute read
             </span>
           </div>
           
@@ -134,24 +137,17 @@
 
       <div>
         
-        <div class="quoteblock abstract">
-<blockquote>
-The concept of Unification is an underpinning of Prolog and why functions in
-Prolog are called "predicates". Because unlike a function that can only evaluate
-its inputs to create an output, predicates can derive possible inputs from an
-output. In idiomatic Prolog, a predicate is a function that works both ways.
-</blockquote>
+        <div class="paragraph">
+<p>The concept of Unification is an underpinning of Prolog. Most languages assign
+values to variables. For example, the statement <code>int x = 0;</code> causes the value
+zero to be assigned to <code>x</code>, resulting in <code>x</code> having a value of zero. But
+a statement like <code>int 0 = x;</code> is a syntax error.</p>
 </div>
 <div class="paragraph">
-<p>Most languages assign values to variables. For example, the statement <code>int x =
-0;</code> causes the value zero to be assigned to <code>x</code>, resulting in <code>x</code> having a value
-of zero. Prolog performs "Unification" which resembles assignment but is more
-powerful. The 'clause' below (Prolog uses the terms clauses, predicates and
-rules) results in <code>X</code> being assigned a value of zero (variables in Prolog must
-start with an uppercase letter), as a result of Prolog evaulating the clause to
-"true" by "Unifying" (make the same) the terms on the left of the <code>=</code> with the
-terms on the right. In this example, Prolog unifies left and right by making <code>X</code>
-equal zero.</p>
+<p>Prolog performs "Unification" which superficially resembles assignment but is
+more powerful. Prolog attempts to evaluate the clause below to "true" by
+"Unifying" (make the same) the term on the left of the <code>=</code> with the term on the
+right, thus assigning <code>0</code> to <code>X</code>.</p>
 </div>
 <div class="listingblock">
 <div class="title">Prolog</div>
@@ -160,6 +156,37 @@ equal zero.</p>
 2
 </pre></td><td class="code"><pre><span class="o">?-</span> <span class="nv">X</span> <span class="o">=</span> <span class="m">0</span><span class="p">.</span>
 <span class="nv">X</span> <span class="o">=</span> <span class="m">0</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When unifying, it doesn&#8217;t matter what side of the <code>=</code> the variable is.</p>
+</div>
+<div class="listingblock">
+<div class="title">Prolog</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="m">0</span> <span class="o">=</span> <span class="nv">X</span><span class="p">.</span>
+<span class="nv">X</span> <span class="o">=</span> <span class="m">0</span><span class="p">.</span>
+
+<span class="o">?-</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">=</span> <span class="nv">A</span>
+<span class="nv">A</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
+
+<span class="o">?-</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="nv">Second</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
+<span class="nv">Second</span> <span class="o">=</span> <span class="m">2</span><span class="p">.</span>
+
+<span class="o">?-</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
+<span class="ss">true</span><span class="p">.</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
@@ -179,12 +206,8 @@ where a value assigned to a variable can change.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The concept of Unification is an underpinning of Prolog and why functions in
-Prolog are called "predicates". Because unlike a function that can only evaluate
-its inputs to create an output, predicates can derive possible inputs from an
-output. In idiomatic Prolog, a predicate is a function that works both ways.
-Think of predicates as a way to ask Prolog the question; "What are the possible
-inputs that drove this output?"</p>
+<p>Prolog can also use pattern matching in combination with Unification to derive
+answers.</p>
 </div>
 <div class="listingblock">
 <div class="title">Prolog</div>
@@ -200,15 +223,6 @@ inputs that drove this output?"</p>
  9
 10
 11
-12
-13
-14
-15
-16
-17
-18
-19
-20
 </pre></td><td class="code"><pre><span class="o">?-</span> <span class="m">0</span> <span class="o">=</span> <span class="nv">X</span><span class="p">.</span>
 <span class="nv">X</span> <span class="o">=</span> <span class="m">0</span><span class="p">.</span>
 
@@ -220,66 +234,6 @@ inputs that drove this output?"</p>
 
 <span class="o">?-</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
 <span class="ss">true</span><span class="p">.</span>
-
-<span class="o">?-</span> <span class="ss">reverse</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">Output</span><span class="p">).</span>
-<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">].</span>
-
-<span class="o">?-</span> <span class="ss">reverse</span><span class="p">(</span><span class="nv">Input</span><span class="p">,</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]).</span>
-<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
-
-<span class="o">?-</span> <span class="ss">reverse</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]).</span>
-<span class="ss">true</span><span class="p">.</span>
-</pre></td></tr></tbody></table></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>When a predicate is not provided an input and output, Prolog will attempt to
-unify by creating anonymous variables as needed (anonymous variables are
-prefixed with an underscore). In the example below, the semicolon (<code>;</code>) prompts
-Prolog to use backtracking to attempt to find alternate inputs that unify to
-<code>true</code>.</p>
-</div>
-<div class="listingblock">
-<div class="title">Prolog</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">reverse</span><span class="p">(</span><span class="nv">Input</span><span class="p">,</span> <span class="nv">Output</span><span class="p">).</span>
-<span class="nv">Input</span> <span class="o">=</span> <span class="nv">Output</span><span class="p">,</span> <span class="nv">Output</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">;</span>
-
-<span class="nv">Input</span> <span class="o">=</span> <span class="nv">Output</span><span class="p">,</span> <span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">]</span> <span class="p">;</span>
-
-<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">],</span>
-<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25892180</span><span class="p">]</span> <span class="p">;</span>
-
-<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">],</span>
-<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25892180</span><span class="p">]</span> <span class="p">;</span>
-
-<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">],</span>
-<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25892180</span><span class="p">]</span> <span class="p">;</span>
-
-<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25896454</span><span class="p">],</span>
-<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25896454</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25892180</span><span class="p">]</span> <span class="p">;</span>
-
-<span class="nv">Input</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25892180</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25896454</span><span class="p">,</span> <span class="nv">_25897584</span><span class="p">],</span>
-<span class="nv">Output</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_25897584</span><span class="p">,</span> <span class="nv">_25896454</span><span class="p">,</span> <span class="nv">_25895324</span><span class="p">,</span> <span class="nv">_25894194</span><span class="p">,</span> <span class="nv">_25893064</span><span class="p">,</span> <span class="nv">_25892180</span><span class="p">]</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
