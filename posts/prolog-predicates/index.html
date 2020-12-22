@@ -460,11 +460,20 @@ evaluates to <code>true</code>.</p>
 <p>Now that the base case is defined to handle all possbile use cases, we can
 define the main recursive procedure.</p>
 </div>
-<div class="paragraph">
-<p>Note that the base case <em>must always</em> come before the recursive call. This is
-because Prolog (and Elixir) evaluate procedures in order. So on each call to
-<code>list_length/2</code> Prolog will first attempt to pattern match to the base case,
-fail, then call the recusive case.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The base case <em>must always</em> come before the recursive call because Prolog
+(and Elixir) evaluate procedures in order that these appear in the source file.
+So on each call to <code>list_length/2</code> Prolog will first attempt to pattern match to
+the base case, and if this fails, call the recusive case.
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="title">list_length/2 recusive procedure</div>
