@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              8-minute read
+              9-minute read
             </span>
           </div>
           
@@ -378,6 +378,49 @@ list.</p>
 </div>
 </div>
 <div class="paragraph">
+<p>Some explanation of the code above is probably needed.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The base case must always come before the recursive call because Prolog
+(and Elixir) evaluate procedures in order that these appear in the source
+file. So on each call to list_length/2 Prolog will first attempt to
+pattern match to the base case, and if this fails, call the recusive
+case.</p>
+</li>
+<li>
+<p>The notation <code>[First|Rest]</code> pattern matches on a list, assigning the
+first element in a list to <code>First</code> and the remaining list elements to
+<code>Rest</code>. Here, "<em>" is effectively used to throw away the first item of the
+list. If you are used to Elixir then the Prolog list notation and the use
+of "</em>" to ignore a parameter will be very familiar.</p>
+</li>
+<li>
+<p>There is a difference between <code>=</code> and <code>is</code> in Prolog.</p>
+</li>
+<li>
+<p><code>=</code> is used for Unification,</p>
+</li>
+<li>
+<p><code>is</code> assigns the result of a calculation.</p>
+</li>
+<li>
+<p>Prolog does not support common notation such as <code>C is C + 1</code>, or <code>C++</code>,
+which is why we need the intermediate <code>Count</code> variable due to the
+immutability of variables in Prolog. Because once a variable is assigned a
+value, that variable has that value throughout its scope. So in the case
+of <code>C is C + 1</code>, Prolog cannot assign the <code>C</code> on the left of the <code>is</code> a
+different value to whatever <code>C</code> is already assigned on the right side of
+the <code>is</code>. This does take some getting used to.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>As we will see later on, it is possible to implement <code>list_length/2</code> in one less
+line of code by using <code>=</code> instead of <code>is</code>.</p>
+</div>
+<div class="paragraph">
 <p>Using a single code path, it should be possible to;</p>
 </div>
 <div class="olist arabic">
@@ -460,21 +503,6 @@ evaluates to <code>true</code>.</p>
 <p>Now that the base case is defined to handle all possbile use cases, we can
 define the main recursive procedure.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The base case must always come before the recursive call because Prolog
-(and Elixir) evaluate procedures in order that these appear in the source file.
-So on each call to list_length/2 Prolog will first attempt to pattern match to
-the base case, and if this fails, call the recusive case.
-</td>
-</tr>
-</table>
-</div>
 <div class="listingblock">
 <div class="title">list_length/2 recusive procedure</div>
 <div class="content">
@@ -488,13 +516,6 @@ the base case, and if this fails, call the recusive case.
     <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>The notation <code>[First|Rest]</code> pattern matches on a list, assigning the first
-element in a list to <code>First</code> and the remaining list elements to <code>Rest</code>. Here,
-"<em>" is effectively used to throw away the first item of the list. If you are
-used to Elixir then the Prolog list notation and the use of "</em>" to ignore a
-parameter will be very familiar.</p>
 </div>
 <div class="paragraph">
 <p>For the first use case of returning the number of elements in a list,
@@ -540,32 +561,53 @@ parameter will be very familiar.</p>
 </ol>
 </div>
 <div class="paragraph">
-<p>There is a difference between <code>=</code> and <code>is</code> in Prolog.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>=</code> is used for Unification,</p>
-</li>
-<li>
-<p><code>is</code> assigns the result of a calculation.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Prolog does not support common notation such as <code>C is C + 1</code>, or <code>C++</code>, which is
-why we need the intermediate <code>Count</code> variable due to the immutability of
-variables in Prolog. Because once a variable is assigned a value, that variable
-has that value throughout its scope. So in the case of <code>C is C + 1</code>, Prolog
-cannot assign the <code>C</code> on the left of the <code>is</code> a different value to whatever <code>C</code>
-is already assigned on the right side of the <code>is</code>. This does take some getting
-used to.</p>
-</div>
-<div class="paragraph">
-<p>The base case must always come before the recursive call because Prolog
-(and Elixir) evaluate procedures in order that these appear in the source file.
+<p>The base case must always come before the recursive call because Prolog (and
+Elixir) evaluate procedures in the order that these appear in the source file.
 So on each call to list_length/2 Prolog will first attempt to pattern match to
 the base case, and if this fails, call the recusive case.</p>
+</div>
+<div class="paragraph">
+<p>For the second use case of validating the number of elements matches the number
+specified;</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Throw away the first element of the list, then</p>
+</li>
+<li>
+<p>Call <code>list_length</code> with the remaining list, passing in a new variable
+<code>Count</code>.</p>
+</li>
+<li>
+<p>Return to (1) until the list is empty, matching <code>[]</code> to the base case.</p>
+</li>
+<li>
+<p>Return <code>0</code> from the base case, because this is the number of elements in
+<code>[]</code>, the empty list.</p>
+</li>
+<li>
+<p>Returning from <code>list_count</code>, <code>Count</code> will have a value <code>0</code>,</p>
+</li>
+<li>
+<p>Add <code>1</code> to <code>Count</code>, and assign this to <code>C</code>.</p>
+</li>
+<li>
+<p>Return the value of <code>C</code>,</p>
+</li>
+<li>
+<p>Returning from <code>list_count</code>, <code>Count</code> now has the value of <code>C</code>,</p>
+</li>
+<li>
+<p>Add <code>1</code> to <code>Count</code>, and assign this to <code>C</code>.</p>
+</li>
+<li>
+<p>Return to (7), and repeat until we have climbed back up the stack.</p>
+</li>
+<li>
+<p><code>C</code> will now have the total number of elements of the list.</p>
+</li>
+</ol>
 </div>
 
       </div>
