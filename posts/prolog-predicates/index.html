@@ -413,10 +413,12 @@ of "\_" to ignore a parameter will be very familiar.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>=</code> is used for Unification,</p>
+<p><code>is</code> assigns the result of a calculation,</p>
 </li>
 <li>
-<p><code>is</code> assigns the result of a calculation.</p>
+<p><code>=</code> is used for Unification. As we will see later on, it is possible
+to implement list_length/2 in one less line of code by using "="
+instead of "is".</p>
 </li>
 </ul>
 </div>
@@ -431,19 +433,6 @@ the case of <code>C is C + 1</code>, Prolog cannot assign the <code>C</code> on 
 side of the <code>is</code>. This does take some getting used to.</p>
 </li>
 </ul>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-As we will see later on, it is possible to implement list_length/2 in
-one less line of code by using "=" instead of "is".
-</td>
-</tr>
-</table>
 </div>
 <div class="paragraph">
 <p>Using a single code path, it should be possible to;</p>
