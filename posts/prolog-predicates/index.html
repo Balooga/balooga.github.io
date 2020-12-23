@@ -188,14 +188,14 @@ its arguments. Prolog then attempts to derive values for the arguments in an
 attempt to evaluate the predicate to true.</p>
 </div>
 <div class="paragraph">
-<p>Prolog evaluates <code>sum(1, 2, Total)</code> to <code>true</code> by assigning <code>3</code> to Total. Simple
-enough. But things become interesting when a <code>3</code> is passed as a parameter to the
-third argument of <code>sum/3</code>. Now Prolog returns <code>true</code> for <code>sum(1,2,3)</code>, because
-<code>3</code> is the sum of <code>1</code> and <code>2</code>. This is something like <code>3 = sum(1, 2)</code> which is a
-total syntax error in Python but is actually valid syntax in Prolog due to
-Prologs use of "Unification" (<a href="https://www.balooga.com/posts/prolog-learn/">Unification</a>) and not
-"Assignment". Unification is really powerful and core to Prolog, as can be seen
-in later sections.</p>
+<p>Prolog evaluates <code>sum(1, 2, Total)</code> to <code>true</code> by assigning <code>3</code> to <code>Total</code>.
+Simple enough. But things become interesting when a <code>3</code> is passed as a parameter
+to the third argument of <code>sum/3</code>. Now Prolog returns <code>true</code> for <code>sum(1,2,3)</code>,
+because <code>3</code> is the sum of <code>1</code> and <code>2</code>. This is something like <code>3 = sum(1, 2)</code>
+which is a total syntax error in Python but is actually valid syntax in Prolog
+due to Prologs use of "Unification" (<a href="https://www.balooga.com/posts/prolog-learn/">Unification</a>) and
+not "Assignment". Unification is really powerful and core to Prolog, as can be
+seen in later sections.</p>
 </div>
 <div class="paragraph">
 <p>Conversely, Prolog returns <code>false</code> for <code>sum(1,2,5)</code> because the sum of <code>1</code> and
