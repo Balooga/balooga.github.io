@@ -160,34 +160,43 @@ right, thus assigning <code>0</code> to <code>X</code>.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>When unifying, it doesn&#8217;t matter what side of the <code>=</code> the variable is. Prolog
-can also use pattern matching in combination with Unification to derive answers.</p>
+<p>Unification allows a variable to be on either side of the <code>=</code>.</p>
 </div>
 <div class="listingblock">
 <div class="title">Prolog</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
 </pre></td><td class="code"><pre><span class="o">?-</span> <span class="m">0</span> <span class="o">=</span> <span class="nv">X</span><span class="p">.</span>
 <span class="nv">X</span> <span class="o">=</span> <span class="m">0</span><span class="p">.</span>
 
 <span class="o">?-</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">=</span> <span class="nv">A</span>
 <span class="nv">A</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
 
-<span class="o">?-</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="nv">Second</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
-<span class="nv">Second</span> <span class="o">=</span> <span class="m">2</span><span class="p">.</span>
-
 <span class="o">?-</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
 <span class="ss">true</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Prolog can also use pattern matching in combination with Unification to derive
+answers.</p>
+</div>
+<div class="listingblock">
+<div class="title">Prolog</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="nv">Third</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="nv">Second</span><span class="p">,</span><span class="m">3</span><span class="p">].</span>
+<span class="nv">Third</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span>
+<span class="nv">Second</span> <span class="o">=</span> <span class="m">2</span><span class="p">.</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
