@@ -183,12 +183,9 @@ recognize the functor/arity nomenclature Prolog uses to name predicates.</p>
 <p>Notice that Prolog requires that <code>Total</code> is passed as an argument to <code>sum</code>.
 Because in Prolog, predicates can only return <code>true</code> or <code>false</code>. This may seem
 archaic at first (Prolog was invented in 1972 after all. And in France.) But
-this is key to how Prolog works, as explained below.</p>
-</div>
-<div class="paragraph">
-<p>A predicate defines <em>a relationship</em> between its arguments. Prolog then attempts
-to derive values for the arguments in an attempt to evaluate the predicate to
-true.</p>
+this is key to how Prolog works, as a predicate defines <em>a relationship</em> between
+its arguments. Prolog then attempts to derive values for the arguments in an
+attempt to evaluate the predicate to true.</p>
 </div>
 <div class="paragraph">
 <p>Prolog evaluates <code>sum(1, 2, Total)</code> to <code>true</code> by assigning <code>3</code> to Total. Simple
