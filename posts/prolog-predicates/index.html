@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              9-minute read
+              10-minute read
             </span>
           </div>
           
@@ -598,6 +598,50 @@ define the main recursive procedure.</p>
 <p><code>C</code> will now have the total number of elements of the list.</p>
 </li>
 </ol>
+</div>
+<div class="listingblock">
+<div class="title">list_length/2 stack trace</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre><span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+
+<span class="o">?-</span> <span class="ss">list_length</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">C</span><span class="p">).</span>   <span class="p">|</span> <span class="ss">list_length</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">C</span><span class="p">).</span>       <span class="o">&lt;---------&gt;</span>     <span class="nv">C</span> <span class="o">=</span> <span class="m">3</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span> <span class="ss">list_length</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4012</span><span class="p">)</span>     <span class="o">&lt;-------&gt;</span>      <span class="ss">list_length</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">3</span><span class="p">)</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>   <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4486</span><span class="p">)</span>                      <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">2</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>   <span class="nv">_4012</span> <span class="ss">is</span> <span class="nv">_4486</span> <span class="o">+</span> <span class="m">1</span>                             <span class="m">3</span> <span class="ss">is</span> <span class="m">2</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span>     <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4804</span><span class="p">)</span>    <span class="o">&lt;-----&gt;</span>     <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">2</span><span class="p">)</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>       <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4530</span><span class="p">),</span>               <span class="ss">list_length</span><span class="p">([</span><span class="m">3</span><span class="p">],</span> <span class="m">1</span><span class="p">)</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>       <span class="nv">_4804</span> <span class="ss">is</span> <span class="nv">_4530</span> <span class="o">+</span> <span class="m">1</span>                       <span class="m">2</span> <span class="ss">is</span> <span class="m">1</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span>         <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4666</span><span class="p">)</span> <span class="o">&lt;---&gt;</span>    <span class="ss">list_length</span><span class="p">([</span><span class="m">3</span><span class="p">],</span> <span class="m">1</span><span class="p">)</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>           <span class="ss">list_length</span><span class="p">([],</span> <span class="nv">_4574</span><span class="p">),</span>            <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>           <span class="nv">_4666</span> <span class="ss">is</span> <span class="nv">_4574</span> <span class="o">+</span> <span class="m">1</span>                 <span class="m">1</span> <span class="ss">is</span> <span class="m">0</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>           <span class="p">|</span>             <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>    <span class="o">&lt;-&gt;</span>   <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">),</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
