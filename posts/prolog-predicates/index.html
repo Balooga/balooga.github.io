@@ -196,7 +196,8 @@ into the third argument. Now Prolog returns <code>true</code> for <code>sum(1,2,
 is the sum of <code>1</code> and <code>2</code>. This would be something like <code>3 = sum(1, 2)</code> which is
 a total syntax error in Python but is actually valid syntax in Prolog due to
 Prologs use of "Unification" (<a href="https://www.balooga.com/posts/prolog-learn/">Unification</a>) not
-"Assignment".</p>
+"Assignment". This unification is really powerful and core to Prolog, as can be
+seen in later sections.</p>
 </div>
 <div class="paragraph">
 <p>Conversely, Prolog returns <code>false</code> for <code>sum(1,2,5)</code> because the sum of <code>1</code> and
@@ -678,44 +679,30 @@ specified;</p>
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Throw away the first element of the list, then</p>
-</li>
-<li>
-<p>Call <code>list_length</code> with the remaining list, passing in a new variable
-<code>Count</code>.</p>
-</li>
-<li>
-<p>Return to (1) until the list is empty, matching <code>[]</code> to the base case.</p>
-</li>
-<li>
-<p>Return <code>0</code> from the base case, because this is the number of elements in
-<code>[]</code>, the empty list.</p>
-</li>
-<li>
-<p>Returning from <code>list_count</code>, <code>Count</code> will have a value <code>0</code>,</p>
-</li>
-<li>
-<p>Add <code>1</code> to <code>Count</code>, and assign this to <code>C</code>.</p>
-</li>
-<li>
-<p>Return the value of <code>C</code>,</p>
-</li>
-<li>
-<p>Returning from <code>list_count</code>, <code>Count</code> now has the value of <code>C</code>,</p>
-</li>
-<li>
-<p>Add <code>1</code> to <code>Count</code>, and assign this to <code>C</code>.</p>
-</li>
-<li>
-<p>Return to (7), and repeat until we have climbed back up the stack.</p>
-</li>
-<li>
-<p><code>C</code> will now have the total number of elements of the list.</p>
-</li>
-</ol>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Here, we pass <code>3</code> as the second argument so the anonymous variable <code>_4012</code> is not created.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Prolog unifies the clause <code>3 is 2 + 1</code> to <code>true</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Prolog uses unification in &lt;2&gt; above (instead of simple assignment) to attempt
+to make the left side of the <code>is</code> the same as the right side. In use case 1,
+prolog unifies <code>_4012 is 2 + 1</code> by assigning <code>3</code> to <code>_4012</code>. In use case 2,
+Prolog attempts to unify <code>3 is 2 + 1</code>, which unlike Python is a valid syntax. In
+this case <code>3</code> is the same as <code>2 + 1</code> and the clause evaluates to <code>true</code>. If <code>5</code>
+was passed in as the second argument, then Prolog would attempt to unify <code>5 is 2
++ 1</code>, which it cannot and the clause would evaluate to <code>false</code>.</p>
+</div>
+<div class="paragraph">
+<p>The important take-away here is that unification allows the same code and code
+path to handle both use cases 1 and 2.</p>
 </div>
 </div>
 <div class="sect2">
