@@ -157,10 +157,11 @@ languages have closures, classes, generics, macros, etc. Prolog supports pattern
 matching, backtracking, and inference and sits on top of a relational database.</p>
 </div>
 <div class="paragraph">
-<p>Similar to functions, a predicate can be defined to sum two arguments and return
-the result. In the examples below, <code>total</code> and <code>Total</code> are assigned the value of
-<code>3</code> as a result of evaluting <code>sum</code> (in Prolog, variables must start with an
-uppercase letter.)</p>
+<p>Similar to functions, a predicate <code>sum/3</code> can be defined to sum two arguments
+and return the result. In the examples below, <code>total</code> and <code>Total</code> are assigned
+the value of <code>3</code> as a result of evaluting <code>sum</code>. In Prolog, variables must start
+with an uppercase letter. And if you are familiar with Elixir, you will
+recognize the functor/arity nomenclature Prolog uses to name predicates.</p>
 </div>
 <div class="listingblock">
 <div class="title">The sum of two arguments in Python</div>
@@ -191,13 +192,13 @@ true.</p>
 </div>
 <div class="paragraph">
 <p>Prolog evaluates <code>sum(1, 2, Total)</code> to <code>true</code> by assigning <code>3</code> to Total. Simple
-enough. But here is where things get a little weird because you can pass a value
-into the third argument. Now Prolog returns <code>true</code> for <code>sum(1,2,3)</code>, because <code>3</code>
-is the sum of <code>1</code> and <code>2</code>. This would be something like <code>3 = sum(1, 2)</code> which is
-a total syntax error in Python but is actually valid syntax in Prolog due to
-Prologs use of "Unification" (<a href="https://www.balooga.com/posts/prolog-learn/">Unification</a>) not
-"Assignment". This unification is really powerful and core to Prolog, as can be
-seen in later sections.</p>
+enough. But things become interesting when a <code>3</code> is passed as a parameter to the
+third argument of <code>sum/3</code>. Now Prolog returns <code>true</code> for <code>sum(1,2,3)</code>, because
+<code>3</code> is the sum of <code>1</code> and <code>2</code>. This is something like <code>3 = sum(1, 2)</code> which is a
+total syntax error in Python but is actually valid syntax in Prolog due to
+Prologs use of "Unification" (<a href="https://www.balooga.com/posts/prolog-learn/">Unification</a>) and not
+"Assignment". Unification is really powerful and core to Prolog, as can be seen
+in later sections.</p>
 </div>
 <div class="paragraph">
 <p>Conversely, Prolog returns <code>false</code> for <code>sum(1,2,5)</code> because the sum of <code>1</code> and
