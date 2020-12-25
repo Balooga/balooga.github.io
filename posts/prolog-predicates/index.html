@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              14-minute read
+              13-minute read
             </span>
           </div>
           
@@ -802,7 +802,7 @@ and code path can handle use cases 1, 2 and 3.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_a_more_concise_length2_using_instead_of_is"><a class="anchor" href="#_a_more_concise_length2_using_instead_of_is"></a><a class="link" href="#_a_more_concise_length2_using_instead_of_is">A more concise length/2 using "=" instead of "is"</a></h2>
+<h2 id="usingequals"><a class="anchor" href="#usingequals"></a><a class="link" href="#usingequals">A more concise length/2 using "=" instead of "is"</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Ivan Bratco in his book <em>"Prolog Programming for Artificial Intelligence, Fouth
@@ -826,8 +826,11 @@ Edition"</em>, presents an alternate solution to <code>length/2</code> using <co
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Which when evaluated returns&#8230;&#8203;</p>
+</div>
 <div class="listingblock">
-<div class="title">list_length_1/2 using "=", run</div>
+<div class="title">list_length_1/2 using "=", evaluated</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -873,10 +876,9 @@ rewritten as follows.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>However <code>=</code> is implicit in the arguments of a predicate (remember that Prolog
-does not evaluate predicate arguments and also performs Unification and pattern
-matching). So <code>list_length_1/2</code> can be refactored to remove the explicit <code>=</code> as
-follows.</p>
+<p>However <code>=</code> is implicit in predicate arguments (remember that Prolog does not
+evaluate arguments). So <code>list_length_1/2</code> can be refactored to remove the
+explicit <code>=</code> as follows.</p>
 </div>
 <div class="listingblock">
 <div class="title">list_length_1/2 refactored</div>
@@ -894,7 +896,7 @@ follows.</p>
 <p>Which results in the correct answer.</p>
 </div>
 <div class="listingblock">
-<div class="title">list_length_1/2 refactored run</div>
+<div class="title">list_length_1/2 refactored and evaluated</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -906,7 +908,7 @@ follows.</p>
 <div class="paragraph">
 <p>Using <code>is</code> or <code>=</code> in <code>list_length_1/2</code> is, I suppose, a matter of taste.
 Although I personally think using <code>is</code> makes the intent explicit in the code.
-From a "Big O" point of view, using <code>=</code> will cause a new list to be created
+From a "Big O" point of view, using <code>=</code> results in the creation of a new list
 which equates to <code>O(n)</code> in additional memory needed.</p>
 </div>
 </div>
