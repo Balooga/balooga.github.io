@@ -164,6 +164,29 @@ list.
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>Using a single code path, it should be possible to;</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Return the number of elements in a list, using the magic of recursion.</p>
+</li>
+<li>
+<p>Validate that the number of elements in the list equals a specified <code>C</code>,
+using the magic of Unification.</p>
+</li>
+<li>
+<p>Return a new list containing the number of elements specified in <code>C</code>,
+using the magic of backtracking.</p>
+</li>
+<li>
+<p>If a list and count are unspecified, then return values for list and count
+where <code>list_length</code> evaluates to <code>true</code>, using all of the magic fairy
+dust.</p>
+</li>
+</ol>
+</div>
 <div class="listingblock">
 <div class="title">list_length/2 example in Prolog</div>
 <div class="content">
@@ -239,30 +262,7 @@ the <code>is</code>. This does take some getting used to.</p>
 <h2 id="_list_length2_use_cases"><a class="anchor" href="#_list_length2_use_cases"></a><a class="link" href="#_list_length2_use_cases">list_length/2 Use Cases</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Using a single code path, it should be possible to;</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Return the number of elements in a list, using the magic of recursion.</p>
-</li>
-<li>
-<p>Validate that the number of elements in the list equals a specified <code>C</code>,
-using the magic of Unification.</p>
-</li>
-<li>
-<p>Return a new list containing the number of elements specified in <code>C</code>,
-using the magic of backtracking.</p>
-</li>
-<li>
-<p>If a list and count are unspecified, then return values for list and count
-where <code>list_length</code> evaluates to <code>true</code>, using all of the magic fairy
-dust.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>We can actually see all of the above use cases just by looking at the base case.</p>
+<p>We can see all our defined use cases in just the base case.</p>
 </div>
 <div class="listingblock">
 <div class="title">list_length/2 base case</div>
