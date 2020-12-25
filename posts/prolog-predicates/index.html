@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              12-minute read
+              14-minute read
             </span>
           </div>
           
@@ -189,13 +189,28 @@ attempt to evaluate the predicate to true.</p>
 </div>
 <div class="paragraph">
 <p>Prolog evaluates <code>sum(1, 2, Total)</code> to <code>true</code> by assigning <code>3</code> to <code>Total</code>.
-Simple enough. But things become interesting when a <code>3</code> is passed as a parameter
+Simple enough. But things become interesting when <code>3</code> is passed as a parameter
 to the third argument of <code>sum/3</code>. Now Prolog returns <code>true</code> for <code>sum(1,2,3)</code>,
-because <code>3</code> is the sum of <code>1</code> and <code>2</code>. This is something like <code>3 = sum(1, 2)</code>
-which is a total syntax error in Python but is actually valid syntax in Prolog
-due to Prologs use of "Unification" (<a href="https://www.balooga.com/posts/prolog-learn/">Unification</a>) and
-not "Assignment". Unification is really powerful and core to Prolog, as can be
-seen in later sections.</p>
+because <code>3</code> is the sum of <code>1</code> and <code>2</code>. Something like <code>3 = sum(1, 2)</code> which is a
+total syntax error in Python is actually valid syntax in Prolog due to Prologs
+use of "Unification" (<a href="https://www.balooga.com/posts/prolog-learn/">Unification</a>) and not regular
+"Assignment". Unification is really powerful and core to Prolog, as can be seen
+in later sections.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There is a notable difference between "is" and "=". "is" performs term
+evaluation and the result must be a number. "=" does not perform term
+evaluation. And for "is", all arguments must already have been instantiated to
+numbers.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Conversely, Prolog returns <code>false</code> for <code>sum(1,2,5)</code> because the sum of <code>1</code> and
@@ -470,17 +485,20 @@ the <code>is</code>. This does take some getting used to.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Return the number of elements in a list,</p>
+<p>Return the number of elements in a list, using the magic of recursion.</p>
 </li>
 <li>
-<p>Validate that the number of elements in the list equals a specified <code>C</code>,</p>
+<p>Validate that the number of elements in the list equals a specified <code>C</code>,
+using the magic of Unification.</p>
 </li>
 <li>
-<p>Return a new list containing the number of elements specified in <code>C</code>,</p>
+<p>Return a new list containing the number of elements specified in <code>C</code>,
+using the magic of backtracking</p>
 </li>
 <li>
 <p>If a list and count are unspecified, then return values for list and count
-where <code>list_length</code> evaluates to <code>true</code>.</p>
+where <code>list_length</code> evaluates to <code>true</code>, using all of the magic fairy
+dust.</p>
 </li>
 </ol>
 </div>
@@ -730,7 +748,7 @@ which it cannot and the clause would evaluate to <code>false</code>.</p>
 <div class="paragraph">
 <p>The third use case returns a new list wth the number of elements specified in
 count. The important take-away here is that <em>Backtracking</em> allows the same code
-and code path to handle use cases 1, 2 and 3.</p>
+and code path can handle use cases 1, 2 and 3.</p>
 </div>
 <div class="listingblock">
 <div class="title">list_length/2 stack trace</div>
@@ -780,6 +798,116 @@ and code path to handle use cases 1, 2 and 3.</p>
 <div class="sect2">
 <h3 id="_use_case_4_list_and_count_are_unspecified_todo"><a class="anchor" href="#_use_case_4_list_and_count_are_unspecified_todo"></a><a class="link" href="#_use_case_4_list_and_count_are_unspecified_todo">Use Case 4: List and count are unspecified - TODO</a></h3>
 
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_a_more_concise_length2_using_instead_of_is"><a class="anchor" href="#_a_more_concise_length2_using_instead_of_is"></a><a class="link" href="#_a_more_concise_length2_using_instead_of_is">A more concise length/2 using "=" instead of "is"</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ivan Bratco in his book <em>"Prolog Programming for Artificial Intelligence, Fouth
+Edition"</em>, presents an alternate solution to <code>length/2</code> using <code>=</code> instead of
+<code>is</code> which results in a one-line reduction of code.</p>
+</div>
+<div class="paragraph">
+<p>Lets start by just replacing <code>is</code> with <code>=</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 using "="</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="ss">list_length_1</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+<span class="ss">list_length_1</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">list_length_1</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">)</span>
+    <span class="nv">C</span> <span class="o">=</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 using "=", run</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">list_length_1</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">C</span><span class="p">).</span>
+<span class="nv">C</span> <span class="o">=</span> <span class="m">1</span><span class="o">+</span><span class="p">(</span><span class="m">1</span><span class="o">+</span><span class="p">(</span><span class="m">1</span><span class="o">+</span><span class="m">0</span><span class="p">)).</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>OK, what&#8217;s going on here? Remember that <code>=</code> does not evaluate any of its terms,
+so each recursive call ads another <code>+1</code> to C. So <code>0</code>, then <code>0+1</code>, then <code>0+1+1</code>,
+and finally <code>0+1+1+1</code>. To return the length as an integer, we need to evaluate
+the result of <code>C</code> using <code>is</code>, like so&#8230;&#8203;.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 using "=" then "is"</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">list_length_1</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">C</span><span class="p">),</span> <span class="nv">Length</span> <span class="ss">is</span> <span class="nv">C</span><span class="p">.</span>
+<span class="nv">Length</span> <span class="o">=</span> <span class="m">3</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Remember that unlike <code>is</code> where all arguments must already have been
+instantiated to numbers and thus must follow the recursive call to
+<code>list_length_1</code>, <code>=</code> does not evaluate its terms. So <code>list_length_1/2</code> can be
+rewritten as follows.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 rewritten</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="ss">list_length_1</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+<span class="ss">list_length_1</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="nv">C</span> <span class="o">=</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">,</span>
+    <span class="ss">list_length_1</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">).</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>However <code>=</code> is implicit in the arguments of a predicate (remember that Prolog
+does not evaluate predicate arguments and also performs Unification and pattern
+matching). So <code>list_length_1/2</code> can be refactored to remove the explicit <code>=</code> as
+follows.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 refactored</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="code"><pre><span class="ss">list_length_1</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+<span class="ss">list_length_1</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="m">1</span> <span class="o">+</span> <span class="nv">L</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">list_length_1</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">L</span><span class="p">).</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Which results in the correct answer.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 refactored run</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">list_length_1</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">C</span><span class="p">),</span> <span class="nv">Length</span> <span class="ss">is</span> <span class="nv">C</span><span class="p">.</span>
+<span class="nv">Length</span> <span class="o">=</span> <span class="m">3</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using <code>is</code> or <code>=</code> in <code>list_length_1/2</code> is, I suppose, a matter of taste.
+Although I personally think using <code>is</code> makes the intent explicit in the code.
+From a "Big O" point of view, using <code>=</code> does cause a new list to be created
+which equates to <code>O(n)</code> in additional memory needed.</p>
 </div>
 </div>
 </div>
