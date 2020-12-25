@@ -17,7 +17,7 @@
       <pubDate>Thu, 24 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/prolog-rub/</guid>
-      <description>list_length/2 counts the number of elements in a list, where the first argument is a list, and the second argument is the number of elements in the list.
+      <description>Unification makes Prolog the Tenet of programming languages.   list_length/2 counts the number of elements in a list, where the first argument is a list, and the second argument is the number of elements in the list.
      It is good Prolog practice to try and encode the intent, order and type of arguments in the functor name. So &#34;list_length&#34; defines what the predicate does and that the first argument should be a list and the second the length of the list.</description>
     </item>
     
