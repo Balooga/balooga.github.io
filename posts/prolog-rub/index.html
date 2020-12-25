@@ -633,31 +633,20 @@ can be rewritten with <code>C = Count + 1,</code> appearing before
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
 3
-4
-</pre></td><td class="code"><pre><span class="ss">list_length_1</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
-<span class="ss">list_length_1</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>
+</pre></td><td class="code"><pre><span class="ss">list_length_1</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>
     <span class="nv">C</span> <span class="o">=</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">,</span>
     <span class="ss">list_length_1</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">).</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Yet another Prolog idiosyncrasy; when a variable is assigned a value all
+<div class="paragraph">
+<p>Yet another Prolog idiosyncrasy; when a variable is assigned a value all
 instances of that variable, within scope, assume that value, even those
-instances that occur prior to any assignment in the code. So "Count" is
-unassigned in the clause "C = Count + 1". But because "=" does not evaluate its
-arguments, "Count" acts as a placeholder until such time as a value is assigned.
+instances that occur prior to any assignment in the code. So <code>Count</code> is
+unassigned in the clause <code>C = Count + 1</code>. But because <code>=</code> does not evaluate its
+arguments, <code>Count</code> acts as a placeholder until such time as a value is assigned.
 Prolog is like the Tenet<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> of
-programming languages.
-</td>
-</tr>
-</table>
+programming languages.</p>
 </div>
 <div class="paragraph">
 <p>As <code>=</code> is implicit in predicate arguments (remember that Prolog does not
@@ -669,9 +658,7 @@ evaluate arguments), <code>list_length_1/2</code> can be refactored to remove th
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
-3
-</pre></td><td class="code"><pre><span class="ss">list_length_1</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
-<span class="ss">list_length_1</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="m">1</span> <span class="o">+</span> <span class="nv">L</span><span class="p">)</span> <span class="p">:-</span>
+</pre></td><td class="code"><pre><span class="ss">list_length_1</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="m">1</span> <span class="o">+</span> <span class="nv">L</span><span class="p">)</span> <span class="p">:-</span>
     <span class="ss">list_length_1</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">L</span><span class="p">).</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
