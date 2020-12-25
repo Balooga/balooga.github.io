@@ -127,7 +127,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              9-minute read
+              10-minute read
             </span>
           </div>
           
@@ -247,7 +247,7 @@ using the magic of Unification.</p>
 </li>
 <li>
 <p>Return a new list containing the number of elements specified in <code>C</code>,
-using the magic of backtracking</p>
+using the magic of backtracking.</p>
 </li>
 <li>
 <p>If a list and count are unspecified, then return values for list and count
@@ -257,7 +257,7 @@ dust.</p>
 </ol>
 </div>
 <div class="paragraph">
-<p>We can actually see all of the above from just looking at the base case.</p>
+<p>We can actually see all of the above use cases just by looking at the base case.</p>
 </div>
 <div class="listingblock">
 <div class="title">list_length/2 base case</div>
@@ -617,10 +617,10 @@ the result of <code>C</code> using <code>is</code>, like so&#8230;&#8203;.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Remember that unlike <code>is</code> where all arguments must already have been
-instantiated to numbers and thus must follow the recursive call to
-<code>list_length_1</code>, <code>=</code> does not evaluate its terms. So <code>list_length_1/2</code> can be
-rewritten as follows.</p>
+<p>Remember that unlike <code>is</code> where all arguments must <em>already</em> have been
+instantiated to numbers, <code>=</code> does not evaluate its terms. So <code>list_length_1/2</code>
+can be rewritten with <code>C = Count + 1,</code> appearing before
+<code>list_length_1(Rest,Count).</code>.</p>
 </div>
 <div class="listingblock">
 <div class="title">list_length_1/2 rewritten</div>
@@ -636,10 +636,26 @@ rewritten as follows.</p>
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Yet another Prolog idiosyncrasy; when a variable is assigned a value <em>all</em>
+instances of that variable, within scope, assume that value, even those
+instances that occur prior to any assignment in the code. So <code>Count</code> is
+unassigned in the clause <code>C = Count + 1</code>. But because <code>=</code> does not evaluate its
+arguments, <code>Count</code> acts as a placeholder until such time as a value is assigned.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p>However <code>=</code> is implicit in predicate arguments (remember that Prolog does not
-evaluate arguments). So <code>list_length_1/2</code> can be refactored to remove the
-explicit <code>=</code> as follows.</p>
+<p>As <code>=</code> is implicit in predicate arguments (remember that Prolog does not
+evaluate arguments), <code>list_length_1/2</code> can be refactored to remove the explicit
+<code>=</code> as follows.</p>
 </div>
 <div class="listingblock">
 <div class="title">list_length_1/2 refactored</div>
