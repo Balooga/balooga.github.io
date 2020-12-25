@@ -6,13 +6,23 @@
     <description>Recent content in Posts on Balooga</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 22 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Dec 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Prolog Learnings: Predicates</title>
+      <title>Prolog Learnings: Recursion, Unification and Backtracking</title>
+      <link>https://www.balooga.com/posts/prolog-rub/</link>
+      <pubDate>Thu, 24 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/prolog-rub/</guid>
+      <description>list_length/2 counts the number of elements in a list, where the first argument is a list, and the second argument is the number of elements in the list.
+     It is good Prolog practice to try and encode the intent, order and type of arguments in the functor name. So &#34;list_length&#34; defines what the predicate does and that the first argument should be a list and the second the length of the list.</description>
+    </item>
+    
+    <item>
+      <title>Prolog Learnings: Predicates and Association of Arguments</title>
       <link>https://www.balooga.com/posts/prolog-predicates/</link>
       <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
       

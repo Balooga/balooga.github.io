@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+
+    <meta name="author" content="Luke Crook">
+    <meta name="description" content="list_length/2 counts the number of elements in a list, where the first argument is a list, and the second argument is the number of elements in the list.
+     It is good Prolog practice to try and encode the intent, order and type of arguments in the functor name. So &#34;list_length&#34; defines what the predicate does and that the first argument should be a list and the second the length of the list.">
+    <meta name="keywords" content="blog,developer,personal">
+
+    
+      <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Prolog Learnings: Recursion, Unification and Backtracking"/>
+<meta name="twitter:description" content="list_length/2 counts the number of elements in a list, where the first argument is a list, and the second argument is the number of elements in the list.
+     It is good Prolog practice to try and encode the intent, order and type of arguments in the functor name. So &#34;list_length&#34; defines what the predicate does and that the first argument should be a list and the second the length of the list."/>
+
+    <meta property="og:title" content="Prolog Learnings: Recursion, Unification and Backtracking" />
+<meta property="og:description" content="list_length/2 counts the number of elements in a list, where the first argument is a list, and the second argument is the number of elements in the list.
+     It is good Prolog practice to try and encode the intent, order and type of arguments in the functor name. So &#34;list_length&#34; defines what the predicate does and that the first argument should be a list and the second the length of the list." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.balooga.com/posts/prolog-rub/" />
+<meta property="article:published_time" content="2020-12-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-24T00:00:00+00:00" />
+
+
+    
+      <base href="https://www.balooga.com/posts/prolog-rub/">
+    
+    <title>
+  Prolog Learnings: Recursion, Unification and Backtracking · Balooga
+</title>
+
+    
+      <link rel="canonical" href="https://www.balooga.com/posts/prolog-rub/">
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://www.balooga.com/css/coder.min.0e5ce5b959a68dfe0232c6ddcec1e8ef154517c968464707f3181c437fe611c0.css" integrity="sha256-DlzluVmmjf4CMsbdzsHo7xVFF8loRkcH8xgcQ3/mEcA=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/github.css" />
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/custom.css" />
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-16x16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.74.3" />
+  </head>
+  
+  
+  
+  <body class="colorscheme-light"
+        onload=" twemoji.parse(document.body); "
+  >
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://www.balooga.com/">
+      Balooga
+    </a>
+    
+      <span id="dark-mode-toggle" class="float-right">
+        <i class="fas fa-adjust fa-fw"></i>
+      </span>
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fas fa-bars fa-fw"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/about/">About</a>
+            </li>
+          
+        
+        
+        <li class="navigation-item separator">
+          <span>|</span>
+        </li>
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Prolog Learnings: Recursion, Unification and Backtracking</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2020-12-24T00:00:00Z'>
+                December 24, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              9-minute read
+            </span>
+          </div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>list_length/2</code> counts the number of elements in a list, where the first
+argument is a list, and the second argument is the number of elements in the
+list.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It is good Prolog practice to try and encode the intent, order and type of
+arguments in the functor name. So "list_length" defines what the predicate does
+and that the first argument should be a list and the second the length of the
+list.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">list_length/2 example in Prolog</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="c1">%% list_length/2 counts the elements in a list.</span>
+
+<span class="c1">%% The base case terminating recursion.</span>
+<span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+
+<span class="c1">%% Recurse through the list, counting each element.</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Some explanation of the code above is probably needed.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The base case must always come before the recursive call because Prolog
+(and Elixir) evaluate procedures in order of appearance in the source
+file. So on each call to <code>list_length/2</code> Prolog will first attempt to
+pattern match to the base case, and if this fails, call the recusive
+case.</p>
+</li>
+<li>
+<p>The notation <code>[First|Rest]</code> pattern matches on a list, assigning the
+first element in a list to <code>First</code> and the remaining list elements to
+<code>Rest</code>. Here, "_" is effectively used to throw away the first item of the
+list. If you are used to Elixir then the Prolog list notation and the use
+of "\_" to ignore a parameter will be very familiar.</p>
+</li>
+<li>
+<p>There is a difference between <code>=</code> and <code>is</code> in Prolog.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>is</code> assigns the result of a calculation,</p>
+</li>
+<li>
+<p><code>=</code> is used for Unification. As we will see later on in
+<a href="#usingequals">length/2 implemented using "="</a>, <code>list_length/2</code> can be implemented using <code>=</code> instead
+of <code>is</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Due to the immutability of variables, Prolog does not support a common
+notation such as <code>C is C + 1</code>, or <code>count++</code>, which is why the intermediate
+<code>Count</code> variable is needed. Because once a variable is assigned a value,
+that value must remain unchanged throughout the variable scope. So in the
+case of <code>C is C + 1</code>, Prolog cannot assign the <code>C</code> on the left of the <code>is</code>
+a different value to whatever <code>C</code> is already assigned on the right side of
+the <code>is</code>. This does take some getting used to.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_list_length2_use_cases"><a class="anchor" href="#_list_length2_use_cases"></a><a class="link" href="#_list_length2_use_cases">list_length/2 Use Cases</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Using a single code path, it should be possible to;</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Return the number of elements in a list, using the magic of recursion.</p>
+</li>
+<li>
+<p>Validate that the number of elements in the list equals a specified <code>C</code>,
+using the magic of Unification.</p>
+</li>
+<li>
+<p>Return a new list containing the number of elements specified in <code>C</code>,
+using the magic of backtracking</p>
+</li>
+<li>
+<p>If a list and count are unspecified, then return values for list and count
+where <code>list_length</code> evaluates to <code>true</code>, using all of the magic fairy
+dust.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>We can actually see all of the above from just looking at the base case.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length/2 base case</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="code"><pre><span class="c1">%% The base case terminating recursion.</span>
+<span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+
+<span class="o">?-</span> <span class="ss">list_length</span><span class="p">([],</span> <span class="nv">C</span><span class="p">).</span> <span class="c1">% </span><i class="conum" data-value="1"></i><b>(1)</b>
+<span class="nv">C</span> <span class="o">=</span> <span class="m">0</span>
+
+<span class="o">?-</span> <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span> <span class="c1">% </span><i class="conum" data-value="2"></i><b>(2)</b>
+<span class="ss">true</span><span class="p">.</span>
+
+<span class="o">?-</span> <span class="ss">list_length</span><span class="p">(</span><span class="nv">L</span><span class="p">,</span> <span class="m">0</span><span class="p">).</span> <span class="c1">% </span><i class="conum" data-value="3"></i><b>(3)</b>
+<span class="nv">L</span> <span class="o">=</span> <span class="p">[].</span>
+
+<span class="o">?-</span> <span class="ss">list_length</span><span class="p">(</span><span class="nv">L</span><span class="p">,</span> <span class="nv">C</span><span class="p">).</span> <span class="c1">% </span><i class="conum" data-value="4"></i><b>(4)</b>
+<span class="nv">L</span> <span class="o">=</span> <span class="p">[],</span>
+<span class="nv">C</span> <span class="o">=</span> <span class="m">0</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>An empty list <code>[]</code> matches the first argument of the functor definition, so the second argument <code>C</code> is returned with a value of <code>0</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>An empty list <code>[]</code> and a list count <code>0</code> matches the first and second arguments, so the predicate evaulates to <code>true</code>. Any other values and the predicate will evaluate to <code>false</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>A list count <code>0</code> matches the second argument, so an empty list <code>[]</code> is returned.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Prolog can only evaluate the base case to <code>true</code> with an empty list <code>[]</code> and a list count of <code>0</code>. Anything else will evaluate to <code>false</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now that the base case is defined to handle all possbile use cases, we can
+define the main recursive procedure.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length/2 recusive procedure</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="c1">%% Recurse through the list, counting each element.</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_case_1_return_the_number_of_elements_in_a_list"><a class="anchor" href="#_use_case_1_return_the_number_of_elements_in_a_list"></a><a class="link" href="#_use_case_1_return_the_number_of_elements_in_a_list">Use Case 1: Return the number of elements in a list</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For the first use case of returning the number of elements in a list,
+<code>list_length</code> works as follows;</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length/2 stack trace</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">list_length</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">C</span><span class="p">).</span>   <span class="p">|</span> <span class="ss">list_length</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">C</span><span class="p">).</span>   <span class="o">&lt;---------&gt;</span>   <span class="nv">C</span> <span class="o">=</span> <span class="m">3</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #1              |</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span> <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4012</span><span class="p">)</span> <span class="o">&lt;-------&gt;</span>    <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">3</span><span class="p">)</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>   <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4486</span><span class="p">),</span>               <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">2</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>   <span class="nv">_4012</span> <span class="ss">is</span> <span class="nv">_4486</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>                      <span class="m">3</span> <span class="ss">is</span> <span class="m">2</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #2              |</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span>   <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4804</span><span class="p">)</span>  <span class="o">&lt;-----&gt;</span>   <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">3</span><span class="p">],</span> <span class="m">2</span><span class="p">)</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>     <span class="ss">list_length</span><span class="p">([</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4530</span><span class="p">),</span>             <span class="ss">list_length</span><span class="p">([</span><span class="m">3</span><span class="p">],</span> <span class="m">1</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>     <span class="nv">_4804</span> <span class="ss">is</span> <span class="nv">_4530</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>                  <span class="m">2</span> <span class="ss">is</span> <span class="m">1</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #3              |</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span>     <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[],</span> <span class="nv">_4666</span><span class="p">)</span>  <span class="o">&lt;---&gt;</span>  <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[],</span> <span class="m">1</span><span class="p">)</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>       <span class="ss">list_length</span><span class="p">([],</span> <span class="nv">_4574</span><span class="p">),</span>          <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>       <span class="nv">_4666</span> <span class="ss">is</span> <span class="nv">_4574</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>              <span class="m">1</span> <span class="ss">is</span> <span class="m">0</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #4              |</span>
+<span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>           <span class="p">|</span>       <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>      <span class="o">&lt;-&gt;</span>  <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Throw away the first element of the list, then</p>
+</li>
+<li>
+<p>Call <code>list_length</code> with the remaining list, passing in a new variable
+<code>Count</code>.</p>
+</li>
+<li>
+<p>Return to (1) until the list is empty, matching <code>[]</code> to the base case.</p>
+</li>
+<li>
+<p>Return <code>0</code> from the base case, because this is the number of elements in
+<code>[]</code>, the empty list.</p>
+</li>
+<li>
+<p>Returning from <code>list_count</code>, <code>Count</code> will have a value <code>0</code>,</p>
+</li>
+<li>
+<p>Add <code>1</code> to <code>Count</code>, and assign this to <code>C</code>.</p>
+</li>
+<li>
+<p>Return the value of <code>C</code>,</p>
+</li>
+<li>
+<p>Returning from <code>list_count</code>, <code>Count</code> now has the value of <code>C</code>,</p>
+</li>
+<li>
+<p>Add <code>1</code> to <code>Count</code>, and assign this to <code>C</code>.</p>
+</li>
+<li>
+<p>Return to (7), and repeat until we have climbed back up the stack.</p>
+</li>
+<li>
+<p><code>C</code> will now have the total number of elements of the list.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_case_2_validate_that_elements_in_a_list_equal_specified_count"><a class="anchor" href="#_use_case_2_validate_that_elements_in_a_list_equal_specified_count"></a><a class="link" href="#_use_case_2_validate_that_elements_in_a_list_equal_specified_count">Use Case 2: Validate that elements in a list equal specified count</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The second use case validates that the number of elements in the list matches
+the specified count. The important take-away here is that <em>Unification</em> allows
+the same code and code path to handle both use cases 1 and 2.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length/2 stack trace</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">list_length</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">3</span><span class="p">).</span>   <span class="p">|</span> <span class="ss">list_length</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">3</span><span class="p">).</span>   <span class="o">&lt;---------&gt;</span>   <span class="ss">true</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #1              |</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span> <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">3</span><span class="p">)</span>     <span class="o">&lt;-------&gt;</span>    <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">3</span><span class="p">)</span>  <span class="c1">% </span><i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>   <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4486</span><span class="p">),</span>               <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">2</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>   <span class="m">3</span> <span class="ss">is</span> <span class="nv">_4486</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>                          <span class="m">3</span> <span class="ss">is</span> <span class="m">2</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>            <span class="c1">% </span><i class="conum" data-value="2"></i><b>(2)</b>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #2              |</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span>   <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4804</span><span class="p">)</span>  <span class="o">&lt;-----&gt;</span>   <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">3</span><span class="p">],</span> <span class="m">2</span><span class="p">)</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>     <span class="ss">list_length</span><span class="p">([</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4530</span><span class="p">),</span>             <span class="ss">list_length</span><span class="p">([</span><span class="m">3</span><span class="p">],</span> <span class="m">1</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>     <span class="nv">_4804</span> <span class="ss">is</span> <span class="nv">_4530</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>                  <span class="m">2</span> <span class="ss">is</span> <span class="m">1</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #3              |</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span>     <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[],</span> <span class="nv">_4666</span><span class="p">)</span>  <span class="o">&lt;---&gt;</span>  <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[],</span> <span class="m">1</span><span class="p">)</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>       <span class="ss">list_length</span><span class="p">([],</span> <span class="nv">_4574</span><span class="p">),</span>          <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>       <span class="nv">_4666</span> <span class="ss">is</span> <span class="nv">_4574</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>              <span class="m">1</span> <span class="ss">is</span> <span class="m">0</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #4              |</span>
+<span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>           <span class="p">|</span>       <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>      <span class="o">&lt;-&gt;</span>  <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>3</code> is passed as the second argument so the anonymous variable <code>_4012</code> is not created.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Prolog unifies the clause <code>3 is 2 + 1</code> to <code>true</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Prolog uses unification in &lt;2&gt; above (instead of simple assignment) to attempt
+to make the left side of the <code>is</code> the same as the right side. In use case 1,
+prolog unifies <code>_4012 is 2 + 1</code> by assigning <code>3</code> to <code>_4012</code>. In use case 2,
+Prolog attempts to unify <code>3 is 2 + 1</code>, which is valid Prolog syntax. In this
+case <code>3</code> is the same as <code>2 + 1</code> and the clause evaluates to <code>true</code>. If <code>5</code> was
+passed in as the second argument, then Prolog would attempt to unify <code>5 is 2+1</code>,
+which it cannot and the clause would evaluate to <code>false</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_case_3_return_a_new_list_with_the_number_of_elements_in_count_todo"><a class="anchor" href="#_use_case_3_return_a_new_list_with_the_number_of_elements_in_count_todo"></a><a class="link" href="#_use_case_3_return_a_new_list_with_the_number_of_elements_in_count_todo">Use Case 3: Return a new list with the number of elements in count - TODO</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The third use case returns a new list wth the number of elements specified in
+count. The important take-away here is that <em>Backtracking</em> allows the same code
+and code path can handle use cases 1, 2 and 3.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length/2 stack trace</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">list_length</span><span class="p">(</span><span class="nv">L</span><span class="p">,</span> <span class="m">3</span><span class="p">).</span>         <span class="p">|</span> <span class="ss">list_length</span><span class="p">(</span><span class="nv">L</span><span class="p">,</span> <span class="m">3</span><span class="p">).</span>   <span class="o">&lt;---------&gt;</span>   <span class="nv">L</span> <span class="o">=</span> <span class="p">[</span><span class="nv">_2352</span><span class="p">,</span> <span class="nv">_3425</span><span class="p">,</span> <span class="nv">_4523</span><span class="p">].</span>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #1              |</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span> <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4012</span><span class="p">)</span> <span class="o">&lt;-------&gt;</span>    <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">3</span><span class="p">)</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>   <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4486</span><span class="p">),</span>               <span class="ss">list_length</span><span class="p">([</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="m">2</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>   <span class="nv">_4012</span> <span class="ss">is</span> <span class="nv">_4486</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>                      <span class="m">3</span> <span class="ss">is</span> <span class="m">2</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #2              |</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span>   <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4804</span><span class="p">)</span>  <span class="o">&lt;-----&gt;</span>   <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[</span><span class="m">3</span><span class="p">],</span> <span class="m">2</span><span class="p">)</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>     <span class="ss">list_length</span><span class="p">([</span><span class="m">3</span><span class="p">],</span> <span class="nv">_4530</span><span class="p">),</span>             <span class="ss">list_length</span><span class="p">([</span><span class="m">3</span><span class="p">],</span> <span class="m">1</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>     <span class="nv">_4804</span> <span class="ss">is</span> <span class="nv">_4530</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>                  <span class="m">2</span> <span class="ss">is</span> <span class="m">1</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #3              |</span>
+<span class="ss">list_length</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>   <span class="p">|</span>     <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[],</span> <span class="nv">_4666</span><span class="p">)</span>  <span class="o">&lt;---&gt;</span>  <span class="ss">list_length</span><span class="p">(</span><span class="nv">_</span><span class="p">|[],</span> <span class="m">1</span><span class="p">)</span>
+    <span class="ss">list_length</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">|</span>       <span class="ss">list_length</span><span class="p">([],</span> <span class="nv">_4574</span><span class="p">),</span>          <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">),</span>
+    <span class="nv">C</span> <span class="ss">is</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>           <span class="p">|</span>       <span class="nv">_4666</span> <span class="ss">is</span> <span class="nv">_4574</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>              <span class="m">1</span> <span class="ss">is</span> <span class="m">0</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+                              <span class="p">|</span>
+<span class="c1">% Stack frame #4              |</span>
+<span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>           <span class="p">|</span>       <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>      <span class="o">&lt;-&gt;</span>  <span class="ss">list_length</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_use_case_4_list_and_count_are_unspecified_todo"><a class="anchor" href="#_use_case_4_list_and_count_are_unspecified_todo"></a><a class="link" href="#_use_case_4_list_and_count_are_unspecified_todo">Use Case 4: List and count are unspecified - TODO</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="usingequals"><a class="anchor" href="#usingequals"></a><a class="link" href="#usingequals">length/2 implemented using "="</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Ivan Bratco in his
+book<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>,
+presents an alternate solution to <code>length/2</code> that uses <code>=</code> instead of <code>is</code>.</p>
+</div>
+<div class="paragraph">
+<p>Lets start by just replacing <code>is</code> with <code>=</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 using "="</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="ss">list_length_1</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+<span class="ss">list_length_1</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">list_length_1</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">)</span>
+    <span class="nv">C</span> <span class="o">=</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Which when evaluated returns&#8230;&#8203;</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 using "=", evaluated</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">list_length_1</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">C</span><span class="p">).</span>
+<span class="nv">C</span> <span class="o">=</span> <span class="m">0</span><span class="o">+</span><span class="m">1</span><span class="o">+</span><span class="m">1</span><span class="o">+</span><span class="m">1</span><span class="p">,</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>OK, what&#8217;s going on here? Remember that <code>=</code> does not evaluate any of its terms,
+so each recursive call ads another <code>+1</code> to C. So <code>0</code>, then <code>0+1</code>, then <code>0+1+1</code>,
+and finally <code>0+1+1+1</code>. To return the length as an integer, we need to evaluate
+the result of <code>C</code> using <code>is</code>, like so&#8230;&#8203;.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 using "=" then "is"</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">list_length_1</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">C</span><span class="p">),</span> <span class="nv">Length</span> <span class="ss">is</span> <span class="nv">C</span><span class="p">.</span>
+<span class="nv">Length</span> <span class="o">=</span> <span class="m">3</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Remember that unlike <code>is</code> where all arguments must already have been
+instantiated to numbers and thus must follow the recursive call to
+<code>list_length_1</code>, <code>=</code> does not evaluate its terms. So <code>list_length_1/2</code> can be
+rewritten as follows.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 rewritten</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="ss">list_length_1</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+<span class="ss">list_length_1</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">C</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="nv">C</span> <span class="o">=</span> <span class="nv">Count</span> <span class="o">+</span> <span class="m">1</span><span class="p">,</span>
+    <span class="ss">list_length_1</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">Count</span><span class="p">).</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>However <code>=</code> is implicit in predicate arguments (remember that Prolog does not
+evaluate arguments). So <code>list_length_1/2</code> can be refactored to remove the
+explicit <code>=</code> as follows.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 refactored</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="code"><pre><span class="ss">list_length_1</span><span class="p">([],</span> <span class="m">0</span><span class="p">).</span>
+<span class="ss">list_length_1</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="m">1</span> <span class="o">+</span> <span class="nv">L</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">list_length_1</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">L</span><span class="p">).</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Which results in the correct answer.</p>
+</div>
+<div class="listingblock">
+<div class="title">list_length_1/2 refactored and evaluated</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">list_length_1</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">],</span> <span class="nv">C</span><span class="p">),</span> <span class="nv">Length</span> <span class="ss">is</span> <span class="nv">C</span><span class="p">.</span>
+<span class="nv">Length</span> <span class="o">=</span> <span class="m">3</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using <code>is</code> or <code>=</code> in <code>list_length_1/2</code> is, I suppose, a matter of taste.
+Although I personally think using <code>is</code> makes the intent explicit in the code.
+From a "Big O" point of view, using <code>=</code> results in the creation of a new list
+which equates to <code>O(n)</code> in additional memory needed.</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. <a href="https://www.google.com/books/edition/Prolog_Programming_for_Artificial_Intell/-8BPPgAACAAJ?hl=en" class="bare">https://www.google.com/books/edition/Prolog_Programming_for_Artificial_Intell/-8BPPgAACAAJ?hl=en</a>
+</div>
+</div>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js" id="MathJax-script"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ['$', '$'], ['\\(', '\\)']
+        ],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>Between a REPL and a hard place</p>
+      
+      
+        ©
+        
+        2020
+         Luke Crook 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+    </main>
+
+    
+      
+      <script src="https://www.balooga.com/js/dark-mode.min.0213e1773e6d1c5a644f847c67a6f8abac49a3776e2976f6008038af8c5b76a1.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+  </body>
+
+</html>
