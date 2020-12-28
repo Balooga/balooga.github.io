@@ -27,7 +27,7 @@
       <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/prolog-predicates/</guid>
-      <description>Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.     Overview So what does this mean and why should we care? Being a declarative logic programming language, problems are solved differently in Prolog.</description>
+      <description>Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   Similar to a function, the predicate reverse/2 can be defined to accept a list of &#39;n&#39; elements and return a new list containing these elements reversed.</description>
     </item>
     
     <item>

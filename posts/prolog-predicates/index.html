@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en">
 
     <meta name="author" content="Luke Crook">
-    <meta name="description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.     Overview So what does this mean and why should we care? Being a declarative logic programming language, problems are solved differently in Prolog.">
+    <meta name="description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   Similar to a function, the predicate reverse/2 can be defined to accept a list of &#39;n&#39; elements and return a new list containing these elements reversed.">
     <meta name="keywords" content="blog,developer,personal">
 
     
@@ -16,10 +16,10 @@
 
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prolog Learnings: Predicates and Association of Arguments"/>
-<meta name="twitter:description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.     Overview So what does this mean and why should we care? Being a declarative logic programming language, problems are solved differently in Prolog."/>
+<meta name="twitter:description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   Similar to a function, the predicate reverse/2 can be defined to accept a list of &#39;n&#39; elements and return a new list containing these elements reversed."/>
 
     <meta property="og:title" content="Prolog Learnings: Predicates and Association of Arguments" />
-<meta property="og:description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.     Overview So what does this mean and why should we care? Being a declarative logic programming language, problems are solved differently in Prolog." />
+<meta property="og:description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   Similar to a function, the predicate reverse/2 can be defined to accept a list of &#39;n&#39; elements and return a new list containing these elements reversed." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.balooga.com/posts/prolog-predicates/" />
 <meta property="article:published_time" content="2020-12-22T00:00:00+00:00" />
@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              5-minute read
+              2-minute read
             </span>
           </div>
           
@@ -134,9 +134,7 @@
 
       <div>
         
-        <div id="preamble">
-<div class="sectionbody">
-<div class="quoteblock abstract">
+        <div class="quoteblock abstract">
 <blockquote>
 Functions (or procedures) in Prolog are called "predicates", but unlike
 functions in other languages that can only evaluate inputs to create an output,
@@ -144,145 +142,12 @@ predicates do not have defined inputs and outputs. In idiomatic Prolog, a
 predicate is a function that <em>works both ways</em>.
 </blockquote>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_overview"><a class="anchor" href="#_overview"></a><a class="link" href="#_overview">Overview</a></h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>So what does this mean and why should we care? Being a declarative logic
-programming language, problems are solved differently in Prolog. It is one of
-the languages that every developer should have some exposure to. Modern
-languages have closures, classes, generics, macros, etc. Prolog supports pattern
-matching, backtracking, and inference and sits on top of a relational database.</p>
-</div>
-<div class="paragraph">
-<p>Similar to functions, a predicate <code>sum/3</code> can be defined to sum two arguments
-and return the result. In the examples below, <code>total</code> and <code>Total</code> are assigned
-the value of <code>3</code> as a result of evaluting <code>sum</code>. In Prolog, variables must start
-with an uppercase letter. And if you are familiar with Elixir, you will
-recognize the functor/arity nomenclature Prolog uses to name predicates.</p>
-</div>
-<div class="listingblock">
-<div class="title">The sum of two arguments in Python</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="python"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
-</pre></td><td class="code"><pre><span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</pre></td></tr></tbody></table></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">The sum of two arguments in Prolog</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
-</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">sum</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span>
-</pre></td></tr></tbody></table></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Notice that Prolog requires that <code>Total</code> is passed as an argument to <code>sum</code>.
-Because in Prolog, predicates can only return <code>true</code> or <code>false</code>. This may seem
-archaic at first (Prolog was invented in 1972 after all. And in France.) But
-this is key to how Prolog works, as a predicate defines <em>a relationship</em> between
-its arguments. Prolog then attempts to derive values for the arguments in an
-attempt to evaluate the predicate to true.</p>
-</div>
-<div class="paragraph">
-<p>Prolog evaluates <code>sum(1, 2, Total)</code> to <code>true</code> by assigning <code>3</code> to <code>Total</code>.
-Simple enough. But things become interesting when <code>3</code> is passed as a parameter
-to the third argument of <code>sum/3</code>. Now Prolog returns <code>true</code> for <code>sum(1,2,3)</code>,
-because <code>3</code> is the sum of <code>1</code> and <code>2</code>. Something like <code>3 = sum(1, 2)</code> which is a
-total syntax error in Python is actually valid syntax in Prolog due to Prologs
-use of "Unification" (<a href="https://www.balooga.com/posts/prolog-learn/">Unification</a>) and not regular
-"Assignment". Unification is really powerful and core to Prolog, as can be seen
-in later sections.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-There is a notable difference between "is" and "=". "is" performs term
-evaluation and the result must be a number. "=" does not perform term
-evaluation. And for "is", all arguments must already have been instantiated to
-numbers.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Conversely, Prolog returns <code>false</code> for <code>sum(1,2,5)</code> because the sum of <code>1</code> and
-<code>2</code> does not equal <code>5</code> and there is no way for Prolog to make that <code>true</code>.</p>
-</div>
-<div class="paragraph">
-<p>It gets better.</p>
-</div>
-<div class="paragraph">
-<p><code>sum(1, Y, 3)</code> and Prolog returns <code>Y = 2</code>, because for <code>sum</code> to evaulate to
-<code>true</code>, <code>Y</code> must be <code>2</code>. <code>sum(X, 2, 3)</code> results in <code>X = 1</code> for the same reason.</p>
-</div>
-<div class="paragraph">
-<p>It gets better still.</p>
-</div>
-<div class="paragraph">
-<p><code>sum(X, Y, 3)</code> and Prolog will return all combinations of <code>X</code> and <code>Y</code> that sum
-to <code>3</code>.</p>
-</div>
-<div class="listingblock">
-<div class="title">Prolog, you crazy!!!</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="m">3</span><span class="p">).</span>
-<span class="nv">X</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span>
-<span class="nv">Y</span> <span class="o">=</span> <span class="m">3</span><span class="p">;</span>
-
-<span class="nv">X</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span>
-<span class="nv">Y</span> <span class="o">=</span> <span class="m">2</span><span class="p">;</span>
-
-<span class="nv">X</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span>
-<span class="nv">Y</span> <span class="o">=</span> <span class="m">1</span><span class="p">;</span>
-
-<span class="nv">X</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span>
-<span class="nv">Y</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
-</pre></td></tr></tbody></table></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>After returning an answer for <code>X</code> and <code>Y</code>, the user can enter a semicolon (<code>;</code>)
-to instruct Prolog to use backtracking to attempt to find alternate values for
-<code>X</code> and <code>y</code> that evaluate to <code>true</code>.</p>
-</div>
-<div class="paragraph">
-<p>And even better.</p>
-</div>
-<div class="paragraph">
-<p>For <code>sum(X, Y, Total)</code> and helpful Prolog will return an "infinite" number of
-combinations of <code>X</code> and <code>Y</code> that sum to <code>Total</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_reverse2"><a class="anchor" href="#_reverse2"></a><a class="link" href="#_reverse2">reverse/2</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>To continue with another example, <code>reverse/2</code> which is defined as follows;
-<code>reverse/2</code> accepts a list of 'n' elements and returns a new list containing
-these elements reversed. In the examples below, <code>reverse/2</code> will generate
-expected results when both arguments receive values, no arguments receive
-values, or only one argument receives a value.</p>
+<p>Similar to a function, the predicate <code>reverse/2</code> can be defined to accept a list
+of 'n' elements and return a new list containing these elements reversed. In the
+examples below, <code>reverse/2</code> will generate expected results when both arguments
+receive values, no arguments receive values, or only one argument receives a
+value.</p>
 </div>
 <div class="paragraph">
 <p>In the first example, Prolog is able to evaluate the predicate <code>reverse/2</code> to
@@ -379,8 +244,6 @@ of anonymous variables and returns a second list with the elements reversed
 <p>With each successive semicolon, Prolog will provide additional answers for which
 the predicate <code>reverse/2</code> evaulates to <code>true</code>. So first a list of zero elements
 is reversed, then a list of one element, then two, then three, etc.</p>
-</div>
-</div>
 </div>
 
       </div>
