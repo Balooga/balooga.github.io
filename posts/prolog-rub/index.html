@@ -187,6 +187,10 @@ dust.</p>
 </li>
 </ol>
 </div>
+<div class="paragraph">
+<p>This is called <em>multiway</em> reasoning<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>
+and allows the same predicate to be used in many ways.</p>
+</div>
 <div class="listingblock">
 <div class="title">list_length/2 example in Prolog</div>
 <div class="content">
@@ -572,7 +576,7 @@ and code path can handle use cases 1, 2 and 3.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Ivan Bratco in his
-book<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>
+book<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>
 presents an alternate solution to <code>length/2</code> using <code>=</code> instead of <code>is</code>.</p>
 </div>
 <div class="paragraph">
@@ -640,13 +644,14 @@ can be rewritten with <code>C = Count + 1,</code> appearing before
 </div>
 </div>
 <div class="paragraph">
-<p>Yet another Prolog idiosyncrasy; when a variable is assigned a value all
-instances of that variable, within scope, assume that value, even those
-instances that occur prior to any assignment in the code. So <code>Count</code> is
-unassigned in the clause <code>C = Count + 1</code>. But because <code>=</code> does not evaluate its
-arguments, <code>Count</code> acts as a placeholder until such time as a value is assigned.
-Prolog is like the Tenet<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> of
-programming languages.</p>
+<p>Yet another Prolog idiosyncrasy&#8201;&#8212;&#8201;<em>postponed variable bindings</em>; when a variable
+is assigned a value all instances of that variable, within scope, assume that
+value, even those instances that occur in the code prior to the assignment. So
+<code>Count</code> is unassigned in the clause <code>C = Count + 1</code>. But because <code>=</code> does not
+evaluate its arguments, <code>Count</code> acts as a placeholder and binding is postponed
+until such time as a value is assigned. Prolog is like the
+Tenet<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> of programming
+languages.</p>
 </div>
 <div class="paragraph">
 <p>As <code>=</code> is implicit in predicate arguments (remember that Prolog does not
@@ -687,10 +692,13 @@ which equates to <code>O(n)</code> in additional memory needed.</p>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. <a href="https://www.google.com/books/edition/Prolog_Programming_for_Artificial_Intell/-8BPPgAACAAJ?hl=en" class="bare">https://www.google.com/books/edition/Prolog_Programming_for_Artificial_Intell/-8BPPgAACAAJ?hl=en</a>
+<a href="#_footnoteref_1">1</a>. Artificial Intelligence Through Prolog, Neil C. Rowe
 </div>
 <div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. <a href="https://www.themoviedb.org/movie/577922-tenet" class="bare">https://www.themoviedb.org/movie/577922-tenet</a>
+<a href="#_footnoteref_2">2</a>. <a href="https://www.google.com/books/edition/Prolog_Programming_for_Artificial_Intell/-8BPPgAACAAJ?hl=en" class="bare">https://www.google.com/books/edition/Prolog_Programming_for_Artificial_Intell/-8BPPgAACAAJ?hl=en</a>
+</div>
+<div class="footnote" id="_footnotedef_3">
+<a href="#_footnoteref_3">3</a>. <a href="https://www.themoviedb.org/movie/577922-tenet" class="bare">https://www.themoviedb.org/movie/577922-tenet</a>
 </div>
 </div>
 
