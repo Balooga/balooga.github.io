@@ -151,10 +151,11 @@ values, or only one argument receives a value.</p>
 </div>
 <div class="paragraph">
 <p>Predicates<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> can only evaluate to true and false and
-therefore <code>`reverse/2</code> must accept two lists as arguments. This is key to how
-Prolog works as a predicate defines <em>a relationship</em> between its arguments.
-Prolog then attempts to derive values for the arguments in an attempt to
-evaluate the predicate to true.</p>
+therefore <code>reverse/2</code> must accept the two lists as arguments. Having the
+Predicate accept both Input and Output parameters as arguments is key as this
+allows Prolog to derive <em>a relationship</em> between arguments. Prolog then attempts
+to derive values for the arguments in an attempt to evaluate the predicate to
+true.</p>
 </div>
 <div class="paragraph">
 <p>In the first example, Prolog is able to evaluate the predicate <code>reverse/2</code> to
