@@ -371,12 +371,14 @@ same.</p>
 17
 18
 19
+20
 </pre></td><td class="code"><pre><span class="c1">%% sum(X, Y, 3)</span>
 <span class="c1">%% sum(X, Y, Total)</span>
 <span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">_</span><span class="p">)</span> <span class="p">:-</span>
-    <span class="ss">var</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span>                     <span class="c1">% returns true when variable is unbound</span>
-    <span class="ss">var</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>                     <span class="c1">% "var" should have been named "unbound"</span>
-    <span class="p">!,</span> <span class="ss">fail</span><span class="p">.</span>                    <span class="c1">% "fail" causes the predicate to evaluate to False</span>
+    <span class="ss">var</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span>    <span class="c1">% "var" returns true when variable is unbound</span>
+    <span class="ss">var</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>    <span class="c1">% "var" should have been named "unbound"</span>
+    <span class="p">!,</span>         <span class="c1">% ensure Prolog does not backtrack and evaluate less specific predicates</span>
+    <span class="ss">fail</span><span class="p">.</span>      <span class="c1">% "fail" causes the predicate to evaluate to False</span>
 <span class="c1">%% sum(1, Y, 2)</span>
 <span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="p">:-</span>
     <span class="ss">var</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>
