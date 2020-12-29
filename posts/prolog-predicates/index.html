@@ -124,7 +124,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              2-minute read
+              4-minute read
             </span>
           </div>
           
@@ -244,6 +244,146 @@ of anonymous variables and returns a second list with the elements reversed
 <p>With each successive semicolon, Prolog will provide additional answers for which
 the predicate <code>reverse/2</code> evaulates to <code>true</code>. So first a list of zero elements
 is reversed, then a list of one element, then two, then three, etc.</p>
+</div>
+<div class="paragraph">
+<p>Unfortunately <code>is</code> is not <code>=</code> and <code>is</code> can therefore only determine if two
+things are equal and cannot be reversed. And all arguments must already have
+been instantiated. With the definition <code>sum(X, Y, Total)</code>, we cannot, for
+example, query <code>sum(3, Y, 5)</code> and expect Prolog to return an answer of <code>Y = 2.</code>.
+Just as in other languages, we need to write specific code paths to handle each
+use-case. But thanks to Prolog&#8217;s support for backtracking we can implement this
+logic without an if/then/else ladder or switch construct. Depending on your
+point of view this style cane make the code eaiser to understand, or not.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sum(1, 2, Total)</code>,</p>
+</li>
+<li>
+<p><code>sum(1, Y, 2)</code>,</p>
+</li>
+<li>
+<p><code>sum(X, 1, 2)</code>,</p>
+</li>
+<li>
+<p><code>sum(1, 1, 2)</code>,</p>
+</li>
+<li>
+<p><code>sum(X, Y, 3)</code> does not make sense so fail,</p>
+</li>
+<li>
+<p><code>sum(X, Y, 3)</code> does not make sense so fail.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">The sum of two arguments in Prolog</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="code"><pre><span class="c1">%% sum(X, Y, Total)</span>
+<span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">not</span><span class="p">(</span><span class="ss">ground</span><span class="p">(</span><span class="nv">X</span><span class="p">)),</span>
+    <span class="ss">not</span><span class="p">(</span><span class="ss">ground</span><span class="p">(</span><span class="nv">Y</span><span class="p">)),</span>
+    <span class="ss">not</span><span class="p">(</span><span class="ss">ground</span><span class="p">(</span><span class="nv">Total</span><span class="p">)),</span>
+    <span class="p">!,</span> <span class="ss">fail</span><span class="p">.</span>
+<span class="c1">%% sum(X, Y, 3)</span>
+<span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">not</span><span class="p">(</span><span class="ss">ground</span><span class="p">(</span><span class="nv">X</span><span class="p">)),</span>
+    <span class="ss">not</span><span class="p">(</span><span class="ss">ground</span><span class="p">(</span><span class="nv">Y</span><span class="p">)),</span>
+    <span class="p">!,</span> <span class="ss">fail</span><span class="p">.</span>
+<span class="c1">%% sum(1, Y, 2)</span>
+<span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">not</span><span class="p">(</span><span class="ss">ground</span><span class="p">(</span><span class="nv">Y</span><span class="p">)),</span>
+    <span class="nv">Y</span> <span class="ss">is</span> <span class="nv">Total</span> <span class="o">-</span> <span class="nv">X</span><span class="p">,</span>
+    <span class="p">!.</span>
+<span class="c1">%% sum(X, 1, 2)</span>
+<span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">not</span><span class="p">(</span><span class="ss">ground</span><span class="p">(</span><span class="nv">X</span><span class="p">)),</span>
+    <span class="nv">X</span> <span class="ss">is</span> <span class="nv">Total</span> <span class="o">-</span> <span class="nv">Y</span><span class="p">,</span>
+    <span class="p">!.</span>
+<span class="c1">%% sum(1, 2, Total)</span>
+<span class="c1">%% sum(1, 1, 2)</span>
+<span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="p">:-</span> <span class="nv">Total</span> <span class="ss">is</span> <span class="nv">X</span> <span class="o">+</span> <span class="nv">Y</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The ordering of the predicates is important as is the use of the cut (<code>!</code>)
+operator which is necessary to halt backtracking when an answer is found.</p>
+</div>
+<div class="paragraph">
+<p>We can simplify further by combining the first two predicates into one as it
+doesn&#8217;t matter if all three arguments are unbound, <code>sum(X, Y, Total)</code>, or only
+the first two arguments are unbound, <code>sum(X, Y, 4)</code> as the behaviour is the
+same.</p>
+</div>
+<div class="listingblock">
+<div class="title">The sum of two arguments in Prolog</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre><span class="c1">%% sum(X, Y, 3)</span>
+<span class="c1">%% sum(X, Y, Total)</span>
+<span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">_</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">var</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span>                     <span class="c1">% returns false when variable is unbound</span>
+    <span class="ss">var</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>
+    <span class="p">!,</span> <span class="ss">fail</span><span class="p">.</span>
+<span class="c1">%% sum(1, Y, 2)</span>
+<span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">var</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>
+    <span class="nv">Y</span> <span class="ss">is</span> <span class="nv">Total</span> <span class="o">-</span> <span class="nv">X</span><span class="p">,</span>
+    <span class="p">!.</span>
+<span class="c1">%% sum(X, 1, 2)</span>
+<span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">var</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span>
+    <span class="nv">X</span> <span class="ss">is</span> <span class="nv">Total</span> <span class="o">-</span> <span class="nv">Y</span><span class="p">,</span>
+    <span class="p">!.</span>
+<span class="c1">%% sum(1, 2, Total)</span>
+<span class="c1">%% sum(1, 1, 2)</span>
+<span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="p">:-</span> <span class="nv">Total</span> <span class="ss">is</span> <span class="nv">X</span> <span class="o">+</span> <span class="nv">Y</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
 </div>
 
       </div>
