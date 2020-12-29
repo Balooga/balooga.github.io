@@ -247,13 +247,14 @@ is reversed, then a list of one element, then two, then three, etc.</p>
 </div>
 <div class="paragraph">
 <p>Unfortunately <code>is</code> is not <code>=</code>. <code>is</code> can only determine if two things are equal
-and cannot be reversed (and all arguments must already have been instantiated).
-With the definition <code>sum(X, Y, Total)</code>, we cannot, for example, query <code>sum(3, Y,
-5)</code> and expect Prolog to return an answer of <code>Y = 2</code>. Just as in other
-languages, we will need to write specific code paths to handle each use-case.
-But thanks to Prolog&#8217;s support for backtracking we can implement this logic
-without the usual if/then/else ladder or switch construct. Depending on your
-point of view this style may make the code eaiser to understand, or not.</p>
+and cannot be
+reversed<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> (and all arguments must already have
+been instantiated). With the definition <code>sum(X, Y, Total)</code>, we cannot, for
+example, query <code>sum(3, Y, 5)</code> and expect Prolog to return an answer of <code>Y = 2</code>.
+Just as in other languages, we will need to write specific code paths to handle
+each use-case. But thanks to Prolog&#8217;s support for backtracking we can implement
+this logic without the usual if/then/else ladder or switch construct. Depending
+on your point of view this style may make the code eaiser to understand, or not.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -383,6 +384,12 @@ same.</p>
 <span class="c1">%% sum(1, 1, 2)</span>
 <span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="p">:-</span> <span class="nv">Total</span> <span class="ss">is</span> <span class="nv">X</span> <span class="o">+</span> <span class="nv">Y</span><span class="p">.</span>
 </pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. <a href="https://www.google.com/books/edition/Artificial_intelligence_through_Prolog/159QAAAAMAAJ?kptab=overview">Artificial Intelligence Through Prolog, Neil C. Rowe</a>
 </div>
 </div>
 
