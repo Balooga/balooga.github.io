@@ -338,7 +338,10 @@ on your point of view this style may make the code eaiser to understand, or not.
 </div>
 <div class="paragraph">
 <p>The ordering of the predicates is important as is the use of the cut (<code>!</code>)
-operator which is necessary to halt backtracking when an answer is found.</p>
+operator which is necessary to halt backtracking when an answer is found.
+Predicates should be ordered from most to least specific in the source file in
+the source file as this is the order in which predicates are evaluated by
+Prolog.</p>
 </div>
 <div class="paragraph">
 <p>We can simplify further by combining the first two predicates into one as it
@@ -371,9 +374,9 @@ same.</p>
 </pre></td><td class="code"><pre><span class="c1">%% sum(X, Y, 3)</span>
 <span class="c1">%% sum(X, Y, Total)</span>
 <span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">_</span><span class="p">)</span> <span class="p">:-</span>
-    <span class="ss">var</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span>                     <span class="c1">% returns false when variable is unbound</span>
-    <span class="ss">var</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>
-    <span class="p">!,</span> <span class="ss">fail</span><span class="p">.</span>
+    <span class="ss">var</span><span class="p">(</span><span class="nv">X</span><span class="p">),</span>                     <span class="c1">% returns true when variable is unbound</span>
+    <span class="ss">var</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>                     <span class="c1">% "var" should have been named "unbound"</span>
+    <span class="p">!,</span> <span class="ss">fail</span><span class="p">.</span>                    <span class="c1">% "fail" causes the predicate to evaluate to False</span>
 <span class="c1">%% sum(1, Y, 2)</span>
 <span class="ss">sum</span><span class="p">(</span><span class="nv">X</span><span class="p">,</span> <span class="nv">Y</span><span class="p">,</span> <span class="nv">Total</span><span class="p">)</span> <span class="p">:-</span>
     <span class="ss">var</span><span class="p">(</span><span class="nv">Y</span><span class="p">),</span>
