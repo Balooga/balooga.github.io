@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en">
 
     <meta name="author" content="Luke Crook">
-    <meta name="description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   Similar to a function, the predicate reverse/2 can be defined to accept a list of &#39;n&#39; elements and return a new list containing these elements reversed.">
+    <meta name="description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   Similar to a function, the predicate reverse/2 can be defined to accept a list of &#39;n&#39; elements and return a new list containing these elements reversed; reverse(List1, List2).">
     <meta name="keywords" content="blog,developer,personal">
 
     
@@ -16,10 +16,10 @@
 
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prolog Learnings: Predicates and Association of Arguments"/>
-<meta name="twitter:description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   Similar to a function, the predicate reverse/2 can be defined to accept a list of &#39;n&#39; elements and return a new list containing these elements reversed."/>
+<meta name="twitter:description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   Similar to a function, the predicate reverse/2 can be defined to accept a list of &#39;n&#39; elements and return a new list containing these elements reversed; reverse(List1, List2)."/>
 
     <meta property="og:title" content="Prolog Learnings: Predicates and Association of Arguments" />
-<meta property="og:description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   Similar to a function, the predicate reverse/2 can be defined to accept a list of &#39;n&#39; elements and return a new list containing these elements reversed." />
+<meta property="og:description" content="Functions (or procedures) in Prolog are called &#34;predicates&#34;, but unlike functions in other languages that can only evaluate inputs to create an output, predicates do not have defined inputs and outputs. In idiomatic Prolog, a predicate is a function that works both ways.   Similar to a function, the predicate reverse/2 can be defined to accept a list of &#39;n&#39; elements and return a new list containing these elements reversed; reverse(List1, List2)." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.balooga.com/posts/prolog-predicates/" />
 <meta property="article:published_time" content="2020-12-22T00:00:00+00:00" />
@@ -144,10 +144,17 @@ predicate is a function that <em>works both ways</em>.
 </div>
 <div class="paragraph">
 <p>Similar to a function, the predicate <code>reverse/2</code> can be defined to accept a list
-of 'n' elements and return a new list containing these elements reversed. In the
-examples below, <code>reverse/2</code> will generate expected results when both arguments
-receive values, no arguments receive values, or only one argument receives a
-value.</p>
+of 'n' elements and return a new list containing these elements reversed;
+<code>reverse(List1, List2)</code>. In the examples below, <code>reverse/2</code> will generate
+expected results when both arguments receive values, no arguments receive
+values, or only one argument receives a value.</p>
+</div>
+<div class="paragraph">
+<p>Predicates<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> can only evaluate to true and false and
+therefore <code>`reverse/2</code> must accept two lists as arguments. This is key to how
+Prolog works as a predicate defines <em>a relationship</em> between its arguments.
+Prolog then attempts to derive values for the arguments in an attempt to
+evaluate the predicate to true.</p>
 </div>
 <div class="paragraph">
 <p>In the first example, Prolog is able to evaluate the predicate <code>reverse/2</code> to
@@ -248,7 +255,7 @@ is reversed, then a list of one element, then two, then three, etc.</p>
 <div class="paragraph">
 <p>Unfortunately <code>is</code> is not <code>=</code>. <code>is</code> can only determine if two things are equal
 and cannot be
-reversed<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> (and all arguments must already have
+reversed<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> (and all arguments must already have
 been instantiated). With the definition <code>sum(X, Y, Total)</code>, we cannot, for
 example, query <code>sum(3, Y, 5)</code> and expect Prolog to return an answer of <code>Y = 2</code>.
 Just as in other languages, we will need to write specific code paths to handle
@@ -389,7 +396,10 @@ same.</p>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. <a href="https://www.google.com/books/edition/Artificial_intelligence_through_Prolog/159QAAAAMAAJ?kptab=overview">Artificial Intelligence Through Prolog, Neil C. Rowe</a>
+<a href="#_footnoteref_1">1</a>. <a href="https://en.wikipedia.org/wiki/Predicate_%28mathematical_logic%29">Wikipedia: Predicate (mathematical logic)</a>
+</div>
+<div class="footnote" id="_footnotedef_2">
+<a href="#_footnoteref_2">2</a>. <a href="https://www.google.com/books/edition/Artificial_intelligence_through_Prolog/159QAAAAMAAJ?kptab=overview">Artificial Intelligence Through Prolog, Neil C. Rowe</a>
 </div>
 </div>
 
