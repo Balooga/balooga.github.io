@@ -246,14 +246,14 @@ the predicate <code>reverse/2</code> evaulates to <code>true</code>. So first a 
 is reversed, then a list of one element, then two, then three, etc.</p>
 </div>
 <div class="paragraph">
-<p>Unfortunately <code>is</code> is not <code>=</code> and <code>is</code> can therefore only determine if two
-things are equal and cannot be reversed. And all arguments must already have
-been instantiated. With the definition <code>sum(X, Y, Total)</code>, we cannot, for
-example, query <code>sum(3, Y, 5)</code> and expect Prolog to return an answer of <code>Y = 2.</code>.
-Just as in other languages, we need to write specific code paths to handle each
-use-case. But thanks to Prolog&#8217;s support for backtracking we can implement this
-logic without an if/then/else ladder or switch construct. Depending on your
-point of view this style cane make the code eaiser to understand, or not.</p>
+<p>Unfortunately <code>is</code> is not <code>=</code>. <code>is</code> can only determine if two things are equal
+and cannot be reversed (and all arguments must already have been instantiated).
+With the definition <code>sum(X, Y, Total)</code>, we cannot, for example, query <code>sum(3, Y,
+5)</code> and expect Prolog to return an answer of <code>Y = 2</code>. Just as in other
+languages, we will need to write specific code paths to handle each use-case.
+But thanks to Prolog&#8217;s support for backtracking we can implement this logic
+without the usual if/then/else ladder or switch construct. Depending on your
+point of view this style may make the code eaiser to understand, or not.</p>
 </div>
 <div class="ulist">
 <ul>
