@@ -211,15 +211,28 @@ an attempt to explain the solution.</p>
 </tbody></table>
 </div>
 <div class="paragraph">
-<p>The predicate is called as follows. <code>N</code> contains the number of discs on the peg.
-<code>A</code>, <code>B</code>, and <code>C</code> are the three pegs. And <code>Moves</code> contains a list of moves
-to get the discs from peg <code>A</code> to peg <code>C</code> using peg <code>B</code> as the intermediary.</p>
+<p>The predicate is called as follows;</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>N</code> contains the number of discs on the peg.</p>
+</li>
+<li>
+<p><code>A</code>, <code>B</code>, and <code>C</code> are the three pegs, which we name <code>left</code>, <code>middle</code> and
+<code>right</code> respectively.</p>
+</li>
+<li>
+<p><code>Moves</code> contains a list of moves to get the discs from peg <code>A</code> to peg <code>C</code>
+using peg <code>B</code> as the intermediary.</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="title">Prolog</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
-</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">hanoi</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="nv">Left</span><span class="p">,</span> <span class="nv">Middle</span><span class="p">,</span> <span class="nv">Right</span><span class="p">,</span> <span class="nv">Moves</span><span class="p">).</span>
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="nv">N</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="nv">A</span> <span class="o">=</span> <span class="ss">left</span><span class="p">,</span> <span class="nv">B</span> <span class="o">=</span> <span class="ss">middle</span><span class="p">,</span> <span class="nv">C</span> <span class="o">=</span> <span class="ss">right</span><span class="p">,</span> <span class="ss">hanoi</span><span class="p">(</span><span class="nv">N</span><span class="p">,</span> <span class="nv">A</span><span class="p">,</span> <span class="nv">B</span><span class="p">,</span> <span class="nv">C</span><span class="p">,</span> <span class="nv">Moves</span><span class="p">).</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
@@ -256,9 +269,15 @@ empty list.</p>
 2
 3
 4
-</pre></td><td class="code"><pre><span class="o">?-</span> <span class="nv">N</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="ss">hanoi</span><span class="p">(</span><span class="nv">N</span><span class="p">,</span> <span class="ss">left</span><span class="p">,</span> <span class="ss">middle</span><span class="p">,</span> <span class="ss">right</span><span class="p">,</span> <span class="nv">Moves</span><span class="p">).</span>
+5
+6
+7
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="nv">N</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="nv">A</span> <span class="o">=</span> <span class="ss">left</span><span class="p">,</span> <span class="nv">B</span> <span class="o">=</span> <span class="ss">middle</span><span class="p">,</span> <span class="nv">C</span> <span class="o">=</span> <span class="ss">right</span><span class="p">,</span> <span class="ss">hanoi</span><span class="p">(</span><span class="nv">N</span><span class="p">,</span> <span class="nv">A</span><span class="p">,</span> <span class="nv">B</span><span class="p">,</span> <span class="nv">C</span><span class="p">,</span> <span class="nv">Moves</span><span class="p">).</span>
 
 <span class="nv">N</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span>
+<span class="nv">A</span> <span class="o">=</span> <span class="ss">left</span><span class="p">,</span>
+<span class="nv">B</span> <span class="o">=</span> <span class="ss">middle</span><span class="p">,</span>
+<span class="nv">C</span> <span class="o">=</span> <span class="ss">right</span><span class="p">,</span>
 <span class="nv">Moves</span> <span class="o">=</span> <span class="p">[]</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
