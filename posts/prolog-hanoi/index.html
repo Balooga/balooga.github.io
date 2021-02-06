@@ -299,7 +299,7 @@ case can be solved by moving the disc on the left peg directly to the disc on
 the right (<code>Moves = [Left to Right]</code>). Looking ahead to solving for two discs we
 know that we need to use the middle peg as an intermediary. As shown in the
 sequence of moves below for two discs, we have to move Left to Middle peg,
-/before/ we can move Left to Right peg. And finally move Middle to Right peg.</p>
+<em>Before</em> we can move Left to Right peg. And finally move Middle to Right peg.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -309,8 +309,8 @@ sequence of moves below for two discs, we have to move Left to Middle peg,
 </div>
 <div class="paragraph">
 <p>Lets not worry about how to implement the Left to Middle, and Middle to Right
-moves now. It is sufficient to know that there needs to be a /Before/ and
-/After/ list of moves which can be solved recursively by calling <code>hanoi</code> for
+moves now. It is sufficient to know that there needs to be a <em>Before</em> and
+<em>After</em> list of moves which can be solved recursively by calling <code>hanoi</code> for
 each.</p>
 </div>
 <div class="listingblock">
@@ -373,8 +373,8 @@ right | []], Moves)</code>. <code>[A to C]</code> is unifed to <code>[left to ri
 </div>
 </div>
 <div class="paragraph">
-<p>This works for the /single disc/ case because calling <code>hanoi</code> with <code>N1 = 0</code> to
-solve for /Before/ and /After/ matches the base case and returns a list of empty
+<p>This works for the <em>single disc</em> case because calling <code>hanoi</code> with <code>N1 = 0</code> to
+solve for <em>Before</em> and <em>After</em> matches the base case and returns a list of empty
 moves ([]). And most importantly, our code terminates and does not enter a
 recursive loop and blow the stack.</p>
 </div>
@@ -402,15 +402,15 @@ recursive loop and blow the stack.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>This solution obviously is not correct, but at least we have a list of /Before/
-and /After/ moves.</p>
+<p>This solution obviously is not correct, but at least we have a list of <em>Before</em>
+and <em>After</em> moves.</p>
 </div>
 <div class="paragraph">
-<p>Lets look at the /two disc/ case. When we call <code>hanoi</code> the fist time, we pass <code>A
-= left, B = middle, C = right</code>. In the append we see the [A to C|…​] which
+<p>Lets look at the <em>two disc</em> case. When we call <code>hanoi</code> the fist time, we pass <code>A
+= left, B = middle, C = right</code>. In the append we see the <code>[A to C|…​]</code> which
 unifies to <code>[left to right]</code>. <code>hanoi</code> always unifies the current move as <code>[A to
 C]</code>, which means we will need to change the order of the pegs when we call
-<code>hanoi</code> to create a /Before/ move of <code>[left to middle]</code>, and an /After/ move of
+<code>hanoi</code> to create a <em>Before</em> move of <code>[left to middle]</code>, and an <em>After</em> move of
 <code>[Middle to Right]</code>.</p>
 </div>
 <div class="listingblock">
@@ -446,12 +446,12 @@ C]</code>, which means we will need to change the order of the pegs when we call
 </tbody></table>
 </div>
 <div class="paragraph">
-<p>For the /Before/ list of moves we swap <code>C</code> and <code>B</code>, <code>hanoi(N1, A, C, B, Before)</code>
+<p>For the <em>Before</em> list of moves we swap <code>C</code> and <code>B</code>, <code>hanoi(N1, A, C, B, Before)</code>
 which will unify to <code>hanoi(N1, left, right, middle, Before)</code>. So <code>Before</code> will
 return <code>[left to middle]</code>.</p>
 </div>
 <div class="paragraph">
-<p>For the /after/ list of moves we swap <code>B</code> and <code>A</code>, <code>hanoi(N1, B, A, C, After)</code>
+<p>For the <em>After</em> list of moves we swap <code>B</code> and <code>A</code>, <code>hanoi(N1, B, A, C, After)</code>
 which will unify to <code>hanoi(N1, middle, left, right, After)</code>. So <code>After</code> will
 return <code>[middle to right]</code>.</p>
 </div>
