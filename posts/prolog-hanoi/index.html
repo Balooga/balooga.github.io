@@ -355,7 +355,7 @@ defined first in the source code because of Prologs evaluation rules.
 </tbody></table>
 </div>
 <div class="listingblock">
-<div class="title">Works for one disc only</div>
+<div class="title">Works only for zero and a single disc</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -386,11 +386,11 @@ defined first in the source code because of Prologs evaluation rules.
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>N can go negative due to backtracking if Prolog is asked to find alternate solutions so this test guards against that.</td>
+<td>This test guards against N going negative due to backtracking if Prolog is asked to find alternate solutions.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Decrease the number of discs with each call into hanoi moving closer to the base case.</td>
+<td>Move close to the base case by deceasing the number of discs with each call to hanoi.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
@@ -402,7 +402,7 @@ defined first in the source code because of Prologs evaluation rules.
 </tr>
 <tr>
 <td><i class="conum" data-value="6"></i><b>6</b></td>
-<td>Our move from &#34;left to right&#34; peg. And where we prepend the Before and append the After lists of moves.</td>
+<td>Prepend the list of Before moves and append the After moves to the &#34;left to right&#34; move.</td>
 </tr>
 </tbody></table>
 </div>
