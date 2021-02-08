@@ -235,12 +235,8 @@ algorithm.
 </tr>
 </tbody></table>
 </div>
-<div class="paragraph">
-<p>We define a predicate that will match only for <code>0</code> discs and return an empty
-list of <code>Moves</code> as follows;</p>
-</div>
 <div class="listingblock">
-<div class="title">The base case</div>
+<div class="title">We define a predicate that will match only for <code>0</code> discs and return an empty list of <code>Moves</code></div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 </pre></td><td class="code"><pre><span class="ss">hanoi</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nv">_A</span><span class="p">,</span> <span class="nv">_B</span><span class="p">,</span> <span class="nv">_C</span><span class="p">,</span> <span class="p">[]).</span>          <span class="c1">% </span><i class="conum" data-value="1"></i><b>(1)</b>
@@ -255,12 +251,8 @@ list of <code>Moves</code> as follows;</p>
 </tr>
 </tbody></table>
 </div>
-<div class="paragraph">
-<p>Test by calling <code>hanoi</code> with <code>N = 0</code> and see if <code>Moves</code> contains an empty
-list…​</p>
-</div>
 <div class="listingblock">
-<div class="title">Testing the base case</div>
+<div class="title">Test by calling <code>hanoi</code> with <code>N = 0</code> and see if <code>Moves</code> contains an empty list…​</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -312,29 +304,16 @@ each, as can be see in the following diagram.</p>
 <div class="title">Figure 3. &#34;Recursive Overview&#34;</div>
 </div>
 <div class="paragraph">
-<p>We add a second <code>hanoi</code> predicate that matches for <code>N - 1</code> number of pegs. The
-code to handle both <code>N = 0</code> and <code>N = 0</code> cases follows;</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tbody><tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Prolog code (similar to Elixir and Erlang) is generally written to avoid
+<p>Prolog code (Elixir and Erlang are similar) is generally written to avoid
 if/else or switch/case statements by taking advantage of Prolog’s capability to
 pattern match on predicate arguments. Avoiding the traditional if/else and
 switch/case style of conditional logic by making use of argument pattern
 matching means a predicate handles only one condition. Supporting new conditions
 involves adding new code and not modifing existing code. The base case must be
-defined first in the source code because of Prologs evaluation rules.
-</td>
-</tr>
-</tbody></table>
+defined first in the source code because of Prologs evaluation rules.</p>
 </div>
 <div class="listingblock">
-<div class="title">Works only for zero and a single disc</div>
+<div class="title">We add a second <code>hanoi</code> predicate that matches for <code>N - 1</code> number of pegs</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -389,11 +368,8 @@ defined first in the source code because of Prologs evaluation rules.
 <p>The <code>append(Before, [A to C | After], Moves)</code> creates a new list of <code>Before + [A
 to C] + After</code> and unifies this new list with <code>Moves</code>.</p>
 </div>
-<div class="paragraph">
-<p>Lets attempt to solve for a single disc.</p>
-</div>
 <div class="listingblock">
-<div class="title">Testing for one disc</div>
+<div class="title">Lets attempt to solve for a single disc.</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -422,11 +398,8 @@ and blow the stack.</p>
 </div>
 <div class="title">Figure 4. &#34;Recurse One Disc&#34;</div>
 </div>
-<div class="paragraph">
-<p>What happens when we call <code>N = 2</code>?</p>
-</div>
 <div class="listingblock">
-<div class="title">Testing for two discs</div>
+<div class="title">What happens when we call <code>N = 2</code>?</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -515,11 +488,8 @@ middle], [left to right | [middle to right]], Moves)</code>.</p>
 </div>
 <div class="title">Figure 5. &#34;Recurse Two Discs&#34;</div>
 </div>
-<div class="paragraph">
-<p>Now, solving for two discs creates the correct list of moves.</p>
-</div>
 <div class="listingblock">
-<div class="title">Testing two discs</div>
+<div class="title">Now, solving for two discs creates the correct list of moves</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -544,12 +514,8 @@ discs are being moved in both directions.</p>
 </div>
 <div class="title">Figure 6. &#34;Three Discs&#34;</div>
 </div>
-<div class="paragraph">
-<p>So how do we go about defining the use case for three discs? Well, as it turns
-out we don’t need to.</p>
-</div>
 <div class="listingblock">
-<div class="title">Testing N - 1 discs</div>
+<div class="title">So how do we go about defining the use case for three discs? Well, as it turns out we don’t need to</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
