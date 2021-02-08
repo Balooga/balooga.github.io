@@ -13,8 +13,8 @@
       <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/prolog-hanoi/</guid>
-      <description>Explaining an implementation of the Tower of Hanoi in Prolog.   This particular implementaion of the Tower of Hanoi is taken from Peter Flach’s book &amp;#34;Simply Logical: Intelligent Reasoning by Example&amp;#34;, published in 1994 by Wiley. Also available online[1].
- The Tower of Hanoi[2] is a well known puzzle in computer science where finding a solution seems most suited to a recursive rather than iterative algorithm. Three pegs, left, middle, and right with a set of disks on the left peg are stacked in decreasing size - smallest disk on top.</description>
+      <description>A recursive implementation of the Tower of Hanoi in Prolog.   This particular implementaion of the Tower of Hanoi is taken from Peter Flach’s book &amp;#34;Simply Logical: Intelligent Reasoning by Example&amp;#34;, published in 1994 by Wiley. Also available online[1].
+ The Tower of Hanoi[2] is a well known puzzle in computer science where finding a solution seems most suited to a recursive rather than iterative algorithm. Three pegs, left, middle, and right where a set of disks on the left peg are stacked in decreasing size - smallest disk on top.</description>
     </item>
     
     <item>
