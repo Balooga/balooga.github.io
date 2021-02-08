@@ -311,9 +311,12 @@ list…​</p>
 </div>
 </div>
 <div class="paragraph">
-<p>…​which it does. Now that the zero disc base case is handled, lets tackle one
-disk. The single disc case can be solved by moving the disc on the left peg
-directly to the disc on the right (<code>Moves = [Left to Right]</code>).</p>
+<p>…​which it does.</p>
+</div>
+<div class="paragraph">
+<p>Now that the zero disc base case is handled, lets tackle one disk. The single
+disc case can be solved by moving the disc on the left peg directly to the disc
+on the right (<code>Moves = [Left to Right]</code>).</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -325,7 +328,7 @@ directly to the disc on the right (<code>Moves = [Left to Right]</code>).</p>
 <p>But looking ahead to solving for two discs we know that we need to use the
 middle peg as an intermediary. As shown in the sequence of moves below for two
 discs, we have to move Left to Middle peg, <em>before</em> we can move Left to Right
-peg. And finally move Middle to Right peg.</p>
+peg, finally moving Middle to Right peg.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -337,7 +340,7 @@ peg. And finally move Middle to Right peg.</p>
 <p>Lets not worry about how to implement the Left to Middle, and Middle to Right
 moves now. It is sufficient to know that there needs to be a <em>Before</em> and
 <em>After</em> list of moves which can be solved recursively by calling <code>hanoi</code> for
-each, as can be see in the following diagram</p>
+each, as can be see in the following diagram.</p>
 </div>
 <div class="imageblock">
 <div class="content">
