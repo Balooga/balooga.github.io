@@ -281,9 +281,9 @@ on the right (<code>Moves = [Left to Right]</code>).</p>
 </div>
 <div class="paragraph">
 <p>But looking ahead to solving for two discs we know that we need to use the
-middle peg as an intermediary. As shown in the sequence of moves below for two
+middle peg as an intermediary. As shown below in the sequence of moves for two
 discs, we have to move Left to Middle peg, <em>before</em> we can move Left to Right
-peg, finally moving Middle to Right peg.</p>
+peg, <em>finally</em> moving Middle to Right peg.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -309,11 +309,11 @@ if/else or switch/case statements by taking advantage of Prolog’s capability t
 pattern match on predicate arguments. Avoiding the traditional if/else and
 switch/case style of conditional logic by making use of argument pattern
 matching means a predicate handles only one condition. Supporting new conditions
-involves adding new code and not modifing existing code. The base case must be
-defined first in the source code because of Prologs evaluation rules.</p>
+involves adding new code and not modifing existing code. We add a second
+predicate that matches for <code>N - 1</code> number of pegs after the base case. The base
+case must be defined first in the code because of Prologs evaluation rules.</p>
 </div>
 <div class="listingblock">
-<div class="title">We add a second <code>hanoi</code> predicate that matches for <code>N - 1</code> number of pegs</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -348,7 +348,7 @@ defined first in the source code because of Prologs evaluation rules.</p>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Move close to the base case by deceasing the number of discs with each call to hanoi.</td>
+<td>Move closer to the base case by decreasing the number of discs with each call to hanoi.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
