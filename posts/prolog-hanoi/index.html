@@ -348,9 +348,8 @@ if/else or switch/case statements by taking advantage of Prolog’s capability t
 pattern match on predicate arguments. Avoiding the traditional if/else and
 switch/case style of conditional logic by making use of argument pattern
 matching means a predicate handles only one condition. Supporting new conditions
-therefore involves adding new code, not modifing existing code. The second
-predicate must come after the base case in the source code because of the order
-that Prolog performs pattern matching on predicate arguments.
+involves adding new code and not modifing existing code. The base case must be
+defined first in the source code because of Prologs evaluation rules.
 </td>
 </tr>
 </tbody></table>
