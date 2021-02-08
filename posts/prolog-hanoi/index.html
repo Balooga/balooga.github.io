@@ -230,6 +230,14 @@ argument being the list of countries.</p>
 <div class="paragraph">
 <p>The <code>hanoi</code> predicate is defined as <code>hanoi(N, A, B, C, Moves)</code> where;</p>
 </div>
+<div class="listingblock">
+<div class="title">Calling hanoi</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="nv">N</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="nv">A</span> <span class="o">=</span> <span class="ss">left</span><span class="p">,</span> <span class="nv">B</span> <span class="o">=</span> <span class="ss">middle</span><span class="p">,</span> <span class="nv">C</span> <span class="o">=</span> <span class="ss">right</span><span class="p">,</span> <span class="ss">hanoi</span><span class="p">(</span><span class="nv">N</span><span class="p">,</span> <span class="nv">A</span><span class="p">,</span> <span class="nv">B</span><span class="p">,</span> <span class="nv">C</span><span class="p">,</span> <span class="nv">Moves</span><span class="p">).</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -246,18 +254,10 @@ using peg <code>B</code> as the intermediary.</p>
 </li>
 </ul>
 </div>
-<div class="listingblock">
-<div class="title">Prolog</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
-</pre></td><td class="code"><pre><span class="o">?-</span> <span class="nv">N</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="nv">A</span> <span class="o">=</span> <span class="ss">left</span><span class="p">,</span> <span class="nv">B</span> <span class="o">=</span> <span class="ss">middle</span><span class="p">,</span> <span class="nv">C</span> <span class="o">=</span> <span class="ss">right</span><span class="p">,</span> <span class="ss">hanoi</span><span class="p">(</span><span class="nv">N</span><span class="p">,</span> <span class="nv">A</span><span class="p">,</span> <span class="nv">B</span><span class="p">,</span> <span class="nv">C</span><span class="p">,</span> <span class="nv">Moves</span><span class="p">).</span>
-</pre></td></tr></tbody></table></code></pre>
-</div>
-</div>
 <div class="paragraph">
-<p>Lets start by defining the base case which handles the case where <code>N</code> is zero
-and there are no more discs to move, so <code>Moves</code> should return an empty list (as
-there are no moves to make).</p>
+<p>Lets start by defining the base case which <code>N</code> is zero and there are no more
+discs to move, so <code>Moves</code> should return an empty list as there are no moves to
+make.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -288,27 +288,7 @@ list of <code>Moves</code> as follows;</p>
 <table>
 <tbody><tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Underscore instantiates an anonymous variable. Any variable name folling the underscore is just for readability purposes.</td>
-</tr>
-</tbody></table>
-</div>
-<div class="paragraph">
-<p>Prolog code (similar to Elixir and Erlang) is generally written to avoid if/else
-or switch/case statements by taking advantage of Prolog’s capability to pattern
-match on predicate arguments.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tbody><tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Avoiding the traditional if/else and switch/case style of conditional
-logic by making use of argument pattern matching means a predicate handles only
-one condition. Supporting new conditions therefore involves adding new code, not
-modifing existing code.
-</td>
+<td>Underscore instantiates an anonymous variable. Any variable name after the underscore is just for readability purposes.</td>
 </tr>
 </tbody></table>
 </div>
@@ -332,7 +312,8 @@ list…​</p>
 </div>
 <div class="paragraph">
 <p>…​which it does. Now that the zero disc base case is handled, lets tackle one
-disk.</p>
+disk. The single disc case can be solved by moving the disc on the left peg
+directly to the disc on the right (<code>Moves = [Left to Right]</code>).</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -341,29 +322,10 @@ disk.</p>
 <div class="title">Figure 1. &#34;One Disc&#34;</div>
 </div>
 <div class="paragraph">
-<p>We add a second <code>hanoi</code> predicate that matches for <code>N - 1</code> number of pegs.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tbody><tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The second predicate must come <em>after</em> the base case in the source code
-because of the order that Prolog performs pattern matching on predicate
-arguments.
-</td>
-</tr>
-</tbody></table>
-</div>
-<div class="paragraph">
-<p>The single disc case can be solved by moving the disc on the left peg directly
-to the disc on the right (<code>Moves = [Left to Right]</code>). But looking ahead to
-solving for two discs we know that we need to use the middle peg as an
-intermediary. As shown in the sequence of moves below for two discs, we have to
-move Left to Middle peg, <em>before</em> we can move Left to Right peg. And finally
-move Middle to Right peg.</p>
+<p>But looking ahead to solving for two discs we know that we need to use the
+middle peg as an intermediary. As shown in the sequence of moves below for two
+discs, we have to move Left to Middle peg, <em>before</em> we can move Left to Right
+peg. And finally move Middle to Right peg.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -384,7 +346,27 @@ each, as can be see in the following diagram</p>
 <div class="title">Figure 3. &#34;Recursive Overview&#34;</div>
 </div>
 <div class="paragraph">
-<p>The code to handle both <code>N = 0</code> and <code>N = 0</code> cases follows;</p>
+<p>We add a second <code>hanoi</code> predicate that matches for <code>N - 1</code> number of pegs. The
+code to handle both <code>N = 0</code> and <code>N = 0</code> cases follows;</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Prolog code (similar to Elixir and Erlang) is generally written to avoid
+if/else or switch/case statements by taking advantage of Prolog’s capability to
+pattern match on predicate arguments. Avoiding the traditional if/else and
+switch/case style of conditional logic by making use of argument pattern
+matching means a predicate handles only one condition. Supporting new conditions
+therefore involves adding new code, not modifing existing code. The second
+predicate must come after the base case in the source code because of the order
+that Prolog performs pattern matching on predicate arguments.
+</td>
+</tr>
+</tbody></table>
 </div>
 <div class="listingblock">
 <div class="title">Prolog</div>
