@@ -127,7 +127,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              8-minute read
+              9-minute read
             </span>
           </div>
           
@@ -162,7 +162,7 @@ hours to really understand how the code works. This blog post is an attempt to
 explain the solution.</p>
 </div>
 <div class="listingblock">
-<div class="title">Prolog</div>
+<div class="title">Prolog implementation from &#34;Simply Logical: Intelligent Reasoning by Example&#34;</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
  2
@@ -277,7 +277,7 @@ algorithm.
 list of <code>Moves</code> as follows;</p>
 </div>
 <div class="listingblock">
-<div class="title">Prolog</div>
+<div class="title">The base case</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 </pre></td><td class="code"><pre><span class="ss">hanoi</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nv">_A</span><span class="p">,</span> <span class="nv">_B</span><span class="p">,</span> <span class="nv">_C</span><span class="p">,</span> <span class="p">[]).</span>          <span class="c1">% </span><i class="conum" data-value="1"></i><b>(1)</b>
@@ -297,7 +297,7 @@ list of <code>Moves</code> as follows;</p>
 list…​</p>
 </div>
 <div class="listingblock">
-<div class="title">Prolog</div>
+<div class="title">Testing the base case</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -372,7 +372,7 @@ that Prolog performs pattern matching on predicate arguments.
 </tbody></table>
 </div>
 <div class="listingblock">
-<div class="title">Prolog</div>
+<div class="title">Works for one disc only</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -427,7 +427,7 @@ to C] + After</code> and unifies this new list with <code>Moves</code>.</p>
 <p>Lets attempt to solve for a single disc.</p>
 </div>
 <div class="listingblock">
-<div class="title">Prolog</div>
+<div class="title">Testing for one disc</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -460,7 +460,7 @@ and blow the stack.</p>
 <p>What happens when we call <code>N = 2</code>?</p>
 </div>
 <div class="listingblock">
-<div class="title">Prolog</div>
+<div class="title">Testing for two discs</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
@@ -486,16 +486,28 @@ C]</code>, which means we will need to change the order of the pegs when we call
 <code>[Middle to Right]</code>.</p>
 </div>
 <div class="listingblock">
-<div class="title">Prolog</div>
+<div class="title">Changes to support N - 1 discs</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre><span class="ss">hanoi</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nv">_A</span><span class="p">,</span> <span class="nv">_B</span><span class="p">,</span> <span class="nv">_C</span><span class="p">,</span> <span class="p">[]).</span>
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="p">:-</span><span class="ss">op</span><span class="p">(</span><span class="m">900</span><span class="p">,</span><span class="ss">xfx</span><span class="p">,</span><span class="ss">to</span><span class="p">).</span>
+
+<span class="c1">% hanoi(N,A,B,C,Moves) &lt;-Moves is the list of moves to</span>
+<span class="c1">%                        move N disks from peg A to peg C,</span>
+<span class="c1">%                        using peg B as intermediary peg</span>
+
+<span class="ss">hanoi</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nv">_A</span><span class="p">,</span> <span class="nv">_B</span><span class="p">,</span> <span class="nv">_C</span><span class="p">,</span> <span class="p">[]).</span>
 <span class="ss">hanoi</span><span class="p">(</span><span class="nv">N</span><span class="p">,</span> <span class="nv">A</span><span class="p">,</span> <span class="nv">B</span><span class="p">,</span> <span class="nv">C</span><span class="p">,</span> <span class="nv">Moves</span><span class="p">):-</span>
       <span class="nv">N</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">,</span>
       <span class="nv">N1</span> <span class="ss">is</span> <span class="nv">N</span> <span class="o">-</span> <span class="m">1</span><span class="p">,</span>
@@ -541,7 +553,7 @@ middle], [left to right | [middle to right]], Moves)</code>.</p>
 <p>Now, solving for two discs creates the correct list of moves.</p>
 </div>
 <div class="listingblock">
-<div class="title">Prolog</div>
+<div class="title">Testing N - 1 discs</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
 2
