@@ -6,11 +6,11 @@
     <description>Recent content in Posts on Balooga</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 05 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Prolog Learnings: The Tower of Hanoi</title>
       <link>https://www.balooga.com/posts/prolog-hanoi/</link>
-      <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 08 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://www.balooga.com/posts/prolog-hanoi/</guid>
       <description>A recursive implementation of the Tower of Hanoi in Prolog.   This particular implementaion of the Tower of Hanoi is taken from Peter Flach’s book &amp;#34;Simply Logical: Intelligent Reasoning by Example&amp;#34;, published in 1994 by Wiley. Also available online[1].
