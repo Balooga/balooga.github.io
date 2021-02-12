@@ -278,10 +278,9 @@ and then the new list is created as the stack is unwound.</p>
 <div class="paragraph">
 <p>But the previous code is not tail call optimized. In other words, the compiler
 not able to transform the <em>recursive procedure</em> into an <em>iterative process</em>.
-Which means that the code as written will eventually blown the stack if a list
-of sufficient size is copied. The code below has been modified to be tail call
-optimized, so the compiler can implement algorithm as a loop and not grow the
-stack.</p>
+Which means that the code as written will eventually blow the stack if a list of
+sufficient size is copied. The code below is modified to be tail call optimized,
+so the compiler can implement algorithm as a loop and not grow the stack.</p>
 </div>
 <div class="listingblock">
 <div class="title">Prolog</div>
