@@ -540,10 +540,39 @@ discs are being moved in both directions.</p>
 <p>Our existing code that handles two discs handles three discs just fine. In fact,
 the code handles <code>N - 1</code> discs. Try it out. But keep in mind that the &#34;Big O&#34;
 complexity for Tower of Hanoi is exponential, so things slow down <em>fast</em> for a
-number of discs greater than <code>N = 20</code>.</p>
+number of discs greater than <code>N = 20</code>. Recursion is pretty incredible.</p>
 </div>
-<div class="paragraph">
-<p>Isn’t recursion wonderful?</p>
+<div class="listingblock">
+<div class="title">Finally, the code reads a little easier when  the pegs A, B, C are changed to Src, Tmp and Dst</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="p">:-</span><span class="ss">op</span><span class="p">(</span><span class="m">900</span><span class="p">,</span><span class="ss">xfx</span><span class="p">,</span><span class="ss">to</span><span class="p">).</span>
+
+<span class="c1">% hanoi(N, Src, Tmp, Dst, Moves) &lt;-Moves is the list of moves to</span>
+<span class="c1">%                                  move N disks from peg Src to peg Dst,</span>
+<span class="c1">%                                  using peg Tmp as intermediary peg</span>
+
+<span class="ss">hanoi</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nv">_Src</span><span class="p">,</span> <span class="nv">_Tmp</span><span class="p">,</span> <span class="nv">_Dst</span><span class="p">,</span> <span class="p">[]).</span>
+<span class="ss">hanoi</span><span class="p">(</span><span class="nv">N</span><span class="p">,</span> <span class="nv">Src</span><span class="p">,</span> <span class="nv">Tmp</span><span class="p">,</span> <span class="nv">Dst</span><span class="p">,</span> <span class="nv">Moves</span><span class="p">):-</span>
+      <span class="nv">N</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">,</span>
+      <span class="nv">N1</span> <span class="ss">is</span> <span class="nv">N</span> <span class="o">-</span> <span class="m">1</span><span class="p">,</span>
+      <span class="ss">hanoi</span><span class="p">(</span><span class="nv">N1</span><span class="p">,</span> <span class="nv">Src</span><span class="p">,</span> <span class="nv">Dst</span><span class="p">,</span> <span class="nv">Tmp</span><span class="p">,</span> <span class="nv">Before</span><span class="p">),</span>               <span class="c1">% </span><i class="conum" data-value="1"></i><b>(1)</b>
+      <span class="ss">hanoi</span><span class="p">(</span><span class="nv">N1</span><span class="p">,</span> <span class="nv">Tmp</span><span class="p">,</span> <span class="nv">Src</span><span class="p">,</span> <span class="nv">Dst</span><span class="p">,</span> <span class="nv">After</span><span class="p">),</span>                <span class="c1">% </span><i class="conum" data-value="2"></i><b>(2)</b>
+      <span class="ss">append</span><span class="p">(</span><span class="nv">Before</span><span class="p">,</span> <span class="p">[</span><span class="nv">Src</span> <span class="ss">to</span> <span class="nv">Dst</span> <span class="p">|</span> <span class="nv">After</span><span class="p">],</span> <span class="nv">Moves</span><span class="p">).</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
 </div>
 <div class="imageblock">
 <div class="content">
