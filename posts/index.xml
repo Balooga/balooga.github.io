@@ -6,7 +6,18 @@
     <description>Recent content in Posts on Balooga</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Prolog Learnings: Simple Recursion</title>
+      <link>https://www.balooga.com/posts/prolog-simple-recursion/</link>
+      <pubDate>Fri, 12 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/prolog-simple-recursion/</guid>
+      <description>Using pattern matching, recursion and unificaton to copy a list.   Pattern matching, recursion, unification and the immutability of variables are core to the Prolog language and really shape how Prolog code is written. Things to keep in mind;
+   Prolog variables are immutable. Once a variable is unified to a value, that value cannot be changed.
+  When unified to a value that variable will have that value wherever it appears in scope.</description>
+    </item>
+    
     <item>
       <title>Prolog Learnings: The Tower of Hanoi</title>
       <link>https://www.balooga.com/posts/prolog-hanoi/</link>
@@ -126,17 +137,6 @@
       <description>Introduction In the following post we will look at a few ways to interate over the first one hundred integers (0 through 99) in Elixir calling FizzBuzz on each.
  Elixir lacks the familiar for, while, until language control-flow constructs that exist in other languages, instead encouraging use of the enumeration capabilities available in the collection modules within the Elixir standard library.
  The core requirements of a FizzBuzz, when passed an integer as a parameter, is to;</description>
-    </item>
-    
-    <item>
-      <title>Prolog Learnings: Simple Recursion</title>
-      <link>https://www.balooga.com/posts/prolog-simple-recursion/</link>
-      <pubDate>Wed, 12 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.balooga.com/posts/prolog-simple-recursion/</guid>
-      <description>Using pattern matching, recursion and unificaton to copy a list.   Pattern matching, recursion, unification and the immutability of variables are core to the Prolog language and really shape how Prolog code is written. Things to keep in mind;
-   Prolog variables are immutable. Once a variable is unified to a value, that value cannot be changed.
-  When unified to a value that variable will have that value wherever it appears in scope.</description>
     </item>
     
     <item>
