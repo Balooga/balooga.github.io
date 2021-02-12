@@ -129,6 +129,17 @@
     </item>
     
     <item>
+      <title>Prolog Learnings: Simple Recursion</title>
+      <link>https://www.balooga.com/posts/prolog-simple-recursion/</link>
+      <pubDate>Wed, 12 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/prolog-simple-recursion/</guid>
+      <description>Using pattern matching, recursion and unificaton to copy a list.   Pattern matching, recursion, unification and the immutability of variables are core to the Prolog language and really shape how Prolog code is written. Things to keep in mind;
+   Prolog variables are immutable. Once a variable is unified to a value, that value cannot be changed.
+  When unified to a value that variable will have that value wherever it appears in scope.</description>
+    </item>
+    
+    <item>
       <title>Logging is not the same as Alerting</title>
       <link>https://www.balooga.com/posts/logs-vs-alerting/</link>
       <pubDate>Sat, 10 Feb 2018 00:00:00 +0000</pubDate>
