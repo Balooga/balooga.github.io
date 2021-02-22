@@ -223,7 +223,7 @@ this list from L1 to L2.</p>
 </div>
 <div class="paragraph">
 <p>The interesting mechanic is that while both arguments contain the same list
-parsing syntax, in the first argument <code>[Head|Rest]</code> breaks the input list apart
+parsing syntax, in the first argument <code>[Head|Rest]</code> breaks apart the input list
 while <code>[Head|L2]</code> in the second argument <em>creates</em> the list as the stack
 unwinds. This is shown in some detail in the following examples;</p>
 </div>
@@ -277,10 +277,11 @@ and then the new list is created as the stack is unwound.</p>
 </div>
 <div class="paragraph">
 <p>But the previous code is not tail call optimized. In other words, the compiler
-not able to transform the <em>recursive procedure</em> into an <em>iterative process</em>.
+is unable to transform the <em>recursive procedure</em> into an <em>iterative process</em>.
 Which means that the code as written will eventually blow the stack if a list of
-sufficient size is copied. The code below is modified to be tail call optimized,
-so the compiler can implement algorithm as a loop and not grow the stack.</p>
+sufficient size is copied. The modified code shown below is tail call optimized,
+so Prolog will forgo recursion and implement algorithm as a loop and not grow
+the stack.</p>
 </div>
 <div class="listingblock">
 <div class="title">Prolog</div>
