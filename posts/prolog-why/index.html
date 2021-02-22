@@ -285,18 +285,18 @@ used to that). In the code above we use recursion to remove elements from the
 list and increment the count as the stack is unwound.</p>
 </div>
 <div class="paragraph">
+<p>The predicate that handles the &#34;non empty list&#34; moves closer to the &#34;empty list&#34;
+state by discarding an element from the list each time it is fired (and adds one
+to count). Eventually the &#34;empty list&#34; state is reached and count is initialized
+to zero.</p>
+</div>
+<div class="paragraph">
 <p>Prolog sits on top of a relational database. When predicates (similar to
 functions) are called, Prolog searches its internal database and fires the first
 matching predicate found. This means that each predicate is in effect
 stand-alone. This also means that the ordering of predicates is important. More
 specific predicates should be defined before less specific (more general)
 predicates in the source file.</p>
-</div>
-<div class="paragraph">
-<p>The predicate that handles the &#34;non empty list&#34; moves closer to the &#34;empty list&#34;
-state by discarding an element from the list each time it is fired (and adds one
-to count). Eventually the &#34;empty list&#34; state is reached and count is initialized
-to zero.</p>
 </div>
 </div>
 </div>
@@ -362,17 +362,17 @@ handles the empty list.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Without the <code>fail</code> clause, Prolog will return <code>true</code>. It matched a predicate
-so it has succeeded as far as it is concerned, unless we tell it otherwise.
-In this case we want Prolog to return <code>false</code> when it cannot find a matching
-element. This is what the <code>fail</code> does, it causes the predicate to fail. But
-it also kicks of backtracking.</p>
+<p>Without the <code>fail</code> clause Prolog will return <code>true</code> unless we tell it
+otherwise. It matched a predicate so it has succeeded as far as it is
+concerned. In this case we want Prolog to return <code>false</code> when it cannot find
+a matching element. This is what <code>fail</code> does, it causes the predicate to
+fail. But in doing so it also kicks of backtracking.</p>
 </li>
 <li>
 <p>Without the <code>!</code> (termed a &#34;cut&#34;), Prolog’s default behaviour on failure is
 to backtrack and continue searching for an alternate matching predicate. The
 <code>!</code> tells Prolog not to backtrack in the event of failure. We have come to
-the end of the list and therefore we know that backtracking will not find an
+the end of the list and we are certain that backtracking will not find an
 alternate answer.</p>
 </li>
 </ul>
@@ -404,7 +404,7 @@ meaning a stack frame is created each time the predicate calls itself. In this
 example, the recursive call is performed as the very last action and so  the
 compiler is able to transform the <em>recursive procedure</em> into an <em>iterative
 process</em> (a GOTO). No additional stack frames are created. Tail call recursion
-is more efficient that non-tail call recursion, and as an added bonus won’t blow
+is more efficient than non-tail call recursion and as an added bonus won’t blow
 the stack when iterating over large lists.</p>
 </div>
 <div class="paragraph">
