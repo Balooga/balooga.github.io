@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+
+    <meta name="author" content="Luke Crook">
+    <meta name="description" content="Until recently, programming a computer meant giving it a list of things to do, step by step, in order to solve a problem. In Prolog, this is no longer the case. A Prolog program can consist of a set of facts together with a set of conditions that the solution must satisfy; the computer can figure out for itself how to deduce the solution from the facts given. This is called LOGIC PROGRAMMING.">
+    <meta name="keywords" content="blog,developer,personal">
+
+    
+      <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Prolog Learnings: Why Prolog?"/>
+<meta name="twitter:description" content="Until recently, programming a computer meant giving it a list of things to do, step by step, in order to solve a problem. In Prolog, this is no longer the case. A Prolog program can consist of a set of facts together with a set of conditions that the solution must satisfy; the computer can figure out for itself how to deduce the solution from the facts given. This is called LOGIC PROGRAMMING."/>
+
+    <meta property="og:title" content="Prolog Learnings: Why Prolog?" />
+<meta property="og:description" content="Until recently, programming a computer meant giving it a list of things to do, step by step, in order to solve a problem. In Prolog, this is no longer the case. A Prolog program can consist of a set of facts together with a set of conditions that the solution must satisfy; the computer can figure out for itself how to deduce the solution from the facts given. This is called LOGIC PROGRAMMING." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.balooga.com/posts/prolog-why/" />
+<meta property="article:published_time" content="2021-02-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-02-21T00:00:00+00:00" />
+
+
+    
+      <base href="https://www.balooga.com/posts/prolog-why/">
+    
+    <title>
+  Prolog Learnings: Why Prolog? · Balooga
+</title>
+
+    
+      <link rel="canonical" href="https://www.balooga.com/posts/prolog-why/">
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://www.balooga.com/css/coder.min.0e5ce5b959a68dfe0232c6ddcec1e8ef154517c968464707f3181c437fe611c0.css" integrity="sha256-DlzluVmmjf4CMsbdzsHo7xVFF8loRkcH8xgcQ3/mEcA=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/github.css" />
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/custom.css" />
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-16x16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+  
+  
+  
+  <body class="colorscheme-light"
+        onload=" twemoji.parse(document.body); "
+  >
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://www.balooga.com/">
+      Balooga
+    </a>
+    
+      <span id="dark-mode-toggle" class="float-right">
+        <i class="fas fa-adjust fa-fw"></i>
+      </span>
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fas fa-bars fa-fw"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/about/">About</a>
+            </li>
+          
+        
+        
+        <li class="navigation-item separator">
+          <span>|</span>
+        </li>
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Prolog Learnings: Why Prolog?</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2021-02-21T00:00:00Z'>
+                February 21, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              6-minute read
+            </span>
+          </div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <div id="preamble">
+<div class="sectionbody">
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Until recently, programming a computer meant giving it a list of things to do,
+step by step, in order to solve a problem. In Prolog, this is no longer the
+case. A Prolog program can consist of a set of facts together with a set of
+conditions that the solution must satisfy; the computer can figure out for
+itself how to deduce the solution from the facts given. This is called LOGIC
+PROGRAMMING. Prolog is based on formal logic in the same way that FORTRAN,
+BASIC, and similar languages are based on arithmetic and simple algebra. Prolog
+solves problems by applying techniques originally developed to prove theorems in
+logic.</p>
+</div>
+</blockquote>
+<div class="attribution">
+— Prolog Programming In Depth<br/>
+<cite>1997</cite>
+</div>
+</div>
+<div class="paragraph">
+<p>I believe that all developers should be exposed to the Prolog style of &#34;Logic
+Programming&#34; as it is so very different to the &#34;procedural&#34; style that we have
+all become so used to. This and that Prolog sits on top of a relational database
+and performs automatic backtracking will bulldoze new pathways in the brain to
+solve problems.</p>
+</div>
+<div class="paragraph">
+<p>Lets take a look at three examples that show fact-based (or state-based)
+development in action.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Determine the length of a list,</p>
+</li>
+<li>
+<p>Test if a list contains a specified element, and</p>
+</li>
+<li>
+<p>Return the index at which the specified element is found in a list.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_length_of_a_list"><a class="anchor" href="#_length_of_a_list"></a><a class="link" href="#_length_of_a_list">Length of a list</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are four states that we need to account for when determining the length of
+a list;</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Account for the starting state,</p>
+</li>
+<li>
+<p>Account for traversing a non-empty list,</p>
+</li>
+<li>
+<p>Account for an empty list,</p>
+</li>
+<li>
+<p>Account for traversing to the end of a list.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>States (3) and (4) are the same. What is left after traversing the entire list
+and reaching the end is an empty list.</p>
+</div>
+<div class="paragraph">
+<p>States (1) and (2) are the same. We are traversing a non-empty list.</p>
+</div>
+<div class="paragraph">
+<p>This leaves only two states to account for;</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Account for an empty list,</p>
+</li>
+<li>
+<p>Account for traversing a non-empty list.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Before jumping in, we should cover the square bracket syntax that Prolog uses to
+pattern matches against lists (Elixir and Erlang use this syntax as well);</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>[]</code> : An empty list.</p>
+</li>
+<li>
+<p><code>[Element]</code> : A list having a single element.</p>
+</li>
+<li>
+<p><code>[Head|Rest]</code> : Unifies the first element of the list to <code>Head</code> with the
+remaining list unified to <code>Rest</code>.</p>
+</li>
+<li>
+<p><code>[One, Two, Three|Rest]</code> : Unifies the first three elements of the list to
+<code>One</code>, <code>Two</code>, and <code>Three</code> respectively with the remaining list unified to
+<code>Rest</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Length of a list</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="ss">llength</span><span class="p">([]</span>      <span class="p">,</span> <span class="m">0</span><span class="p">).</span>       <span class="c1">% </span><i class="conum" data-value="1"></i><b>(1)</b>
+<span class="ss">llength</span><span class="p">([</span><span class="nv">_</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span> <span class="nv">N1</span><span class="p">)</span> <span class="p">:-</span>    <span class="c1">% </span><i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="ss">llength</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">N</span><span class="p">),</span>
+    <span class="nv">N1</span> <span class="ss">is</span> <span class="nv">N</span> <span class="o">+</span> <span class="m">1</span><span class="p">.</span>
+
+<span class="o">?-</span> <span class="ss">llength</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">],</span> <span class="nv">N</span><span class="p">).</span>
+<span class="nv">N</span> <span class="o">=</span> <span class="m">5</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tbody><tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>For an empty list, initialize count to zero.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>For the non-empty list, attempt to transition to an empty list.</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>To begin with, idiomatic Prolog code relies quite heavily on recursion (so get
+used to that). In the code above we use recursion to remove elements from the
+list and increment the count as the stack is unwound.</p>
+</div>
+<div class="paragraph">
+<p>Prolog sits on top of a relational database. When predicates (similar to
+functions) are called, Prolog searches its internal database and fires the first
+matching predicate found. This means that each predicate is in effect
+stand-alone. This also means that the ordering of predicates is important. More
+specific predicates should be defined before less specific (more general)
+predicates in the source file.</p>
+</div>
+<div class="paragraph">
+<p>The predicate that handles the &#34;non empty list&#34; moves closer to the &#34;empty list&#34;
+state by discarding an element from the list each time it is fired (and adds one
+to count). Eventually the &#34;empty list&#34; state is reached and count is initialized
+to zero.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_if_a_list_contains_a_specified_element"><a class="anchor" href="#_test_if_a_list_contains_a_specified_element"></a><a class="link" href="#_test_if_a_list_contains_a_specified_element">Test if a list contains a specified element</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are three states that need to be accounted for;</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An empty list and the element is not found,</p>
+</li>
+<li>
+<p>The element is found,</p>
+</li>
+<li>
+<p>A non-empty list and the element is not yet found.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">List contains element</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="ss">mmember</span><span class="p">([]</span>       <span class="p">,</span> <span class="nv">_X</span><span class="p">)</span> <span class="p">:-</span> <span class="p">!,</span> <span class="ss">fail</span><span class="p">.</span>      <span class="c1">% </span><i class="conum" data-value="1"></i><b>(1)</b>
+<span class="ss">mmember</span><span class="p">([</span><span class="nv">X</span><span class="p">|</span><span class="nv">_Rest</span><span class="p">],</span>  <span class="nv">X</span><span class="p">).</span>                 <span class="c1">% </span><i class="conum" data-value="2"></i><b>(2)</b>
+<span class="ss">mmember</span><span class="p">([</span><span class="nv">_X</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span>  <span class="nv">X</span><span class="p">)</span> <span class="p">:-</span>               <span class="c1">% </span><i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="ss">mmember</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">X</span><span class="p">).</span>
+
+<span class="o">?-</span> <span class="ss">mmember</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">],</span> <span class="m">3</span><span class="p">).</span>
+<span class="ss">true</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tbody><tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>An empty list, element was not found.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Element is found. The first element of the list X matches the element X.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The first element of the list does not match, discard it and continue with the Rest of the list.</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Note the presence of the <code>!</code> and the <code>fail</code> clauses in the predicate that
+handles the empty list.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Without the <code>fail</code> clause, Prolog will return <code>true</code>. It matched a predicate
+so it has succeeded as far as it is concerned, unless we tell it otherwise.
+In this case we want Prolog to return <code>false</code> when it cannot find a matching
+element. This is what the <code>fail</code> does, it causes the predicate to fail. But
+it also kicks of backtracking.</p>
+</li>
+<li>
+<p>Without the <code>!</code> (termed a &#34;cut&#34;), Prolog’s default behaviour on failure is
+to backtrack and continue searching for an alternate matching predicate. The
+<code>!</code> tells Prolog not to backtrack in the event of failure. We have come to
+the end of the list and therefore we know that backtracking will not find an
+alternate answer.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_return_element_at_index"><a class="anchor" href="#_return_element_at_index"></a><a class="link" href="#_return_element_at_index">Return Element at Index</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are again three states that must be accounted for;</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An empty list and the element is not found,</p>
+</li>
+<li>
+<p>The element is found,</p>
+</li>
+<li>
+<p>A non-empty list and the element is not yet found.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The previous examples were implemented in a non-tail call recursive style,
+meaning a stack frame is created each time the predicate calls itself. In this
+example, the recursive call is performed as the very last action and so  the
+compiler is able to transform the <em>recursive procedure</em> into an <em>iterative
+process</em> (a GOTO). No additional stack frames are created. Tail call recursion
+is more efficient that non-tail call recursion, and as an added bonus won’t blow
+the stack when iterating over large lists.</p>
+</div>
+<div class="paragraph">
+<p>Always try to write in a tail call recursive style unless you know you are
+processing a small number of <em>N</em>, or your algorithm is <em>N Log N</em> or better.</p>
+</div>
+<div class="listingblock">
+<div class="title">Element at Index</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+</pre></td><td class="code"><pre><span class="ss">locate_at_index_</span><span class="p">([]</span>       <span class="p">,</span> <span class="nv">_X</span><span class="p">,</span> <span class="nv">_C</span><span class="p">,</span> <span class="nv">_I</span><span class="p">)</span> <span class="p">:-</span> <span class="p">!,</span> <span class="ss">fail</span><span class="p">.</span>     <span class="c1">% </span><i class="conum" data-value="1"></i><b>(1)</b>
+<span class="ss">locate_at_index_</span><span class="p">([</span><span class="nv">X</span><span class="p">|</span><span class="nv">_Rest</span><span class="p">],</span>  <span class="nv">X</span><span class="p">,</span>  <span class="nv">C</span><span class="p">,</span>  <span class="nv">C</span><span class="p">).</span>                <span class="c1">% </span><i class="conum" data-value="2"></i><b>(2)</b>
+<span class="ss">locate_at_index_</span><span class="p">([</span><span class="nv">_X</span><span class="p">|</span><span class="nv">Rest</span><span class="p">],</span>  <span class="nv">X</span><span class="p">,</span>  <span class="nv">C</span><span class="p">,</span>  <span class="nv">I</span><span class="p">)</span> <span class="p">:-</span>              <span class="c1">% </span><i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="nv">C1</span> <span class="ss">is</span> <span class="nv">C</span> <span class="o">+</span> <span class="m">1</span><span class="p">,</span>
+    <span class="ss">locate_at_index_</span><span class="p">(</span><span class="nv">Rest</span><span class="p">,</span> <span class="nv">X</span><span class="p">,</span> <span class="nv">C1</span><span class="p">,</span> <span class="nv">I</span><span class="p">).</span>
+
+<span class="ss">locate_at_index</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="nv">X</span><span class="p">,</span> <span class="nv">I</span><span class="p">)</span> <span class="p">:-</span>
+    <span class="ss">locate_at_index_</span><span class="p">(</span><span class="nv">Xs</span><span class="p">,</span> <span class="nv">X</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="nv">I</span><span class="p">).</span>
+
+<span class="o">?-</span> <span class="ss">locate_at_index</span><span class="p">([</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">],</span> <span class="m">4</span><span class="p">,</span> <span class="nv">I</span><span class="p">).</span>
+<span class="nv">I</span> <span class="o">=</span> <span class="m">3</span><span class="p">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tbody><tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>An empty list, element was not found.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Element is found. The first element of the list X matches the element X. Unify &#39;I&#39; with the current count.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The first element of the list does not match, discard it and continue with the Rest of the list. Also add one to count.</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js" id="MathJax-script"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ['$', '$'], ['\\(', '\\)']
+        ],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>Between a REPL and a hard place</p>
+      
+      
+        ©
+        
+        2021
+         Luke Crook 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+    </main>
+
+    
+      
+      <script src="https://www.balooga.com/js/dark-mode.min.0213e1773e6d1c5a644f847c67a6f8abac49a3776e2976f6008038af8c5b76a1.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+  </body>
+
+</html>
