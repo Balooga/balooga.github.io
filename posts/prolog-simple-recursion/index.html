@@ -280,8 +280,8 @@ and then the new list is created as the stack is unwound.</p>
 is unable to transform the <em>recursive procedure</em> into an <em>iterative process</em>.
 Which means that the code as written will eventually blow the stack if a list of
 sufficient size is copied. The modified code shown below is tail call optimized,
-so Prolog will forgo recursion and implement algorithm as a loop and not grow
-the stack.</p>
+so Prolog will forgo recursion and implement the algorithm as a loop and not
+grow the stack.</p>
 </div>
 <div class="listingblock">
 <div class="title">Prolog</div>
