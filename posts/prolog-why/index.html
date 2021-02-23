@@ -377,6 +377,21 @@ alternate answer.</p>
 </li>
 </ul>
 </div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+We don’t even need to explicitly handle the empty list case as Prolog will
+fail to pattern match to any of the predicates that we define, so the default
+behaviour is to fail. In the previous &#34;llength&#34; example we explicitly handled
+the empty list because we had to return 0.
+</td>
+</tr>
+</tbody></table>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -452,6 +467,20 @@ processing a small number of <em>N</em>, or your algorithm is <em>N Log N</em> o
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>The first element of the list does not match, discard it and continue with the Rest of the list. Also add one to count.</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+We don’t even need to explicitly handle the empty list case as Prolog will
+fail to pattern match to any of the predicates that we define, so the default
+behaviour is to fail.
+</td>
 </tr>
 </tbody></table>
 </div>
