@@ -212,7 +212,7 @@ its internal clauses. And clauses may be either goals or rules.
 </tbody></table>
 </div>
 <div class="paragraph">
-<p>The predicate youngest returns the youngest person from the previously defined
+<p>The predicate <code>youngest</code> returns the youngest person from the previously defined
 person records. This predicate states; &#34;for all values of Person/Age, return the
 Person/Age where no other NewPerson/NewAge is younger.&#34;</p>
 </div>
@@ -244,7 +244,7 @@ backtracking.
 </div>
 </div>
 <div class="paragraph">
-<p>youngest defines two opportunities for backtracking which means that our
+<p><code>youngest</code> defines two opportunities for backtracking which means that our
 algorithm will be close to O(N^2) which is quadratic complexity and therefore
 not really suitable for any large number of person records.</p>
 </div>
@@ -254,32 +254,32 @@ not really suitable for any large number of person records.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Prolog assigns Person/Age to the first matching record, which is
-person(Andrew, 48). This is the first opportunity for backtracking and is in
+<p>Prolog assigns <code>Person/Age</code> to the first matching record, which is
+<code>person(Andrew, 48)</code>. This is the first opportunity for backtracking and is in
 effect the outer loop.</p>
 </li>
 <li>
-<p>Within the not Prolog will backtrack (the inner loop) attempting to satisfy
-the inner clauses to true, in other words trying to find values of NewAge
-less than Age. Failures initiate backtrackng until NewPerson and NewAge
-are assigned carl and 34 respectively. 34 is less than 48 and the
-clauses succeed. However the not inverts this to fail, causing Prolog to
-backtrack in the outer loop and assign Person and Age to the next record
-found, which is person(bert, 50).</p>
+<p>Within the <code>not</code> Prolog will backtrack (the inner loop) attempting to satisfy
+the inner clauses to <code>true</code>, in other words trying to find values of <code>NewAge</code>
+less than <code>Age</code>. Failures initiate backtrackng until <code>NewPerson</code> and <code>NewAge</code>
+are assigned <code>carl</code> and <code>34</code> respectively. <code>34</code> is less than <code>48</code> and the
+clauses succeed. However the <code>not</code> inverts this to <code>fail</code>, causing Prolog to
+backtrack in the outer loop and assign <code>Person</code> and <code>Age</code> to the next record
+found, which is <code>person(bert, 50)</code>.</p>
 </li>
 <li>
-<p>Prolog then enters the not and attempts again to find a value of NewAge
-less than Age by backtracking from andrew/48 until danielle/33. The
-clauses are satisfied but true is inverted by not, causing backtracking in
+<p>Prolog then enters the <code>not</code> and attempts again to find a value of <code>NewAge</code>
+less than <code>Age</code> by backtracking from <code>andrew/48</code> until <code>danielle/33</code>. The
+clauses are satisfied but <code>true</code> is inverted by <code>not</code>, causing backtracking in
 outer loop.</p>
 </li>
 <li>
-<p>Outer/Inner backtracking continues until Person/Age is assigned
-danielle/33. At this point Prolog backtracks within the inner loop and
-exhausts all persons causing the clauses to fail — because there exists no
-person younger than person(danielle, 33). The not inverts the fail to
-true satisfing the clauses in youngest causing Prolog to immediately
-return with Person and Age assigned the values danielle and 33
+<p>Outer/Inner backtracking continues until <code>Person/Age</code> is assigned
+<code>danielle/33</code>. At this point Prolog backtracks within the inner loop and
+exhausts all persons causing the clauses to <code>fail</code> — because there exists no
+person younger than <code>person(danielle, 33)</code>. The <code>not</code> inverts the <code>fail</code> to
+<code>true</code> satisfing the clauses in <code>youngest</code> causing Prolog to immediately
+return with <code>Person</code> and <code>Age</code> assigned the values <code>danielle</code> and <code>33</code>
 respectively.</p>
 </li>
 </ul>
