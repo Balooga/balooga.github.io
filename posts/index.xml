@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Balooga</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 21 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 22 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Prolog Learnings: Backtracking</title>
+      <link>https://www.balooga.com/posts/prolog-backtracking/</link>
+      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/prolog-backtracking/</guid>
+      <description>Say you wish to find the name and age of the youngest person in a list of person records. This is a straightforward O(N) operation in any iterative language and can be implemented by keeping track of the youngest age seen while looping through the list of persons.
+ In Prolog we can make use the automatic backtracking capability instead of using a loop construct. This won’t be an O(N) operation but for anything less than a few hundred records it shouldn’t be too bad.</description>
+    </item>
+    
     <item>
       <title>Prolog Learnings: Why learn Prolog?</title>
       <link>https://www.balooga.com/posts/prolog-why/</link>

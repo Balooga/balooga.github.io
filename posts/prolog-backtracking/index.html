@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+
+    <meta name="author" content="Luke Crook">
+    <meta name="description" content="Say you wish to find the name and age of the youngest person in a list of person records. This is a straightforward O(N) operation in any iterative language and can be implemented by keeping track of the youngest age seen while looping through the list of persons.
+ In Prolog we can make use the automatic backtracking capability instead of using a loop construct. This won’t be an O(N) operation but for anything less than a few hundred records it shouldn’t be too bad.">
+    <meta name="keywords" content="blog,developer,personal">
+
+    
+      <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Prolog Learnings: Backtracking"/>
+<meta name="twitter:description" content="Say you wish to find the name and age of the youngest person in a list of person records. This is a straightforward O(N) operation in any iterative language and can be implemented by keeping track of the youngest age seen while looping through the list of persons.
+ In Prolog we can make use the automatic backtracking capability instead of using a loop construct. This won’t be an O(N) operation but for anything less than a few hundred records it shouldn’t be too bad."/>
+
+    <meta property="og:title" content="Prolog Learnings: Backtracking" />
+<meta property="og:description" content="Say you wish to find the name and age of the youngest person in a list of person records. This is a straightforward O(N) operation in any iterative language and can be implemented by keeping track of the youngest age seen while looping through the list of persons.
+ In Prolog we can make use the automatic backtracking capability instead of using a loop construct. This won’t be an O(N) operation but for anything less than a few hundred records it shouldn’t be too bad." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.balooga.com/posts/prolog-backtracking/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-03-22T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-03-22T00:00:00&#43;00:00" />
+
+
+
+    
+      <base href="https://www.balooga.com/posts/prolog-backtracking/">
+    
+    <title>
+  Prolog Learnings: Backtracking · Balooga
+</title>
+
+    
+      <link rel="canonical" href="https://www.balooga.com/posts/prolog-backtracking/">
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://www.balooga.com/css/coder.min.0e5ce5b959a68dfe0232c6ddcec1e8ef154517c968464707f3181c437fe611c0.css" integrity="sha256-DlzluVmmjf4CMsbdzsHo7xVFF8loRkcH8xgcQ3/mEcA=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/github.css" />
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/custom.css" />
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-16x16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.81.0" />
+  </head>
+  
+  
+  
+  <body class="colorscheme-light"
+        onload=" twemoji.parse(document.body); "
+  >
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://www.balooga.com/">
+      Balooga
+    </a>
+    
+      <span id="dark-mode-toggle" class="float-right">
+        <i class="fas fa-adjust fa-fw"></i>
+      </span>
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fas fa-bars fa-fw"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/about/">About</a>
+            </li>
+          
+        
+        
+        <li class="navigation-item separator">
+          <span>|</span>
+        </li>
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Prolog Learnings: Backtracking</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2021-03-22T00:00:00Z'>
+                March 22, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              3-minute read
+            </span>
+          </div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <div class="paragraph">
+<p>Say you wish to find the name and age of the youngest person in a list of person
+records. This is a straightforward O(N) operation in any iterative language and
+can be implemented by keeping track of the youngest age seen while looping
+through the list of persons.</p>
+</div>
+<div class="paragraph">
+<p>In Prolog we can make use the automatic backtracking capability instead of using
+a loop construct. This won’t be an O(N) operation but for anything less than a
+few hundred records it shouldn’t be too bad.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A goal in Prolog is a predicate that always evalutes to true. A Rule in
+Prolog is a predicate that may evaluate to true depending on the evaluation of
+its internal clauses. And clauses may be either goals or rules.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>First we create our person records or &#34;goals&#34;.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="ss">person</span><span class="p">(</span><span class="ss">andrew</span><span class="p">,</span> <span class="m">48</span><span class="p">).</span>
+<span class="ss">person</span><span class="p">(</span><span class="ss">bert</span><span class="p">,</span> <span class="m">50</span><span class="p">).</span>
+<span class="ss">person</span><span class="p">(</span><span class="ss">carl</span><span class="p">,</span> <span class="m">34</span><span class="p">).</span>
+<span class="ss">person</span><span class="p">(</span><span class="ss">danielle</span><span class="p">,</span> <span class="m">33</span><span class="p">).</span>
+<span class="ss">person</span><span class="p">(</span><span class="ss">estelle</span><span class="p">,</span> <span class="m">45</span><span class="p">).</span>
+
+<span class="ss">youngest</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="nv">Age</span><span class="p">)</span> <span class="p">:-</span>
+   <span class="ss">person</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="nv">Age</span><span class="p">),</span>                 <span class="c1">% </span><i class="conum" data-value="1"></i><b>(1)</b>
+   <span class="ss">not</span> <span class="p">((</span>                               <span class="c1">% </span><i class="conum" data-value="2"></i><b>(2)</b>
+            <span class="ss">person</span><span class="p">(</span><span class="nv">NewPerson</span><span class="p">,</span> <span class="nv">NewAge</span><span class="p">),</span>  <span class="c1">% </span><i class="conum" data-value="3"></i><b>(3)</b>
+            <span class="nv">NewAge</span> <span class="o">&lt;</span> <span class="nv">Age</span>
+       <span class="p">)).</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tbody><tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>First opportunity for backtracking. The outer loop.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>This effectively means &#34;No person having NewAge less than Age&#34;</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Second opportunity for backtracking. The inner loop.</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The predicate youngest returns the youngest person from the previously defined
+person records. This predicate states; &#34;for all values of Person/Age, return the
+Person/Age where no other NewPerson/NewAge is younger.&#34;</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It is important when thinking in Prolog to consider predicates as &#34;for
+all&#34; or &#34;for some&#34; or &#34;for any&#34; because of this capability for automatic
+backtracking.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="prolog"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="o">?-</span> <span class="ss">youngest</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="nv">Age</span><span class="p">).</span>
+
+<span class="nv">Person</span> <span class="o">=</span> <span class="ss">danielle</span><span class="p">,</span>
+<span class="nv">Age</span> <span class="o">=</span> <span class="m">33</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>youngest defines two opportunities for backtracking which means that our
+algorithm will be close to O(N^2) which is quadratic complexity and therefore
+not really suitable for any large number of person records.</p>
+</div>
+<div class="paragraph">
+<p>Prolog attempts to find the youngest person as follows;</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Prolog assigns Person/Age to the first matching record, which is
+person(Andrew, 48). This is the first opportunity for backtracking and is in
+effect the outer loop.</p>
+</li>
+<li>
+<p>Within the not Prolog will backtrack (the inner loop) attempting to satisfy
+the inner clauses to true, in other words trying to find values of NewAge
+less than Age. Failures initiate backtrackng until NewPerson and NewAge
+are assigned carl and 34 respectively. 34 is less than 48 and the
+clauses succeed. However the not inverts this to fail, causing Prolog to
+backtrack in the outer loop and assign Person and Age to the next record
+found, which is person(bert, 50).</p>
+</li>
+<li>
+<p>Prolog then enters the not and attempts again to find a value of NewAge
+less than Age by backtracking from andrew/48 until danielle/33. The
+clauses are satisfied but true is inverted by not, causing backtracking in
+outer loop.</p>
+</li>
+<li>
+<p>Outer/Inner backtracking continues until Person/Age is assigned
+danielle/33. At this point Prolog backtracks within the inner loop and
+exhausts all persons causing the clauses to fail — because there exists no
+person younger than person(danielle, 33). The not inverts the fail to
+true satisfing the clauses in youngest causing Prolog to immediately
+return with Person and Age assigned the values danielle and 33
+respectively.</p>
+</li>
+</ul>
+</div>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js" id="MathJax-script"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ['$', '$'], ['\\(', '\\)']
+        ],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>Between a REPL and a hard place</p>
+      
+      
+        ©
+        
+        2021
+         Luke Crook 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+    </main>
+
+    
+      
+      <script src="https://www.balooga.com/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+  </body>
+
+</html>
