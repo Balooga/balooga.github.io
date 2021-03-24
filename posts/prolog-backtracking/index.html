@@ -254,18 +254,19 @@ not really suitable for any large number of person records.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Prolog assigns <code>Person/Age</code> to the first matching record, which is
+<p>Prolog assigns <code>Person/Age</code> to the first matching record in line #8, which is
 <code>person(Andrew, 48)</code>. This is the first opportunity for backtracking and is in
 effect the outer loop.</p>
 </li>
 <li>
-<p>Within the <code>not</code> Prolog will backtrack (the inner loop) attempting to satisfy
-the inner clauses to <code>true</code>, in other words trying to find values of <code>NewAge</code>
-less than <code>Age</code>. Failures initiate backtrackng until <code>NewPerson</code> and <code>NewAge</code>
-are assigned <code>carl</code> and <code>34</code> respectively. <code>34</code> is less than <code>48</code> and the
+<p>Within the <code>not</code> in line #9, Prolog will backtrack (the inner loop) attempting
+to satisfy the inner clauses to <code>true</code>, in other words trying to find any
+<code>NewPerson/NewAge</code> value (line #10) where <code>NewAge</code> less than <code>Age</code> (line #11).
+Failures initiate backtrackng until <code>NewPerson</code> and <code>NewAge</code> are assigned
+<code>carl</code> and <code>34</code> respectively (line #10). <code>34</code> is less than <code>48</code> and the
 clauses succeed. However the <code>not</code> inverts this to <code>fail</code>, causing Prolog to
 backtrack in the outer loop and assign <code>Person</code> and <code>Age</code> to the next record
-found, which is <code>person(bert, 50)</code>.</p>
+found (line #8), which is <code>person(bert, 50)</code>.</p>
 </li>
 <li>
 <p>Prolog then enters the <code>not</code> and attempts again to find a value of <code>NewAge</code>
