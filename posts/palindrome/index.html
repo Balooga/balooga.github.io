@@ -232,7 +232,7 @@ palindromes.
 </div>
 <div class="paragraph">
 <p>This is where creating a solution using a declarative pattern matching language
-like Prolog is interesting. All we need to test for an empty list is to define a
+such as Prolog is interesting. All we need to test for an empty list is to define a
 &#34;fact&#34; as follows, which takes care of the first use case.</p>
 </div>
 <div class="listingblock">
@@ -283,17 +283,15 @@ and compares the &#34;rest&#34;.</p>
 2
 3
 4
-5
 </pre></td><td class="code"><pre><span class="n">palindrome</span><span class="p">([</span><span class="n">_</span><span class="o">|</span><span class="no">T</span><span class="p">],</span> <span class="no">T</span><span class="p">)</span><span class="o">.</span>
 
 <span class="p">%</span> <span class="no">This</span> <span class="n">results</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">following</span> <span class="n">pattern</span>
-
-<span class="n">palindrome</span><span class="p">([</span><span class="n">_</span><span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span><span class="o">.</span>
+<span class="p">%</span> <span class="n">palindrome</span><span class="p">([</span><span class="n">_</span><span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span><span class="o">.</span>
 </pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>With just two predicates, we have handled all our use cases.</p>
+<p>So wiht just two predicates, we have handled all our use cases.</p>
 </div>
 <div class="paragraph">
 <p>Now we need to define the predicate that moves characters from the Input to the
@@ -359,23 +357,11 @@ from the input and building up the target list in reverse.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>As palindrome recurses, Prolog will attempt to match to a define predicate.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tbody><tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Which is why ordering of rules and predicates in the source file is
-important.
-</td>
-</tr>
-</tbody></table>
+<p>As palindrome recurses, Prolog will attempt to match to a defined predicate.
+Which is why ordering of rules and predicates in the source file is important.</p>
 </div>
 <div class="paragraph">
-<p>Finally, lets define an entry point.</p>
+<p>Finally, lets create the entry point.</p>
 </div>
 <div class="listingblock">
 <div class="title">Palindrome</div>
