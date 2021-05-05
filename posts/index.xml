@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Balooga</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.balooga.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Testing for Palindromes in Prolog</title>
+      <link>https://www.balooga.com/posts/palindrome/</link>
+      <pubDate>Wed, 05 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.balooga.com/posts/palindrome/</guid>
+      <description>There are at least two common algorithms to determine if characters in a string form a palindrome;
+   Loop over the string using two indices. The first index starts at &amp;#34;zero&amp;#34; and increases by one character each loop. The second index starts at &amp;#34;string length minus one&amp;#34; and decreases by one character each loop. Compare the characters at each index and if equal continue looping. If not equal then exit, the string is not a palindrome.</description>
+    </item>
+    
     <item>
       <title>Prolog Learnings: Backtracking</title>
       <link>https://www.balooga.com/posts/prolog-backtracking/</link>

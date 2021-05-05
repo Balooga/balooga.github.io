@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+
+    <meta name="author" content="Luke Crook">
+    <meta name="description" content="There are at least two common algorithms to determine if characters in a string form a palindrome;
+   Loop over the string using two indices. The first index starts at &#34;zero&#34; and increases by one character each loop. The second index starts at &#34;string length minus one&#34; and decreases by one character each loop. Compare the characters at each index and if equal continue looping. If not equal then exit, the string is not a palindrome.">
+    <meta name="keywords" content="blog,developer,personal">
+
+    
+      <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Testing for Palindromes in Prolog"/>
+<meta name="twitter:description" content="There are at least two common algorithms to determine if characters in a string form a palindrome;
+   Loop over the string using two indices. The first index starts at &#34;zero&#34; and increases by one character each loop. The second index starts at &#34;string length minus one&#34; and decreases by one character each loop. Compare the characters at each index and if equal continue looping. If not equal then exit, the string is not a palindrome."/>
+
+    <meta property="og:title" content="Testing for Palindromes in Prolog" />
+<meta property="og:description" content="There are at least two common algorithms to determine if characters in a string form a palindrome;
+   Loop over the string using two indices. The first index starts at &#34;zero&#34; and increases by one character each loop. The second index starts at &#34;string length minus one&#34; and decreases by one character each loop. Compare the characters at each index and if equal continue looping. If not equal then exit, the string is not a palindrome." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.balooga.com/posts/palindrome/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-05-05T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-05-05T00:00:00&#43;00:00" />
+
+
+
+    
+      <base href="https://www.balooga.com/posts/palindrome/">
+    
+    <title>
+  Testing for Palindromes in Prolog · Balooga
+</title>
+
+    
+      <link rel="canonical" href="https://www.balooga.com/posts/palindrome/">
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://www.balooga.com/css/coder.min.0e5ce5b959a68dfe0232c6ddcec1e8ef154517c968464707f3181c437fe611c0.css" integrity="sha256-DlzluVmmjf4CMsbdzsHo7xVFF8loRkcH8xgcQ3/mEcA=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/github.css" />
+    
+      <link rel="stylesheet" href="https://www.balooga.com/css/custom.css" />
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://www.balooga.com/img/favicon-16x16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.83.0" />
+  </head>
+  
+  
+  
+  <body class="colorscheme-light"
+        onload=" twemoji.parse(document.body); "
+  >
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://www.balooga.com/">
+      Balooga
+    </a>
+    
+      <span id="dark-mode-toggle" class="float-right">
+        <i class="fas fa-adjust fa-fw"></i>
+      </span>
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fas fa-bars fa-fw"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="https://www.balooga.com/about/">About</a>
+            </li>
+          
+        
+        
+        <li class="navigation-item separator">
+          <span>|</span>
+        </li>
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Testing for Palindromes in Prolog</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2021-05-05T00:00:00Z'>
+                May 5, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              5-minute read
+            </span>
+          </div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <div class="paragraph">
+<p>There are at least two common algorithms to determine if characters in a string
+form a palindrome;</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Loop over the string using two indices. The first index starts at &#34;zero&#34; and
+increases by one character each loop. The second index starts at &#34;string
+length minus one&#34; and decreases by one character each loop. Compare the
+characters at each index and if equal continue looping. If not equal then
+exit, the string is not a palindrome. Continue looping until the first index
+is equal or greater than the second index, at this point the word is a
+palindrome.</p>
+</li>
+<li>
+<p>Create a copy of and reverse the input string and if equal to the the original
+then the string is a palindrome.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Both algorithms require explicit conditional comparisons in the code. But we can
+accomplish the same result in a way that requires only pattern matching and
+implicit comparisons.</p>
+</div>
+<div class="paragraph">
+<p>We want to equate the characters from the first half of the input string with a
+mirror of the characters in the second half of the string. If equal, then the
+string is a palindrome.</p>
+</div>
+<div class="paragraph">
+<p>We can accomplish this by removing each character from the head of the input and
+adding characters to the head of a target, effectively reversing the input,
+comparing the target with the input as we go. Ending as soon as the input and
+target match, or we run out of characters from input. This is described in the
+example below.</p>
+</div>
+<div class="listingblock">
+<div class="title">A Palindrome</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="code"><pre><span class="n">palindrome</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">],</span> <span class="p">[])</span><span class="o">.</span>   <span class="p">%</span> <span class="ow">not</span> <span class="n">equal</span>
+<span class="n">palindrome</span><span class="p">([</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">])</span><span class="o">.</span>     <span class="p">%</span> <span class="ow">not</span> <span class="n">equal</span>
+<span class="n">palindrome</span><span class="p">([</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">])</span><span class="o">.</span>     <span class="p">%</span> <span class="n">equal</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Because we are implementing this in Prolog, we prefer that the input is in the
+form of a list. It is straightforward to break an atom or string into a list of
+characers using the built in prolog predicate string_chars.</p>
+</div>
+<div class="paragraph">
+<p>Let’s define the cases.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+We suppose that an empty list and a list with a single element are both
+palindromes.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="p">%%</span> <span class="no">Palindrome</span> <span class="no">Use</span> <span class="no">Cases</span>
+<span class="p">%%</span>
+<span class="p">%%</span> <span class="no">In</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">palindrome</span><span class="p">(</span><span class="no">In</span><span class="p">)</span><span class="o">.</span>                  <span class="p">%</span> <span class="no">True</span>
+<span class="p">%%</span> <span class="no">In</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">palindrome</span><span class="p">(</span><span class="no">In</span><span class="p">)</span><span class="o">.</span>                 <span class="p">%</span> <span class="no">True</span>
+<span class="p">%%</span> <span class="no">In</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">],</span> <span class="n">palindrome</span><span class="p">(</span><span class="no">In</span><span class="p">)</span><span class="o">.</span>              <span class="p">%</span> <span class="no">False</span>
+<span class="p">%%</span> <span class="no">In</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">],</span> <span class="n">palindrome</span><span class="p">(</span><span class="no">In</span><span class="p">)</span><span class="o">.</span>        <span class="p">%</span> <span class="no">True</span>
+<span class="p">%%</span> <span class="no">In</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">],</span> <span class="n">palindrome</span><span class="p">(</span><span class="no">In</span><span class="p">)</span><span class="o">.</span>           <span class="p">%</span> <span class="no">True</span>
+<span class="p">%%</span> <span class="no">In</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="n">palindrome</span><span class="p">(</span><span class="no">In</span><span class="p">)</span><span class="o">.</span>           <span class="p">%</span> <span class="no">False</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is where creating a solution using a declarative pattern matching language
+like Prolog is interesting. All we need to test for an empty list is to define a
+&#34;fact&#34; as follows, which takes care of the first use case.</p>
+</div>
+<div class="listingblock">
+<div class="title">Fact for an Empty List</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="n">palindrome</span><span class="p">([],</span> <span class="p">[])</span><span class="o">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To handle our first example, [a, b, b, a], and in fact, any use case having an
+even number of characters, we define a &#34;rule&#34; that evaluates to true when the
+same parameters are passed to both arguments.</p>
+</div>
+<div class="listingblock">
+<div class="title">Rule for an even number of characters</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+</pre></td><td class="code"><pre><span class="n">palindrome</span><span class="p">(</span><span class="no">Input</span><span class="p">,</span> <span class="no">Input</span><span class="p">)</span><span class="o">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that palindrome([], []) is a more specific case of palindrome(Input,
+Input) and therefore we can do away with the former. So palindrome(Input, Input)
+handles use cases #1, #3 and #4. But how to handle an odd number of characters
+for a palindrome like [k, a, y, a, k]?</p>
+</div>
+<div class="listingblock">
+<div class="title">Kayak</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="n">palindrome</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span><span class="o">.</span>
+<span class="n">palindrome</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span><span class="o">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To handle an odd number of characters, we need a pattern that ignores the &#34;head&#34;
+and compares the &#34;rest&#34;.</p>
+</div>
+<div class="listingblock">
+<div class="title">Rule for an odd number of characters</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="n">palindrome</span><span class="p">([</span><span class="n">_</span><span class="o">|</span><span class="no">T</span><span class="p">],</span> <span class="no">T</span><span class="p">)</span><span class="o">.</span>
+
+<span class="p">%</span> <span class="no">This</span> <span class="n">results</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">following</span> <span class="n">pattern</span>
+
+<span class="n">palindrome</span><span class="p">([</span><span class="n">_</span><span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span><span class="o">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With just two predicates, we have handled all our use cases.</p>
+</div>
+<div class="paragraph">
+<p>Now we need to define the predicate that moves characters from the Input to the
+Target list. Removing elements from, and adding elements to the head of a list
+is straighforward using pattern matching.</p>
+</div>
+<div class="listingblock">
+<div class="title">Adding to a list</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="sx">?-</span> <span class="no">A</span> <span class="o">=</span> <span class="p">[]</span><span class="o">.</span>
+<span class="p">[]</span>
+
+<span class="sx">?-</span> <span class="no">A</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="o">|</span> <span class="p">[]]</span><span class="o">.</span>
+<span class="no">A</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+
+<span class="sx">?-</span> <span class="no">A</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="o">|</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">]]</span><span class="o">.</span>
+<span class="no">A</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span><span class="o">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Removing from a list</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="sx">?-</span> <span class="p">[</span><span class="n">_</span><span class="o">|</span><span class="no">T</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span><span class="o">.</span>
+<span class="no">T</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span><span class="o">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can see how the predicate recurses through the list, removing characters
+from the input and building up the target list in reverse.</p>
+</div>
+<div class="listingblock">
+<div class="title">Recurse through the list</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="n">palindrome</span><span class="p">([</span><span class="no">Head</span><span class="o">|</span><span class="no">Tail</span><span class="p">],</span> <span class="no">Acc</span><span class="p">)</span> <span class="ss">:-</span>
+    <span class="n">palindrome</span><span class="p">(</span><span class="no">Tail</span><span class="p">,</span> <span class="p">[</span><span class="no">Head</span><span class="o">|</span><span class="no">Acc</span><span class="p">])</span><span class="o">.</span>
+
+<span class="p">%</span> <span class="n">palindrome</span><span class="p">([</span><span class="n">a</span><span class="o">|</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">],</span> <span class="p">[])</span> <span class="ss">:-</span>
+<span class="p">%</span>    <span class="n">palindrome</span><span class="p">([</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">])</span><span class="o">.</span>
+
+<span class="p">%</span> <span class="n">palindrome</span><span class="p">([</span><span class="n">b</span><span class="o">|</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">])</span> <span class="ss">:-</span>
+<span class="p">%</span>    <span class="n">palindrome</span><span class="p">([</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">])</span><span class="o">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As palindrome recurses, Prolog will attempt to match to a define predicate.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Which is why ordering of rules and predicates in the source file is
+important.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Finally, lets define an entry point.</p>
+</div>
+<div class="listingblock">
+<div class="title">Palindrome</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="elixir"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+</pre></td><td class="code"><pre><span class="p">%%</span> <span class="n">palindrome</span><span class="p">(</span><span class="s2">&#34;kayak&#34;</span><span class="p">)</span>
+<span class="n">palindrome</span><span class="p">(</span><span class="no">Input</span><span class="p">)</span> <span class="ss">:-</span>
+   <span class="n">string_chars</span><span class="p">(</span><span class="no">Input</span><span class="p">,</span> <span class="no">CharList</span><span class="p">),</span>   <span class="p">%</span> <span class="no">Convert</span> <span class="no">Input</span> <span class="n">to</span> <span class="n">a</span> <span class="n">list</span> <span class="n">of</span> <span class="n">characters</span>
+   <span class="n">palindrome</span><span class="p">(</span><span class="no">CharList</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span>        <span class="p">%</span> <span class="no">Test</span> <span class="n">for</span> <span class="s2">&#34;palindromity&#34;</span>
+
+<span class="p">%%</span> <span class="no">And</span> <span class="n">the</span> <span class="n">rest</span> <span class="n">of</span> <span class="n">code</span><span class="p">,</span> <span class="n">previously</span> <span class="n">defined</span>
+<span class="n">palindrone</span><span class="p">(</span><span class="no">List</span><span class="p">,</span> <span class="no">List</span><span class="p">)</span><span class="o">.</span>             <span class="p">%</span> <span class="p">([],</span> <span class="p">[])</span> <span class="ow">and</span> <span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+<span class="n">palindrome</span><span class="p">([</span><span class="n">_</span><span class="o">|</span><span class="no">Tail</span><span class="p">],</span> <span class="no">Tail</span><span class="p">)</span><span class="o">.</span>         <span class="p">%</span> <span class="p">([</span><span class="n">_</span><span class="o">|</span><span class="p">[]],</span> <span class="p">[[]])</span> <span class="ow">and</span> <span class="p">([</span><span class="n">_</span><span class="o">|</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">])</span>
+<span class="n">palindrome</span><span class="p">([</span><span class="no">Head</span><span class="o">|</span><span class="no">Tail</span><span class="p">],</span> <span class="no">Acc</span><span class="p">)</span> <span class="ss">:-</span>     <span class="p">%</span> <span class="no">Recurse</span> <span class="n">to</span> <span class="n">reverse</span> <span class="n">the</span> <span class="no">Input</span><span class="o">.</span>
+    <span class="n">palindrom</span><span class="p">(</span><span class="no">Tail</span><span class="p">,</span> <span class="p">[</span><span class="no">Head</span><span class="o">|</span><span class="no">Acc</span><span class="p">])</span><span class="o">.</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js" id="MathJax-script"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ['$', '$'], ['\\(', '\\)']
+        ],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>Between a REPL and a hard place</p>
+      
+      
+        ©
+        
+        2021
+         Luke Crook 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+    </main>
+
+    
+      
+      <script src="https://www.balooga.com/js/dark-mode.min.aee9c8a464eb7b3534c7110f7c5e169e7039e2fd92710e0626d451d6725af137.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+  </body>
+
+</html>
