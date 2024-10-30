@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+   · Balooga.com
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Luke Crook">
+<meta name="description" content="&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34; ?&gt;
+&lt;!DOCTYPE html PUBLIC &#34;-//W3C//DTD XHTML 1.0 Strict//EN&#34;
+	&#34;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&#34;&gt;
+
+
+
+
+pong-tutorial-1.html
+
+
+
+
+
+
+
+&#43;&#43;&#43; date = ‘2024-10-27T22:30:56-07:00’ draft = true title = ‘Pong
+Tutorial in Godot – Part 1’ &#43;&#43;&#43;
+Implementing a Pong
+clone in Godot; Part 1
+(v0.1)">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Balooga.com">
+  <meta name="twitter:description" content="&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34; ?&gt; &lt;!DOCTYPE html PUBLIC &#34;-//W3C//DTD XHTML 1.0 Strict//EN&#34; &#34;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&#34;&gt; pong-tutorial-1.html &#43;&#43;&#43; date = ‘2024-10-27T22:30:56-07:00’ draft = true title = ‘Pong Tutorial in Godot – Part 1’ &#43;&#43;&#43;
+Implementing a Pong clone in Godot; Part 1 (v0.1)">
+
+<meta property="og:url" content="http://localhost:1313/posts/pong-tutorial-1/">
+  <meta property="og:site_name" content="Balooga.com">
+  <meta property="og:title" content="Balooga.com">
+  <meta property="og:description" content="&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34; ?&gt; &lt;!DOCTYPE html PUBLIC &#34;-//W3C//DTD XHTML 1.0 Strict//EN&#34; &#34;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&#34;&gt; pong-tutorial-1.html &#43;&#43;&#43; date = ‘2024-10-27T22:30:56-07:00’ draft = true title = ‘Pong Tutorial in Godot – Part 1’ &#43;&#43;&#43;
+Implementing a Pong clone in Godot; Part 1 (v0.1)">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/pong-tutorial-1/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.css" media="screen">
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Balooga.com
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/pong-tutorial-1/">
+              
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="0001-01-01T00:00:00Z">
+                January 1, 0001
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              17-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>pong-tutorial-1.html</title>
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8"/>
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css"  />
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github.min.css"  /><meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'><style> body { box-sizing: border-box; max-width: 740px; width: 100%; margin: 40px auto; padding: 0 10px; } </style><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script><script src='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js'></script><script>document.addEventListener('DOMContentLoaded', () => { document.body.classList.add('markdown-body'); document.querySelectorAll('pre[lang] > code').forEach((code) => { code.classList.add(code.parentElement.lang); }); document.querySelectorAll('pre > code').forEach((code) => { hljs.highlightBlock(code); }); });</script>
+</head>
+
+<body>
+
+<p>+++ date = ‘2024-10-27T22:30:56-07:00’ draft = true title = ‘Pong
+Tutorial in Godot – Part 1’ +++</p>
+<h1 id="implementing-a-pong-clone-in-godot-part-1">Implementing a Pong
+clone in Godot; Part 1</h1>
+<p>(v0.1)</p>
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+<p><strong>Table of Contents</strong></p>
+<ul>
+<li><a href="#implementing-a-pong-clone-in-godot-part-1">Implementing a
+Pong clone in Godot; Part 1</a>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#the-godot-graphics-pipeline">The Godot Graphics
+Pipeline</a></li>
+<li><a href="#design">Design</a></li>
+<li><a href="#the-project">The Project</a></li>
+<li><a href="#create-the-pong-project">Create the Pong Project</a></li>
+<li><a href="#viewport">Viewport</a>
+<ul>
+<li><a href="#classes-and-class-inheritance">Classes and Class
+Inheritance</a></li>
+</ul></li>
+<li><a href="#text-label">Text Label</a>
+<ul>
+<li><a href="#object-instantiation-and-variables">Object Instantiation
+and Variables</a></li>
+<li><a href="#dynamic-vs-static-typing">Dynamic vs Static
+Typing</a></li>
+</ul></li>
+<li><a href="#frame-rate">Frame Rate</a>
+<ul>
+<li><a href="#singletons">Singletons</a></li>
+</ul></li>
+<li><a href="#game-loop">Game Loop</a>
+<ul>
+<li><a href="#the-scenetree">The SceneTree</a></li>
+<li><a href="#variable-scope">Variable Scope</a></li>
+<li><a href="#static-and-instance-methods">Static and Instance
+Methods</a></li>
+<li><a href="#conditionals">Conditionals</a></li>
+<li><a href="#constants">Constants</a></li>
+</ul></li>
+<li><a href="#handling-player-input">Handling Player Input</a>
+<ul>
+<li><a href="#handling-input">Handling Input</a></li>
+</ul></li>
+<li><a href="#game-exit">Game Exit</a>
+<ul>
+<li><a href="#object-constructors-and-destructors-finalizers">Object
+Constructors and Destructors, Finalizers</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a>
+<ul>
+<li><a href="#the-final-code">The Final Code</a></li>
+</ul></li>
+<li><a href="#advanced-concepts">Advanced Concepts</a></li>
+</ul></li>
+</ul>
+<!-- markdown-toc end -->
+<h2 id="introduction">Introduction</h2>
+<p>This is the first in a series of tutorials building up to a basic
+Pong clone implemented using the <a
+href="https://godotengine.org/">Godot engine</a>. We will try to
+accomplish as much as we can in <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html">GDScript</a>,
+which is the native scripting language of the Godot engine, relying less
+on Godot’s SceneTree editor and Property Inspector. These tools, while
+useful for experimentation, can make refactoring code, debugging, and
+writing unit tests more difficult; <a
+href="https://en.wikipedia.org/wiki/Grep">grepping</a> over files in
+your project folder is much faster than having to manually inspect
+properties of the Nodes in the SceneTree, for example.</p>
+<p><a
+href="https://en.wikipedia.org/wiki/Object-oriented_programming">OOP
+(Object-Oriented Programming)</a> is the driving paradigm in the design
+of <a
+href="https://docs.godotengine.org/en/stable/tutorials/best_practices/what_are_godot_classes.html">GDScript
+and the Godot engine</a>. You don’t need to become an expert in Object
+Orientated programming to use the Godot engine or GDScript, but you
+should take the time to become somewhat proficient. This tutorial
+introduces some principles of OOP but won’t go into much detail as this
+isn’t a general programming tutorial.</p>
+<p>The amount of effort and time required to complete any software task
+is often underestimated. In other words, your game will take longer than
+you think. Here’s a method to estimate any software task; round your
+first estimate up to the unit of estimation, then double that. For
+example, if your initial estimate to complete your game is three and a
+half months, then round up to four months and double that, giving eight
+months. Double that again if you are providing this estimate to a
+Producer, Product Owner or Project Manager; so sixteen months.</p>
+<p>So instead of jumping in and creating the Pong clone, we will
+implement something seemingly straightforward, displaying the <a
+href="https://en.wikipedia.org/wiki/Frame_rate">frame rate</a> (fps –
+frames-per-second).</p>
+<figure>
+<img src="./pong-execute.png"
+title="Displaying the frame rate in Pong FPS Tutorial 1"
+alt="Pong FPS Tutorial 1" />
+<figcaption aria-hidden="true">Pong FPS Tutorial 1</figcaption>
+</figure>
+<p>We begin with a high level description of how the Godot engine <a
+href="#the-godot-graphics-pipeline">displays graphics to the
+screen</a>.</p>
+<h2 id="the-godot-graphics-pipeline">The Godot Graphics Pipeline</h2>
+<p>An object (Node) must be added to the Godot graphics pipeline to be
+rendered to the display. Nodes are visible in the Godot editor in the
+SceneTree hierarchy.</p>
+<p><a
+href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/nodes_and_scenes.html"><img
+src="./nodes-and-scenes.webp"
+alt="An example of a SceneTree, from the Godot documentation on Nodes and Scenes" /></a></p>
+<p>Pipeline components are described at a high level below;</p>
+<ul>
+<li><p>The <a
+href="https://docs.godotengine.org/en/stable/classes/class_renderingserver.html">RenderingServer</a>
+projects game objects (Nodes) onto a Viewport.</p></li>
+<li><p>A <a
+href="https://docs.godotengine.org/en/stable/tutorials/rendering/viewports.html">Viewport</a>
+owns the surface that the RenderingServer draws to. The Viewport is
+itself a <a
+href="https://docs.godotengine.org/en/stable/classes/class_node.html">Node</a>
+in the SceneTree. The Viewport surface is what is displayed on your
+screen unless otherwise modified by a Camera Node in the
+SceneTree.</p></li>
+<li><p>The <a
+href="https://docs.godotengine.org/en/stable/classes/class_scenetree.html">SceneTree</a>
+is a <a href="https://en.wikipedia.org/wiki/Scene_graph">Scene Graph</a>
+containing a hierarchy of Nodes, one of which is the Viewport. The
+SceneTree also manages the <a
+href="https://docs.godotengine.org/en/stable/classes/class_mainloop.html">MainLoop</a>
+(the game loop). As we will learn later, the MainLoop defines the
+virtual methods <code>_initialize()</code>, <code>_finalize()</code>,
+and <code>_process()</code> that we <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/overridable_functions.html">override</a>
+with our game logic.</p></li>
+<li><p>A <a
+href="https://docs.godotengine.org/en/stable/classes/class_node.html">Node</a>
+is the basic building block of the Godot engine. Only nodes that are
+added to the SceneTree either in the Godot Editor or using the <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/nodes_and_scene_instances.html#creating-nodes"><code>"add_child"</code>
+method</a> can be displayed. A Node can have up to one parent Node and
+zero or more child Nodes. The Node at the head of the SceneTree is the
+“Root Node”. Note that “parent” and “child” here refer only to the Node
+hierarchy in the SceneGraph and not <a
+href="https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">class
+inheritance</a>.</p></li>
+<li><p>A Viewport is associated with a <a
+href="https://docs.godotengine.org/en/stable/classes/class_displayserver.html">DisplayServer</a>
+which is responsible for window management.</p></li>
+<li><p>A <a
+href="https://docs.godotengine.org/en/stable/classes/class_camera2d.html">Camera
+Node</a> can be 2D or 3D and provides customization beyond what the
+Viewport provides. For example, a Camera3D Node is required to render a
+scene in 3D. A Camera also allows for only a subset of the Viewport to
+be rendered to the screen. Most Godot projects use a Camera Node. We do
+not as this tutorial does not require one.</p></li>
+<li><p><a
+href="https://docs.godotengine.org/en/stable/classes/class_input.html">Input</a>
+and <a
+href="https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second">Engine</a>
+are <a
+href="https://en.wikipedia.org/wiki/Singleton_pattern">Singletons</a>
+providing access to the underlying capabilities of the Godot engine.
+Input provides access to keyboard, mouse, and game pad events. The
+Engine provides access to engine internals such as version, the current
+frame count, the frame rate (that we need), etc.</p></li>
+<li><p>The RenderingServer renders Nodes in the SceneTree that appear in
+the hierarchy below the Viewport Node to that Viewport surface using
+transform parameters in the Camera Node if one is present. A SceneTree
+may contain multiple Viewport Nodes but we will only make use of the
+default “Root Viewport” Node at the head of the SceneTree.</p></li>
+</ul>
+<h2 id="install-the-godot-engine">Install the Godot Engine</h2>
+<p><img src="https://godotengine.org/" alt="Download and install" /> the
+Godot engine if you have not already.</p>
+<h2 id="design">Design</h2>
+<p>The tasks below outline the overall design. We go into detail in the
+following sections as to why.</p>
+<p>Tasks</p>
+<ol start="0" type="1">
+<li><label><input type="checkbox" /><a href="#the-project">Create the
+Project</a>,</label></li>
+<li>Initialization:
+<ol type="1">
+<li><label><input type="checkbox" /><a href="#viewport">Create a
+Viewport</a>,</label></li>
+<li><label><input type="checkbox" />Add the Viewport to the
+SceneTree,</label></li>
+<li><label><input type="checkbox" /><a href="#text-label">Create a Text
+Label</a>,</label></li>
+<li><label><input type="checkbox" />Add the Label as a child Node of
+Viewport,</label></li>
+<li><label><input type="checkbox" />Assign the Label a position in x/y
+coordinates,</label></li>
+</ol></li>
+<li>Process each frame;
+<ol type="1">
+<li><label><input type="checkbox" /><a href="#frame-rate">Retrieve the
+current frame rate</a>,</label></li>
+<li><label><input type="checkbox" /><a href="#game-loop">Print the frame
+rate to the Label Node</a>.</label></li>
+<li><label><input type="checkbox" /><a
+href="#handling-player-input">Process keyboard events</a>,</label></li>
+<li><label><input type="checkbox" />Exit when <code>Esc</code> is
+depressed.</label></li>
+</ol></li>
+<li><label><input type="checkbox" /><a href="#game-exit">Game
+Exit</a></label></li>
+</ol>
+<h2 id="the-project">The Project</h2>
+<p>The base <a href="#create-the-pong-project">Pong Project</a> creates
+the SceneTree with Root Node and the default Viewport.</p>
+<h2 id="create-the-pong-project">Create the Pong Project</h2>
+<ul>
+<li>Start Godot and create a project named “Pong” in a new folder,</li>
+</ul>
+<figure>
+<img src="./new-project.png" title="New Project"
+alt="Godot Editor - Create a new project" />
+<figcaption aria-hidden="true">Godot Editor - Create a new
+project</figcaption>
+</figure>
+<p>Note: The “new Folder” icon is all the way to the right.</p>
+<figure>
+<img src="./new-folder.png" title="New Folder"
+alt="Godot Editor - Create a new folder" />
+<figcaption aria-hidden="true">Godot Editor - Create a new
+folder</figcaption>
+</figure>
+<ul>
+<li>Then choose “Other Node”,</li>
+</ul>
+<figure>
+<img src="./new-other-node.png" title="New Other Node"
+alt="Godot Editor - Create “Other Node”" />
+<figcaption aria-hidden="true">Godot Editor - Create “Other
+Node”</figcaption>
+</figure>
+<ul>
+<li>And create the base “Node” (Class “Node”, Base class for all scene
+objects).</li>
+</ul>
+<figure>
+<img src="./create-new-node.png" title="Create a basic Node"
+alt="Godot Editor - Create a basic Node" />
+<figcaption aria-hidden="true">Godot Editor - Create a basic
+Node</figcaption>
+</figure>
+<ul>
+<li>Rename the root Node to “Pong”,</li>
+</ul>
+<figure>
+<img src="./rename-node.png" title="Rename Root node"
+alt="Godot Editor - Rename the Root Node" />
+<figcaption aria-hidden="true">Godot Editor - Rename the Root
+Node</figcaption>
+</figure>
+<figure>
+<img src="./node-rename.png" title="Rename Root node"
+alt="Godot Editor - Rename the Root Node" />
+<figcaption aria-hidden="true">Godot Editor - Rename the Root
+Node</figcaption>
+</figure>
+<ul>
+<li>Create a folder <code>res://src</code> where we will place our
+project source files so as to declutter the project root directory.</li>
+</ul>
+<figure>
+<img src="./res-src.png" title="Create a src subdirectory"
+alt="Godot Editor - Create a src subdirectory" />
+<figcaption aria-hidden="true">Godot Editor - Create a src
+subdirectory</figcaption>
+</figure>
+<ul>
+<li>Attach a new script to the filename root “Pong” node.</li>
+</ul>
+<figure>
+<img src="./attach-script.png"
+title="Attach a new script to the root Node" alt="Godot Editor -" />
+<figcaption aria-hidden="true">Godot Editor -</figcaption>
+</figure>
+<ul>
+<li>And rename to <code>res://src/Pong.gd</code></li>
+</ul>
+<figure>
+<img src="./new-script-rename.png" title="Create a src subdirectory"
+alt="Godot Editor -" />
+<figcaption aria-hidden="true">Godot Editor -</figcaption>
+</figure>
+<figure>
+<img src="./script-name.png" title="res://src/Pong.gd script"
+alt="Godot Editor -" />
+<figcaption aria-hidden="true">Godot Editor -</figcaption>
+</figure>
+<ul>
+<li>Open the <code>Pong.gd</code> file. Godot should have generated the
+following boilerplate code.</li>
+</ul>
+<pre class="gdscript"><code>extends Node
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -&gt; void:
+    pass # Replace with function body.
+
+
+# Called every frame. &#39;delta&#39; is the elapsed time since the previous frame.
+func _process(delta: float) -&gt; void:
+    pass
+</code></pre>
+<p>OK, that’s about all the work we need to do in the Scene editor in
+this tutorial.</p>
+<h2 id="viewport">Viewport</h2>
+<p>The RenderingServer renders the child Nodes of the Viewport to the
+Viewport surface. The Viewport surface is displayed to the screen.</p>
+<p>We don’t need to create a RenderingServer or DisplayServer as these
+are managed by the Godot Engine. We also don’t need to create a Viewport
+as the “Root Node” by default is also the “Root Viewport”. We can also
+do without creating a <a
+href="https://docs.godotengine.org/en/stable/classes/class_camera2d.html">Camera
+Node</a> as we will be rendering the entire Viewport surface to our
+display without any customization.</p>
+<p>See <a href="#classes-and-class-inheritance">Classes and Class
+Inheritance</a> for the implementation.</p>
+<h3 id="classes-and-class-inheritance">Classes and Class
+Inheritance</h3>
+<p>Think of a class as the blueprints for a house and an object as the
+house once created (instantiated).</p>
+<p>Open the script file <code>Pong.gd</code>. This file defines the
+<code>Pong</code> class and will contain the game logic we defined in
+the <a href="#design">Design</a> section. Change the first line as
+follows;</p>
+<pre class="gdscript"><code>class_name Pong extends Node</code></pre>
+<p>The <code>extends</code> keyword means we are extending
+<code>Node</code> <a
+href="https://docs.godotengine.org/en/stable/tutorials/best_practices/what_are_godot_classes.html">with
+a class</a> <code>Pong</code>. Pong will subclass and <a
+href="https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">inherit
+the methods and attributes</a> from <a
+href="https://docs.godotengine.org/en/stable/classes/class_node.html"><code>Node</code></a>
+(inheritance being one of the principles of <a
+href="https://en.wikipedia.org/wiki/Object-oriented_programming">OOP</a>).
+Almost all Godot components inherit directly or indirectly from Node. As
+we need to hook into the SceneTree, <code>Pong</code> must inherit from
+Node as well. <code>Pong.gd</code> will also contain the code we write
+in this tutorial.</p>
+<p>We don’t explicitly create an instance of <code>Pong</code> <a
+href="#object-instantiation-and-variables">using <code>new()</code></a>
+because we added it as a Node to the SceneTree. The SceneTree handles
+the creation and deletion of Nodes in its hierarchy. See the following
+section <a href="#object-instantiation-and-variables">Object
+Instantiation and Variables</a>.</p>
+<h2 id="text-label">Text Label</h2>
+<p>We cannot render text directly to a Viewport surface as it does not
+support this capability, so we cannot print “Hello World” as we would to
+a terminal. Instead we need to add a <a
+href="https://docs.godotengine.org/en/stable/classes/class_label.html">Label</a>
+Node to the SceneTree and write the current frame rate to this control
+using its <a
+href="https://docs.godotengine.org/en/stable/classes/class_label.html#class-label-property-text"><code>set_text()</code>
+method</a>.</p>
+<p>See <a href="#object-instantiation-and-variables">Object
+Instantiation</a>, and <a href="#dynamic-vs-static-typing">Dynamic vs
+Static Typing</a> for the implementation.</p>
+<h3 id="object-instantiation-and-variables">Object Instantiation and
+Variables</h3>
+<p>We need to create an instance of <a
+href="https://docs.godotengine.org/en/stable/classes/class_label.html"><code>Label</code></a>
+to display the frame rate – in effect we are <a
+href="https://en.wikipedia.org/wiki/Instance_(computer_science)">instantiating</a>
+a new <code>Label</code> object. We do this by calling the <a
+href="https://en.wikipedia.org/wiki/Constructor_(object-oriented_programming)">constructor</a>
+method <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/nodes_and_scene_instances.html#creating-nodes"><code>new()</code></a>
+on the <code>Label</code> class which returns a new object of type
+<code>Label</code>.</p>
+<pre class="gdscript"><code>var fps: Label = Label.new() # Create a new Label object</code></pre>
+<p>The <code>=</code> assigns the object returned by
+<code>Label.new()</code> to a new <a
+href="https://en.wikipedia.org/wiki/Variable_(computer_science)">variable</a>
+created by <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#data"><code>var</code></a>
+having the name<code>fps</code> and type <code>Label</code>.</p>
+<p>We are now able to call the <a
+href="https://docs.godotengine.org/en/stable/classes/class_label.html#class-label-property-text"><code>set_text()</code>
+method</a> on the instance of <code>Label</code> stored in
+<code>fps</code>, passing in the current frames per second as a
+<code>String</code> <a
+href="https://en.wikipedia.org/wiki/Parameter_(computer_programming)#Parameters_and_arguments">argument</a>.</p>
+<pre class="gdscript"><code>var fps: Label = Label.new() # Create a new Label object
+fps.set_text(&quot;frames per second&quot;) </code></pre>
+<h3 id="dynamic-vs-static-typing">Dynamic vs Static Typing</h3>
+<p><a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_advanced.html">GDScript
+is a dynamically</a> <a
+href="https://en.wikipedia.org/wiki/Type_system#Static_type_checking">typed
+language</a> that supports <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/static_typing.html">explicit
+type definitions</a>.</p>
+<p>In the example below, we assign a <code>Label</code> object to the
+<em>untyped</em> variable <code>fps_untyped</code> and a
+<code>Label</code> object to the <em>typed</em> variable
+<code>fps_typed</code>. The typed variable <code>fps_typed</code> can
+only hold objects of type <code>Label</code> or objects of classes that
+inherit from <code>Label</code>. An attempt to assign any other type
+will cause a compile time error. The untyped variable
+<code>fps_untyped</code> can hold objects of any type.</p>
+<pre class="gdscript"><code>var fps_untyped = Label.new() # Untyped
+
+var fps_typed: Label = Label.new() # Typed </code></pre>
+<p>It is good practice to specify types as much as possible, even though
+doing so makes code more verbose, as this eliminates an entire class of
+errors that can be caught by a developer at compile time versus having
+players experience these bugs at runtime. Languages like Python are
+dynamically typed while a language like Go is statically typed.</p>
+<h2 id="frame-rate">Frame Rate</h2>
+<p>Now we need to calculate or retrieve the current frame rate. Handily,
+Godot provides the <a
+href="https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second">get_frame_per_second()
+method</a> for this purpose.</p>
+<p>See <a href="#singletons">Singletons</a> for the implementation.</p>
+<h3 id="singletons">Singletons</h3>
+<p>Godot provides the <a
+href="https://en.wikipedia.org/wiki/Singleton_pattern">Singleton</a>
+object <a
+href="https://docs.godotengine.org/en/stable/classes/class_engine.html">Engine</a>
+that implements the method <a
+href="https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second"><code>get_frames_per_second()</code></a>
+that returns the current frames-per-second. In general terms, a
+Singleton can be thought of as a global variable containing an instance
+of Engine. As the term implies, there can only be one instance of Engine
+and it is managed by Godot. As such, we don’t need to create an instance
+of <a
+href="https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second"><code>Engine</code></a>
+using <code>new()</code>.</p>
+<pre class="gdscript"><code>var fps: Label = Label.new() # Create a new Label object
+fps.set_text(str(Engine.get_frames_per_second())) # Set fps.text to the current fps</code></pre>
+<p>The <code>str()</code> function converts the <code>float</code>
+returned by <code>Engine.get_frames_per_second()</code> to a
+<code>String</code> value required by <code>set_text</code>. Not
+performing this conversion will result in a runtime error.</p>
+<h2 id="game-loop">Game Loop</h2>
+<p>Still not done;</p>
+<ol start="0" type="1">
+<li><label><input type="checkbox" checked="" /><a
+href="#the-project">Create the Project</a>,</label></li>
+<li>Initialization:
+<ol type="1">
+<li><label><input type="checkbox" checked="" /><a
+href="#viewport">Create a Viewport</a>,</label></li>
+<li><label><input type="checkbox" checked="" />Add the Viewport to the
+SceneTree,</label></li>
+<li><label><input type="checkbox" checked="" /><a
+href="#text-label">Create a Text Label</a>,</label></li>
+<li><label><input type="checkbox" />Add the Label as a child Node of
+Viewport,</label></li>
+<li><label><input type="checkbox" />Assign the Label a position in x/y
+coordinates,</label></li>
+</ol></li>
+<li>Process each frame;
+<ol type="1">
+<li><label><input type="checkbox" checked="" /><a
+href="#frame-rate">Retrieve the current frame rate</a>,</label></li>
+<li><label><input type="checkbox" /><a href="#game-loop">Print the frame
+rate to the Label Node</a>.</label></li>
+<li><label><input type="checkbox" /><a
+href="#handling-player-input">Process keyboard events</a>,</label></li>
+<li><label><input type="checkbox" />Exit when <code>Esc</code> is
+depressed.</label></li>
+</ol></li>
+<li><label><input type="checkbox" /><a href="#game-exit">Game
+Exit</a></label></li>
+</ol>
+<p>Steps (1.1) - (1.5) should be performed once, while steps (2.1) -
+(2.4) are performed each frame. We can accomplish this by <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/overridable_functions.html">overriding</a>
+the <code>_initialize()</code> and <code>_process()</code> methods
+defined in the <a
+href="https://docs.godotengine.org/en/stable/classes/class_mainloop.html">MainLoop</a>.</p>
+<p>See <a href="#the-scenetree">The SceneTree</a>, <a
+href="#variable-scope">Variable Scope</a>, <a
+href="#static-and-instance-methods">Static and Instance Methods</a>, <a
+href="#conditionals">Conditionals</a>, and <a
+href="#constants">Constants</a> for the implementation.</p>
+<h3 id="the-scenetree">The SceneTree</h3>
+<p>The <a
+href="https://docs.godotengine.org/en/stable/classes/class_scenetree.html">SceneTree</a>
+is what is called a <a
+href="https://en.wikipedia.org/wiki/Scene_graph">scene graph</a>, a
+hierarchy of Nodes in an inverted tree structure.</p>
+<p>The <code>Label</code> must be added to a Node in the SceneTree
+before the frame rate can be displayed. One of <a
+href="#create-the-pong-project">our first steps</a> was to add our
+<code>Pong</code> Node to the SceneTree by <a
+href="#classes-and-class-inheritance">subclassing the Root Node</a>. We
+are now able to add <code>Label</code> as a child Node to the
+<code>Pong</code> Node using the <a
+href="https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-add-child"><code>add_child</code></a>
+method. Note that <a
+href="https://docs.godotengine.org/en/stable/classes/class_label.html"><code>Label</code></a>
+is also a subclass of Node and therefore inherits all of Node’s
+attributes and methods.</p>
+<pre class="gdscript"><code>var fps: Label = Label.new() # Create a new Label object
+self.call_deferred(&quot;add_child&quot;, fps) # Explicitly add the label to the scene
+fps.set_position(Vector2(0,0)) # Set position
+fps.set_text(str(Engine.get_frames_per_second())) # Set fps.text to the current fps</code></pre>
+<p>Calls to <code>add_child()</code> (and <code>free()</code>) are
+generally passed into a <a
+href="https://docs.godotengine.org/en/stable/classes/class_object.html#class-object-method-call-deferred"><code>call_deferred()</code></a>
+method that postpones execution of <code>"add_child"</code> until idle
+time.</p>
+<p>In the code, we call <code>self.call_deferred</code>, where
+<code>self</code> refers to “the current Node”, in this case the
+<code>Pong</code> Node. GDScript does allow <code>self</code> to be
+omitted but I prefer to use <code>self</code> as it makes explicit that
+a method is being invoked on the current Node.</p>
+<p>The SceneTree manages the <a
+href="https://docs.godotengine.org/en/stable/classes/class_mainloop.html">MainLoop</a>
+which defines the virtual methods <code>_initialize()</code>,
+<code>_finalize()</code>, and <code>_process()</code>.</p>
+<p>To recap;</p>
+<ol type="1">
+<li>Initialization:
+<ol start="0" type="1">
+<li>Create the project,</li>
+<li>Create a Viewport,</li>
+<li>Add the Viewport to the SceneTree,</li>
+<li>Create a Label Node,</li>
+<li>Add the Label as a child Node of Viewport,</li>
+<li>Assign the Label a position in x/y coordinates,</li>
+</ol></li>
+<li>Process each frame;
+<ol type="1">
+<li>Retrieve the current frame rate,</li>
+<li>Print the frame rate to the Label Node.</li>
+<li>Process keyboard events,</li>
+<li>Exit when <code>Esc</code> is depressed.</li>
+</ol></li>
+</ol>
+<p>To implement “Initialization” and “Process each frame”, we <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/overridable_functions.html">override
+the virtual methods</a>, <code>_ready()_</code> and
+<code>_process()</code>. Unlike Instance methods, Virtual methods must
+be implemented by the subclass.</p>
+<ul>
+<li><code>_ready()</code> is called after a node is added to the scene
+graph and is ready for use, and</li>
+<li><code>_process()</code> is called each frame.</li>
+</ul>
+<pre class="gdscript"><code>func _ready():
+    var fps: Label = Label.new() # Create a new Label object
+    self.call_deferred(&quot;add_child&quot;, fps) # Explicitly add the label to the scene
+    fps.set_position(Vector2(0,0)) # Set position
+
+func _process(_delta: float):
+    fps.set_text(str(Engine.get_frames_per_second())) # Set fps.text to the current fps</code></pre>
+<p>But how does Godot know to call our methods? When the game starts,
+Godot will instantiate the root node (<code>Pong</code>).
+<code>Pong</code> instantiates the <code>Label</code> Node and adds this
+as a child node to itself (using <code>"add_child"</code>). The
+SceneTree calls <a
+href="https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-private-method-ready"><code>_ready()</code></a>
+after Pong the Pong Node is added to the SceneTree, and calls <a
+href="https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-private-method-process">_process()</a>
+once per frame. The SceneTree will call <code>_ready()</code> and
+<code>_process()</code> on the <code>Label</code> object if we had
+overridden those methods, which we do not.</p>
+<h3 id="variable-scope">Variable Scope</h3>
+<p>The previous code exhibits a bug in that <code>fps</code> is defined
+as a local variable meaning it is visible only within <a
+href="https://en.wikipedia.org/wiki/Scope_%28computer_science%29#Function_scope">the
+scope</a> of <code>_ready()</code>. But <code>fps</code> <a
+href="https://en.wikipedia.org/wiki/Scope_%28computer_science%29#Lexical_scope">needs
+to be visible</a> to both <code>_ready()</code> and
+<code>_process()</code>. We must therefore define <code>fps</code> as an
+instance variable, placing <code>fps</code> in the class scope and <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#functions">visible
+to all methods of the class</a>. We create an instance variable by
+moving <code>fps:</code> to the top level.</p>
+<pre class="gdscript"><code>var fps: Label # Crete a variable of type Label
+
+func _ready():
+    fps = Label.new() # Create a new Label object
+      self.call_deferred(&quot;add_child&quot;, fps) # Explicitly add the label to the scene
+
+func _process(_delta: float):
+    fps.set_text(str(Engine.get_frames_per_second())) # Set fps.text to the current fps</code></pre>
+<p><em>instance</em> and <em>local</em> variables differ to
+<em>static</em> variables in that the value of a <em>static</em>
+variable is shared across all instances of a class, whereas
+<em>instance</em> and <em>local</em> variables are specific to an
+instance.</p>
+<h3 id="static-and-instance-methods">Static and Instance Methods</h3>
+<p>Internally, Godot uses <em>static</em>, <em>instance</em>, and
+<em>virtual</em> methods (the engine is written in C++), however
+GDScript only supports <em>static</em> and <em>instance</em> methods. A
+developer <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/overridable_functions.html">can
+override the <em>virtual</em> methods</a> in predefined classes
+(e.g. <code>SceneTree</code>), but GDScript does not provide the ability
+for a developer to create their own <em>virtual</em> methods.</p>
+<h3 id="conditionals">Conditionals</h3>
+<p>We don’t need to update the frame rate on each frame (e.g. 60 times a
+second), so we make use of an <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#if-else-elif">if
+conditional</a> to update the frame rate every tenth frame.</p>
+<pre class="gdscript"><code>func _process(_delta: float) -&gt; void:
+    if Engine.get_process_frames() % 10 == 0:
+        fps.set_text(FPS_TEXT + str (Engine.get_frames_per_second()))</code></pre>
+<p>The <code>%</code> is the modulo or remainder operator. It returns
+the remainder when dividing the number of frames since game start
+(<code>Engine.get_process_frames()</code>) by <code>10</code>. If the
+remainder is <code>0</code> then the conditional is <code>true</code>
+and we update the frame rate.</p>
+<h3 id="constants">Constants</h3>
+<p>We define several <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#constants">constants</a>
+with values for maximum frame rate, fps update interval, and the FPS
+text. Constants are used instead of variables when we don’t want the
+value assigned to a variable to change during program execution. Some
+other advantages of constants include improving code readability, and
+changing the value of a constant will be reflected everywhere that
+constant is used.</p>
+<pre class="gdscript"><code>class_name Pong extends Node2D
+
+const MAX_FPS = 0 # Zero means use the maximum frame rate
+const UPDATE_INTERVAL = 10 # Update the frames per second every ten frames.
+const FPS_TEXT = &quot;FPS: &quot; # Constant prefix displayed with the current fps, e.g. &quot;FPS: 60&quot;
+const ACTION_UI_CANCEL = &quot;ui_cancel&quot;
+
+var fps: Label # Crete a variable of type Label
+
+func _ready():
+    Engine.set_max_fps(MAX_FPS) # Set the &quot;do not exceed&quot; frame rate.
+  fps = Label.new() # Create a new Label object
+    fps.set_position(Vector2(0,0)) # Set position
+    self.call_deferred(&quot;add_child&quot;, fps) # Add the label to the scene
+
+func _process(_delta: float) -&gt; void:
+    if Engine.get_process_frames() % UPDATE_INTERVAL == 0:
+        fps.set_text(FPS_TEXT + str(Engine.get_frames_per_second()))</code></pre>
+<h2 id="handling-player-input">Handling Player Input</h2>
+<p>We can exit the game by closing the Godot window. But as the plan is
+to use the keyboard to control the paddles, we may as well explore how
+to handle keyboard input and exit the game when the <code>Esc</code> key
+is depressed.</p>
+<p>The methods to retrieve player input are provided by the <a
+href="https://docs.godotengine.org/en/stable/classes/class_input.html">Input
+Singleton</a>. We use the <a
+href="https://docs.godotengine.org/en/stable/classes/class_input.html#class-input-method-is-action-pressed">is_action_pressed()</a>
+method and filter events to the <code>"ui_cancel"</code> signal which is
+by default mapped to the <code>Esc</code> key.</p>
+<p>See <a href="#handling-input">Handling Input</a> for the
+implementation.</p>
+<h3 id="handling-input">Handling Input</h3>
+<p>Checking if the player depressed the <code>Esc</code> key is
+straightforward. <a
+href="https://docs.godotengine.org/en/stable/classes/class_input.html#class-input-method-is-action-pressed"><code>Input.is_Action_Pressed("ui_cancel")</code></a>
+returns <code>true</code> when an event action is received that is
+mapped to the <code>Esc</code> key.</p>
+<pre class="gdscript"><code>func _process(_delta: float) -&gt; void:
+    if Input.is_action_pressed(ACTION_UI_CANCEL): exitGame()
+    if Engine.get_process_frames() % UPDATE_INTERVAL == 0:
+        fps.set_text(FPS_TEXT + str (Engine.get_frames_per_second()))
+
+func exitGame() -&gt; void:
+    self.get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+    self.get_tree().quit()</code></pre>
+<p>We define a method <code>exitGame()</code> to send the “window close”
+request to the DisplayServer (attached to the root node) and tell the
+SceneTree to exit.</p>
+<h2 id="game-exit">Game Exit</h2>
+<p>We need to cleanup any resources we allocate during execution (the
+<code>Label</code>) as Godot only <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#memory-management">supports
+limited garbage collection</a>.</p>
+<p>See <a href="#object-constructors-and-destructors-finalizers">Object
+Constructors and Destructors, Finalizers</a> for the implementation.</p>
+<h3 id="object-constructors-and-destructors-finalizers">Object
+Constructors and Destructors, Finalizers</h3>
+<p>The virtual methods <code>_init()</code>, <code>_ready()</code>, and
+<code>_finalize()_</code> <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/overridable_functions.html">can
+be overridden</a> to manage the object life cycle.</p>
+<ul>
+<li><code>_init()</code> is a <a
+href="https://en.wikipedia.org/wiki/Constructor_(object-oriented_programming)"><em>constructor</em></a>.
+This method is called when an object is instantiated in, for example, a
+call to <code>new()</code>. <code>_init()</code> is called before
+<code>_ready()_</code>.</li>
+<li><code>_ready()</code> is called after the object is added to the
+SceneTree and is ready to be used. This means that <code>_ready()</code>
+is only called on objects added to the SceneTree.</li>
+<li><code>finalize()</code> is a <a
+href="https://en.wikipedia.org/wiki/Destructor_(computer_programming)"><em>destructor</em></a>,
+called when the object is deleted following, for example, a call to
+<code>call_deferred("free")</code>.</li>
+</ul>
+<p>Godot <a
+href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#memory-management">supports
+limited garbage collection</a>, for example resources explicitly
+allocated (e.g. using <code>new()</code>) <a
+href="https://docs.godotengine.org/en/stable/classes/class_object.html#class-object-method-free">must
+be explicitly deleted using <code>free()</code></a>. Not doing so will
+result in <a href="https://en.wikipedia.org/wiki/Memory_leak">memory
+leaks</a>.</p>
+<p>Our tutorial code shows this; we explicitly instantiated
+<code>Label</code> using <code>new()</code> requiring that we explicitly
+delete <code>Label</code> by calling
+<code>fps.call_deferred("free")</code> (<a
+href="https://docs.godotengine.org/en/stable/classes/class_object.html#class-object-method-call-deferred"><code>call_deferred()</code></a>)
+when we are done with it. We do this in the <code>_finalize()</code>
+method of our <code>Pong</code> class.</p>
+<pre class="gdscript"><code>func _finalize() -&gt; void:
+    fps.call_deferred(&quot;free&quot;) # Becasue we added the label, we also need to delete it</code></pre>
+<p>The <code>Pong</code> Node was added to the SceneTree in section <a
+href="#create-the-pong-project">Create the Pong Project</a>, so the
+creation and deletion of the <code>Pong</code> instance is managed by
+the SceneTree.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>All that to display the current frame rate. If we had jumped right
+into the implementation we would also have had to consider loading
+assets, collision detection, implementing physics for ball strikes and
+bounces, sound effects, and player point scores for game start and game
+over. Never mind some rudimentary AI if we want to support single player
+mode against a computer opponent.</p>
+<p>We will need to do all this anyway, but trying to implement all of
+that, while learning GDScript, while learning how the Godot engine works
+is a lot to bite off.</p>
+<p>See <a href="#the-final-code">The Final Code</a> for the
+implementation.</p>
+<h3 id="the-final-code">The Final Code</h3>
+<pre class="gdscript"><code>class_name Pong extends Node
+
+const MAX_FPS = 0 # Zero means use the maximum frame rate
+const UPDATE_INTERVAL = 10 # Update the frames per second every ten frames.
+const FPS_TEXT = &quot;FPS: &quot; # Constant prefix displayed with the current fps, e.g. &quot;FPS: 60&quot;
+
+const ACTION_UI_CANCEL = &quot;ui_cancel&quot;
+
+var fps: Label = Label.new() # Create a new Label object
+
+func _ready() -&gt; void:
+    Engine.set_max_fps(MAX_FPS)
+    fps.set_position(Vector2(0,0)) # Set position
+    self.call_deferred(&quot;add_child&quot;, fps) # Explicitly add the label to the scene
+
+func _process(_delta: float) -&gt; void:
+    if Input.is_action_pressed(ACTION_UI_CANCEL): exitGame()
+    if Engine.get_process_frames() % UPDATE_INTERVAL == 0:
+        fps.set_text(FPS_TEXT + str (Engine.get_frames_per_second()))
+
+func _finalize() -&gt; void:
+    fps.call_deferred(&quot;free&quot;) # Becasue we added the label, we also need to delete it
+
+func exitGame() -&gt; void:
+    self.get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+    self.get_tree().quit()</code></pre>
+<h2 id="advanced-concepts">Advanced Concepts</h2>
+<ul>
+<li><p>It is possible to <a
+href="https://docs.godotengine.org/en/stable/tutorials/best_practices/node_alternatives.html">define
+your own lightweight Nodes</a>. We mention this but an example is too
+advanced for this tutorial.</p></li>
+<li><p>The <a
+href="https://docs.godotengine.org/en/stable/classes/class_object.html#class-object">Godot
+class Object</a></p></li>
+</ul>
+<!-- -------- -->
+<!-- I use Emacs as my preferred code editor and try to make minimal use of the Godot -->
+<!-- Scene editor and Inspector. If you are unfamiliar with Emacs, then I recommend -->
+<!-- using the Godot editor. -->
+<!-- Learning how to engineer for reuse, readability, extensibility, -->
+<!-- reliability, and performance is as important when developing your game as it is -->
+<!-- when developing your back-end services that will need to scale to handle the -->
+<!-- inrush of millions of players when your MMORPG suddenly goes viral. -->
+<!-- As far as the Virtual methods such as `_ready()` and `_process()` are useful in situations -->
+<!-- where the method of the subclass must be executed, not the method of the base -->
+<!-- class. In the contrived example below, both Pong and Node2D implement -->
+<!-- `_process()` and `SomeNodeMethod()`, where `_process()` is a virtual method and -->
+<!-- `SomeNodeMethod()` is a non-virtual method. Because `Pong` is assigned to  -->
+<!-- ``` gdscript -->
+<!-- for n in Scene.nodes(): -->
+<!--     var node: Node2D = n # The Pong object is assigned to a variable of type Node -->
+<!--     node.SomeNodeMethod() # The SomeNodeMethod() of the base Node2D class is called  -->
+<!--     node._process() -->
+<!-- ``` -->
+
+</body>
+</html>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2024
+     Luke Crook 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

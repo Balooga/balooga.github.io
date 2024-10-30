@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Corman Lisp FFI Howto · Balooga.com
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Luke Crook">
+<meta name="description" content="= Future Legacy Applications
+Luke Crook 
+v1.0, 2003-12-11
+:sectanchors:
+:sectlinks:
+:icons: font
+:data-uri:
+:source-highlighter: rouge
+:rouge-style: github
+:page-liquid:
+:page-layout: false # post # info page default none
+:page-category: functional
+:page-tags: [Future Code]
+
+[abstract]
+This post demonstrates the use of the Corman Common Lisp (CCL)
+FFI.footnote:[https://github.com/sharplispers/cormanlisp] with the
+SDLfootnote:[https://www.libsdl.org/] library. This post is not a general SDL
+tutorial, nor should it be considered a primer for learning Common Lisp. NOTE:
+SDL version 1.2.x is described. SDL APIs described herein have changed in SDL
+version 2.x.
+
+== Introduction
+
+This document will describe how Lisp code interfaces with Microsoft Windows
+Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI. The FFI
+bindings to SDL are used in many of the examples. This document makes use of an
+existing example contained in the SDL documentation, &#34;Using OpenGL With
+SDL&#34;.footnote:[https://www.libsdl.org/release/SDL-1.2.15/docs/html/guidevideoopengl.html]
+
+Using the above example, the main components of the SDL library are described in
+Lisp: initialization, configuration, event handling, drawing to the screen, and
+exiting. Several Lisp ‘macros’ are later described in an attempt to show some of
+the advantages of developing using Lisp as opposed to, say Java or C&#43;&#43;.
+
+NOTE: The section on macros is TODO.
+
+== Basics of the Corman Lisp FFI
+
+This section contains a brief introduction on the use of the Corman Lisp FFI.
+The FFI is used to call C style functions from Dynamic Link Libraries (DLL’s).
+The most common operations that a programmer may encounter when interfacing to a
+DLL are covered, including callbacks, creating and referencing arrays and
+structures, using pointers and managing memory.
+
+The Corman Lisp
+manualfootnote:[https://github.com/sharplispers/cormanlisp/releases] describes
+how to create FFI definitions. This section assumes that the reader is using
+existing FFI definitions and wishes to make use of the functions defined
+therein. Advanced topics, such as interfacing to COM objects are not covered.
+Please see the Corman Lisp manual for more information on how to use COM
+objects.
+
+=== Includes
+
+FFI definitions are usually contained in a file, similar to C header files. And
+like C, these definitions must be included before use. In Lisp, require is used
+for this purpose.
+
+.C
+[source,c,linenums]
+----
+#include “SDL/SDL.h”
+#include “GL/gl.h”
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(require ’sdl)
+(require ‘opengl)
+----
+
+=== Variables: C Datatypes
+
+Lisp variables may be passed to or received from C style functions that take any
+of the standard C datatypes as parameters. C datatypes include byte/char, short,
+int, float, and double. Corman Lisp transparently takes care of much of the
+necessary casting and conversion between Lisp and C variables.
+
+.C
+[source,c,linenums]
+----
+int width = 0;
+int height = 0;
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf width 0)
+(setf height 0)
+----
+
+[#variables]
+=== Variables: C Arrays and Structures
+
+Things begin to get interesting when structures and arrays are used. Pure Lisp
+arrays are not equivalent to C arrays and therefore it is not possible to pass a
+Lisp array to a C function. If a C function takes an array a C style array must
+be created from within Lisp.
+
+.C
+[source,c,linenums]
+----
+static GLfloat v0[] = { -1.0f, -1.0f,  1.0f };
+----
+
+When using C, arrays may be created on the stack as shown in the C code above.
+When a C array is created in Lisp, it is always created on the heap - meaning it
+must be created using malloc. Because Lisp is garbage collected there is no need
+to explicitly free a variable created using malloc. The garbage collector will
+automatically free the memory for `v0` when the variable goes out of scope.
+Although there is nothing stopping the reader from explicitly freeing a variable
+using the function free.
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf v0 (ct:malloc (ct:sizeof ‘(:single-float 3))))
+----
+
+A C array may be initialized when it is created. In Lisp because C arrays are
+created on the heap, assignment must take place as a separate step.
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf (ct:cref (:single-float 3) v0 0) -1.0)
+(setf (ct:cref (:single-float 3) v0 1) -1.0)
+(setf (ct:cref (:single-float 3) v0 2) 1.0)
+----
+
+`cref` (the ct: prefix identifies the package that contains cref) is used for
+accessing a C style array, or structure. Therefore, looking at the statements
+in the previous code block:
+
+   * `ct:cref` - accessing an array or structure.
+
+   * `(:single-float 3)` - in this case, it is an array of 3 floats.
+
+   * `v0` - the name of the array we previously created using malloc.
+
+   * `0` - The index into the array
+
+The Lisp implementation seems backward compared to the C-style the reader is
+probably used to, e.g `v0[0] = -1.` But that’s how it is done in CCL. It is
+possible to improve upon this using macros
+
+The previous code described assignment. Retrieving a value is much the same, but
+without the `setf`.
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(ct:cref (:single-float 3) v0 0)
+
+-1.0
+----
+
+The code for accessing a C struct is described below.
+
+.C
+[source,c,linenums]
+----
+typedef struct {
+	Sint16 x;
+	Sint16 y;
+	Uint16 w;
+	Uint16 h;
+} SDL_Rect;
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf a-rectangle (ct:malloc (ct:sizeof ’sdl:SDL_Rect)))
+
+(setf (ct:cref sdl:SDL_Rect a-rectangle sdl::x) 120)
+(setf (ct:cref sdl:SDL_Rect a-rectangle sdl::x) 200)
+(setf (ct:cref sdl:SDL_Rect a-rectangle sdl::w) 64)
+(setf (ct:cref sdl:SDL_Rect a-rectangle sdl::h) 64)
+----
+
+The macro `with-c-struct` makes working with structs a lot easier, as shown
+below:
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(with-c-struct (x rectangle sdl:SDL_Rect)
+    (setf
+          sdl::x 120
+          sdl::y 200
+          sdl::w 64
+          sdl::h 64))
+----
+
+An important consideration is that the Lisp sizeof function can only be passed
+defined types, for example `sdl:SDL_Rect`. Calling sizeof on a variable such as
+`a-rectangle` will fail.
+
+=== Functions
+Calling C style functions in Lisp is straightforward.
+
+.C
+[source,c,linenums]
+----
+SDL_Init( SDL_INIT_VIDEO );
+SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(SDL_Init SDL_INIT_VIDEO)
+(SDL_GL_SetAttribute SDL_GL_RED_SIZE 5)
+----
+
+=== Callbacks
+
+`defun-c-callback` is used to create a function callback in Lisp. As an example,
+the C prototype for the SDL function `SDL_AddTimer` is shown below.
+`SDL_AddTimer` takes a function as one of its parameters and calls that function
+at the specified interval.
+
+
+.C callback function prototype
+[source,c,linenums]
+----
+typedef Uint32 (*SDL_NewTimerCallback)(Uint32 interval, void *param);
+----
+
+.Common Lisp callback function
+[source,lisp,linenums]
+----
+(ct:defun-c-callback timer-callback ((interval SDL:Uint32) (param (:void *)))
+    (fformat “Yup, timer Fired”)
+    (values interval))
+----
+
+
+.C `SDL_AddTimer` prototype definition
+[source,c,linenums]
+----
+SDL_TimerID SDL_AddTimer(Uint32 interval, SDL_NewTimerCallback callback, void *param);
+----
+
+.Common Lisp code using a callback
+[source,lisp,linenums]
+----
+(setf param (ct:malloc (ct:sizeof :LONG)))
+
+(setf a-timer-1
+    (SDL:SDL_AddTimer 10000 (ct:get-callback-procinst ‘timer-callback) param))
+----
+
+=== Pointers
+
+All C objects are referenced from Lisp using pointers. For example in Section
+&lt;&gt;, `v0` is a foreign pointer that points to an array of 3 floats.
+The function `create-foreign-ptr` is used to create a foreign pointer. A foreign
+pointer is similar to `void *` in C and can be cast (or assigned) to any object.
+The function cpointer value returns the address of an object referenced by the
+foreign pointer. It is therefore possible to assign the pointer to the address
+of any object using setf. An example is described below. Values returned from
+Corman Lisp are in bold.
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf f-pointer (ct:create-foreign-ptr))
+#&lt; FOREIGN PTR: #x0 &gt;
+
+(setf var-1 (ct:malloc (ct:sizeof :LONG)))
+#&lt; FOREIGN HEAP PTR: #xA63F78, length = 4 bytes &gt;
+
+(setf (ct:cref (:long *) var-1 0) 100)
+100
+
+(ct:cpointer-value f-pointer)
+0
+
+(ct:cpointer-value var-1)
+10895224
+
+(setf (ct:cpointer-value f-pointer) (ct:cpointer-value var-1))
+(ct:cpointer-value f-pointer)
+10895224
+
+(ct:cref (:long *) f-pointer 0)
+100
+
+var-1
+#&lt; FOREIGN HEAP PTR: #xA63F78, length = 4 bytes &gt;
+
+f-pointer
+#&lt; FOREIGN PTR: #xA63F78 &gt;
+----
+
+[#types]
+=== Defining types
+
+The function defctype is similar to the C typedef. It allows one to create new
+types and reference them in Lisp code, greatly improving readability. The
+following code modifies the example in Section &lt;&gt; and creates a new
+type called `vertex-arrayf` which is defined as an array of three floats.
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(ct:defctype vertex-array (:single-float 3))
+
+(setf v0 (ct:malloc (ct:sizeof &#39;vertex-arrayf)))
+
+(setf (ct:cref vertex-array v0 0) -1.0)
+----
+
+=== Coerce
+
+In C, 10 / 3 equals 0.3333333… In Lisp, 10 / 3 equals 10/3, allowing 10/3 * 3 to
+return 10 while in C the result is 0.999999. This becomes problematic when
+calculations are performed in Lisp and the result must be passed to a C style
+function. coerce is used to force an object to a specific type. The following
+code gives an example where coerce is required.
+
+The result of `(/ width height)` is forced to the type `‘double-float`
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf ratio (coerce (/ width height) ‘double-float))
+
+(gluPerspective 60.0d0 ratio 1.0d0 1024.0d0))
+----
+
+[#unions]
+=== C Unions
+
+The current version of Corman Lisp absolutely does not support unions. So the
+following is not possible:
+
+.C
+[source,c,linenums]
+----
+typedef union {
+	Uint8 type;
+	SDL_ActiveEvent active;
+	SDL_KeyboardEvent key;
+	SDL_MouseMotionEvent motion;
+	SDL_MouseButtonEvent button;
+	SDL_JoyAxisEvent jaxis;
+	SDL_JoyBallEvent jball;
+	SDL_JoyHatEvent jhat;
+	SDL_JoyButtonEvent jbutton;
+	SDL_ResizeEvent resize;
+	SDL_ExposeEvent expose;
+	SDL_QuitEvent quit;
+	SDL_UserEvent user;
+	SDL_SysWMEvent syswm;
+} SDL_Event;
+----
+
+This is not as bad as it seems as it is possible to ‘fake’ a union in Lisp by
+replacing it within a struct. So the C struct equivalent of the previous code,
+as currently defined in the FFI, looks something like this.
+
+.C code as defined in the Lisp SDL FFI
+[source,c,linenums]
+----
+typedef struct {
+    Uint8 type;
+    Uint8 buffer[1023];
+} SDL_Event;
+----
+
+Here, buffer is sized to be large enough to handle the largest variable in the
+union. See Section &lt;&gt; for an example of how a union is handled
+
+== Interfacing to SDL
+=== Initialization
+
+Here is some standard code to initialize the SDL subsystems. Notice C uses the
+`if` construct whereas idiomatic Lisp uses `when` -- for which there is no C
+equivalent. The reason is a matter of style and readability. Lisp does have an
+`if` construct, but in Lisp the `if` implies an associated `else`. In this case
+there is no `else` so we use `when` for the single decision branch.
+
+.C
+[source,c,linenums]
+----
+if( SDL_Init( SDL_INIT_VIDEO ) &lt; 0 ) {
+   /* Failed, exit. */
+   fprintf( stderr, &#34;Video initialization failed: %sn&#34;,
+        SDL_GetError( ) );
+   quit_tutorial( 1 );
+}
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(when (&lt; 0 (SDL_Init SDL_INIT_VIDEO))
+      (fformat &#34;Video initialization failed: ~A &#34; (SDL_GetError))
+      (setf quit t))
+----
+
+=== Setting the video mode
+Many functions in SDL take parameters that are set using a bitwise `|` (or). The
+Lisp equivalent is `logior`.
+
+.C
+[source,c,linenums]
+----
+flags = SDL_OPENGL | SDL_RESIZABLE;
+SDL_SetVideoMode( width, height, bpp, flags );
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf flags (logior SDL_OPENGL SDL_RESIZABLE))
+(SDL_SetVideoMode width height bpp flags)
+----
+
+=== The Main Loop
+
+Games usually make use of a single loop that checks for events before executing
+the game logic and redrawing the screen. Here is the C and equivalent Lisp code
+for this main loop.
+
+.C
+[source,c,linenums]
+----
+while( 1 ) {
+    /* Process incoming events. */
+    process_events( );
+    /* Draw the screen. */
+    draw_screen( );
+}
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(do ()
+    ((eql *quit* t))
+	; Process incoming events.
+    (process-events)
+	; Draw the screen.
+    (draw-screen))
+----
+
+There are several loops available in Lisp (`loop`, `for`, `do`, `dotimes`,
+`dolist`), and many more can be created using macros (e.g. `while`).
+
+[#events]
+=== Processing Events
+
+As described in Section &lt;&gt;, the current version of Corman Lisp does not
+support unions. This poses a problem in that events are returned from
+`SDL_PollEvent` in the form of an all-encompassing union.
+
+.C
+[source,c,linenums]
+----
+typedef union {
+	Uint8 type;
+	SDL_ActiveEvent active;
+	SDL_KeyboardEvent key;
+	SDL_MouseMotionEvent motion;
+	SDL_MouseButtonEvent button;
+	SDL_JoyAxisEvent jaxis;
+	SDL_JoyBallEvent jball;
+	SDL_JoyHatEvent jhat;
+	SDL_JoyButtonEvent jbutton;
+	SDL_ResizeEvent resize;
+	SDL_ExposeEvent expose;
+	SDL_QuitEvent quit;
+	SDL_UserEvent user;
+	SDL_SysWMEvent syswm;
+} SDL_Event;
+----
+
+Examining each struct within the union we see that `Uint8` type is used as the
+type identifier.
+
+.C
+[source,c,linenums]
+----
+typedef struct {
+	Uint8 type;
+	Uint8 gain;
+	Uint8 state;
+} SDL_ActiveEvent;
+
+typedef struct {
+	Uint8 type;
+	Uint8 which;
+	Uint8 state;
+	SDL_keysym keysym;
+} SDL_KeyboardEvent;
+----
+
+Therefore we are able to replace the union with the following struct in the FFI.
+This is transparent to the programmer.
+
+.C code as defined in the Lisp SDL FFI
+[source,c,linenums]
+----
+typedef struct {
+    Uint8 type;
+    Uint8 buffer[1023];
+} SDL_Event;
+----
+
+All that remains is to check the type and ‘cast’ to the appropriate struct. In C
+checking the type is something that must be done anyway. In Lisp, ‘cast’ means
+referring to one type as another using `cref`. So for example, ‘casting’ from
+`SDL_Event` to `SDL_KeyboardEvent` is as simple as...
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(ct:cref sdl:SDL_Event sdl-event sdl::type)
+
+(ct:cref sdl:SDL_KeyboardEvent sdl-event sdl::type)
+----
+
+The following code describes the conversion to Lisp from C style event
+processing.
+
+.C
+[source,c,linenums]
+----
+static void process_events( void )
+{
+    SDL_Event event;
+
+    /* Grab all the events off the queue. */
+    while( SDL_PollEvent( &amp;event ) ) {
+
+        switch( event.type ) {
+        case SDL_KEYDOWN:
+            /* Handle key presses. */
+            handle_key_down( &amp;event.key.keysym );
+            break;
+        case SDL_QUIT:
+            /* Handle quit requests (like Ctrl-c). */
+            quit_tutorial( 0 );
+            break;
+        }
+    }
+}
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(defun process-events ()
+    (let ((sdl-event (ct:malloc (ct:sizeof ’sdl:SDL_Event))))
+    ;; Grab all the events off the queue.
+    (do ((poll-event 1 (sdl:SDL_PollEvent sdl-event)))
+        ((eql poll-event 0) ‘done)
+        (cond
+            ;; Here we check the type
+            ((eql sdl:SDL_KEYDOWN (ct:cref sdl:SDL_Event sdl-event sdl::type))
+                ;; Handle key presses.
+                ;; And then reference it as SDL_KeyboardEvent. Fortunately Lisp
+                ;; doesn’t care what we do.
+                (handle-key-down (ct:cref sdl:SDL_KeyboardEvent sdl-event sdl::keysym)))
+            ((eql sdl:SDL_QUIT (ct:cref sdl:SDL_Event sdl-event sdl::type))
+                ;; Handle quit requests (like Ctrl-c)
+                (setf *quit* t))))))
+----
+
+The FFI forces us to create the `sdl-event` variable on the heap using malloc.
+But because Lisp is garbage collected there is no need to use free, although
+there is nothing stopping the reader from explicitly freeing a variable using
+free. In the Lisp code above, the `sdl-event` variable has scope only within the
+function `process-events`. Therefore the garbage collector will automatically
+free the memory for `sdl-event` when it goes out of scope.
+
+=== Handling Events
+
+The following example describes how to handle key presses.
+
+.C
+[source,c,linenums]
+----
+static void handle_key_down( SDL_keysym* keysym )
+{
+    switch( keysym-&gt;sym ) {
+    case SDLK_ESCAPE:
+        quit_tutorial( 0 );
+        break;
+    case SDLK_SPACE:
+        should_rotate = !should_rotate;
+        break;
+    default:
+        break;
+    }
+}
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(defun handle-key-down (keysym)
+    (cond
+        ((eql sdl:SDLK_ESCAPE (ct:cref sdl:SDL_keysym keysym sdl::sym))
+            (setf *quit* t))
+        ((eql sdl:SDLK_SPACE (ct:cref sdl:SDL_keysym keysym sdl::sym))
+            (setf *rotate* (not *rotate*)))))
+----
+
+== Conclusion
+
+Hopefully this has helped you better understand how to make use of FFI bindings
+for the Corman Common Lisp. If you have any corrections, additions or comments,
+please let me know.
+
+== Version History
+
+* 17 August 2020: Version 0.3
+  ** Converted to AsciiDoc format
+
+* 15 December 2003: Version 0.2
+
+* 11 December 2003: Version 0.1
+">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Corman Lisp FFI Howto">
+  <meta name="twitter:description" content="= Future Legacy Applications Luke Crook v1.0, 2003-12-11 :sectanchors: :sectlinks: :icons: font :data-uri: :source-highlighter: rouge :rouge-style: github :page-liquid: :page-layout: false # post # info page default none :page-category: functional :page-tags: [Future Code] [abstract] This post demonstrates the use of the Corman Common Lisp (CCL) FFI.footnote:[https://github.com/sharplispers/cormanlisp] with the SDLfootnote:[https://www.libsdl.org/] library. This post is not a general SDL tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: SDL version 1.2.x is described. SDL APIs described herein have changed in SDL version 2.x. == Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI. The FFI bindings to SDL are used in many of the examples. This document makes use of an existing example contained in the SDL documentation, &#34;Using OpenGL With SDL&#34;.footnote:[https://www.libsdl.org/release/SDL-1.2.15/docs/html/guidevideoopengl.html] Using the above example, the main components of the SDL library are described in Lisp: initialization, configuration, event handling, drawing to the screen, and exiting. Several Lisp ‘macros’ are later described in an attempt to show some of the advantages of developing using Lisp as opposed to, say Java or C&#43;&#43;. NOTE: The section on macros is TODO. == Basics of the Corman Lisp FFI This section contains a brief introduction on the use of the Corman Lisp FFI. The FFI is used to call C style functions from Dynamic Link Libraries (DLL’s). The most common operations that a programmer may encounter when interfacing to a DLL are covered, including callbacks, creating and referencing arrays and structures, using pointers and managing memory. The Corman Lisp manualfootnote:[https://github.com/sharplispers/cormanlisp/releases] describes how to create FFI definitions. This section assumes that the reader is using existing FFI definitions and wishes to make use of the functions defined therein. Advanced topics, such as interfacing to COM objects are not covered. Please see the Corman Lisp manual for more information on how to use COM objects. === Includes FFI definitions are usually contained in a file, similar to C header files. And like C, these definitions must be included before use. In Lisp, require is used for this purpose. .C [source,c,linenums] ---- #include “SDL/SDL.h” #include “GL/gl.h” ---- .Common Lisp [source,lisp,linenums] ---- (require ’sdl) (require ‘opengl) ---- === Variables: C Datatypes Lisp variables may be passed to or received from C style functions that take any of the standard C datatypes as parameters. C datatypes include byte/char, short, int, float, and double. Corman Lisp transparently takes care of much of the necessary casting and conversion between Lisp and C variables. .C [source,c,linenums] ---- int width = 0; int height = 0; ---- .Common Lisp [source,lisp,linenums] ---- (setf width 0) (setf height 0) ---- [#variables] === Variables: C Arrays and Structures Things begin to get interesting when structures and arrays are used. Pure Lisp arrays are not equivalent to C arrays and therefore it is not possible to pass a Lisp array to a C function. If a C function takes an array a C style array must be created from within Lisp. .C [source,c,linenums] ---- static GLfloat v0[] = { -1.0f, -1.0f, 1.0f }; ---- When using C, arrays may be created on the stack as shown in the C code above. When a C array is created in Lisp, it is always created on the heap - meaning it must be created using malloc. Because Lisp is garbage collected there is no need to explicitly free a variable created using malloc. The garbage collector will automatically free the memory for `v0` when the variable goes out of scope. Although there is nothing stopping the reader from explicitly freeing a variable using the function free. .Common Lisp [source,lisp,linenums] ---- (setf v0 (ct:malloc (ct:sizeof ‘(:single-float 3)))) ---- A C array may be initialized when it is created. In Lisp because C arrays are created on the heap, assignment must take place as a separate step. .Common Lisp [source,lisp,linenums] ---- (setf (ct:cref (:single-float 3) v0 0) -1.0) (setf (ct:cref (:single-float 3) v0 1) -1.0) (setf (ct:cref (:single-float 3) v0 2) 1.0) ---- `cref` (the ct: prefix identifies the package that contains cref) is used for accessing a C style array, or structure. Therefore, looking at the statements in the previous code block: * `ct:cref` - accessing an array or structure. * `(:single-float 3)` - in this case, it is an array of 3 floats. * `v0` - the name of the array we previously created using malloc. * `0` - The index into the array The Lisp implementation seems backward compared to the C-style the reader is probably used to, e.g `v0[0] = -1.` But that’s how it is done in CCL. It is possible to improve upon this using macros The previous code described assignment. Retrieving a value is much the same, but without the `setf`. .Common Lisp [source,lisp,linenums] ---- (ct:cref (:single-float 3) v0 0) -1.0 ---- The code for accessing a C struct is described below. .C [source,c,linenums] ---- typedef struct { Sint16 x; Sint16 y; Uint16 w; Uint16 h; } SDL_Rect; ---- .Common Lisp [source,lisp,linenums] ---- (setf a-rectangle (ct:malloc (ct:sizeof ’sdl:SDL_Rect))) (setf (ct:cref sdl:SDL_Rect a-rectangle sdl::x) 120) (setf (ct:cref sdl:SDL_Rect a-rectangle sdl::x) 200) (setf (ct:cref sdl:SDL_Rect a-rectangle sdl::w) 64) (setf (ct:cref sdl:SDL_Rect a-rectangle sdl::h) 64) ---- The macro `with-c-struct` makes working with structs a lot easier, as shown below: .Common Lisp [source,lisp,linenums] ---- (with-c-struct (x rectangle sdl:SDL_Rect) (setf sdl::x 120 sdl::y 200 sdl::w 64 sdl::h 64)) ---- An important consideration is that the Lisp sizeof function can only be passed defined types, for example `sdl:SDL_Rect`. Calling sizeof on a variable such as `a-rectangle` will fail. === Functions Calling C style functions in Lisp is straightforward. .C [source,c,linenums] ---- SDL_Init( SDL_INIT_VIDEO ); SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 ); ---- .Common Lisp [source,lisp,linenums] ---- (SDL_Init SDL_INIT_VIDEO) (SDL_GL_SetAttribute SDL_GL_RED_SIZE 5) ---- === Callbacks `defun-c-callback` is used to create a function callback in Lisp. As an example, the C prototype for the SDL function `SDL_AddTimer` is shown below. `SDL_AddTimer` takes a function as one of its parameters and calls that function at the specified interval. .C callback function prototype [source,c,linenums] ---- typedef Uint32 (*SDL_NewTimerCallback)(Uint32 interval, void *param); ---- .Common Lisp callback function [source,lisp,linenums] ---- (ct:defun-c-callback timer-callback ((interval SDL:Uint32) (param (:void *))) (fformat “Yup, timer Fired”) (values interval)) ---- .C `SDL_AddTimer` prototype definition [source,c,linenums] ---- SDL_TimerID SDL_AddTimer(Uint32 interval, SDL_NewTimerCallback callback, void *param); ---- .Common Lisp code using a callback [source,lisp,linenums] ---- (setf param (ct:malloc (ct:sizeof :LONG))) (setf a-timer-1 (SDL:SDL_AddTimer 10000 (ct:get-callback-procinst ‘timer-callback) param)) ---- === Pointers All C objects are referenced from Lisp using pointers. For example in Section &lt;&gt;, `v0` is a foreign pointer that points to an array of 3 floats. The function `create-foreign-ptr` is used to create a foreign pointer. A foreign pointer is similar to `void *` in C and can be cast (or assigned) to any object. The function cpointer value returns the address of an object referenced by the foreign pointer. It is therefore possible to assign the pointer to the address of any object using setf. An example is described below. Values returned from Corman Lisp are in bold. .Common Lisp [source,lisp,linenums] ---- (setf f-pointer (ct:create-foreign-ptr)) #&lt; FOREIGN PTR: #x0 &gt; (setf var-1 (ct:malloc (ct:sizeof :LONG))) #&lt; FOREIGN HEAP PTR: #xA63F78, length = 4 bytes &gt; (setf (ct:cref (:long *) var-1 0) 100) 100 (ct:cpointer-value f-pointer) 0 (ct:cpointer-value var-1) 10895224 (setf (ct:cpointer-value f-pointer) (ct:cpointer-value var-1)) (ct:cpointer-value f-pointer) 10895224 (ct:cref (:long *) f-pointer 0) 100 var-1 #&lt; FOREIGN HEAP PTR: #xA63F78, length = 4 bytes &gt; f-pointer #&lt; FOREIGN PTR: #xA63F78 &gt; ---- [#types] === Defining types The function defctype is similar to the C typedef. It allows one to create new types and reference them in Lisp code, greatly improving readability. The following code modifies the example in Section &lt;&gt; and creates a new type called `vertex-arrayf` which is defined as an array of three floats. .Common Lisp [source,lisp,linenums] ---- (ct:defctype vertex-array (:single-float 3)) (setf v0 (ct:malloc (ct:sizeof &#39;vertex-arrayf))) (setf (ct:cref vertex-array v0 0) -1.0) ---- === Coerce In C, 10 / 3 equals 0.3333333… In Lisp, 10 / 3 equals 10/3, allowing 10/3 * 3 to return 10 while in C the result is 0.999999. This becomes problematic when calculations are performed in Lisp and the result must be passed to a C style function. coerce is used to force an object to a specific type. The following code gives an example where coerce is required. The result of `(/ width height)` is forced to the type `‘double-float` .Common Lisp [source,lisp,linenums] ---- (setf ratio (coerce (/ width height) ‘double-float)) (gluPerspective 60.0d0 ratio 1.0d0 1024.0d0)) ---- [#unions] === C Unions The current version of Corman Lisp absolutely does not support unions. So the following is not possible: .C [source,c,linenums] ---- typedef union { Uint8 type; SDL_ActiveEvent active; SDL_KeyboardEvent key; SDL_MouseMotionEvent motion; SDL_MouseButtonEvent button; SDL_JoyAxisEvent jaxis; SDL_JoyBallEvent jball; SDL_JoyHatEvent jhat; SDL_JoyButtonEvent jbutton; SDL_ResizeEvent resize; SDL_ExposeEvent expose; SDL_QuitEvent quit; SDL_UserEvent user; SDL_SysWMEvent syswm; } SDL_Event; ---- This is not as bad as it seems as it is possible to ‘fake’ a union in Lisp by replacing it within a struct. So the C struct equivalent of the previous code, as currently defined in the FFI, looks something like this. .C code as defined in the Lisp SDL FFI [source,c,linenums] ---- typedef struct { Uint8 type; Uint8 buffer[1023]; } SDL_Event; ---- Here, buffer is sized to be large enough to handle the largest variable in the union. See Section &lt;&gt; for an example of how a union is handled == Interfacing to SDL === Initialization Here is some standard code to initialize the SDL subsystems. Notice C uses the `if` construct whereas idiomatic Lisp uses `when` -- for which there is no C equivalent. The reason is a matter of style and readability. Lisp does have an `if` construct, but in Lisp the `if` implies an associated `else`. In this case there is no `else` so we use `when` for the single decision branch. .C [source,c,linenums] ---- if( SDL_Init( SDL_INIT_VIDEO ) &lt; 0 ) { /* Failed, exit. */ fprintf( stderr, &#34;Video initialization failed: %sn&#34;, SDL_GetError( ) ); quit_tutorial( 1 ); } ---- .Common Lisp [source,lisp,linenums] ---- (when (&lt; 0 (SDL_Init SDL_INIT_VIDEO)) (fformat &#34;Video initialization failed: ~A &#34; (SDL_GetError)) (setf quit t)) ---- === Setting the video mode Many functions in SDL take parameters that are set using a bitwise `|` (or). The Lisp equivalent is `logior`. .C [source,c,linenums] ---- flags = SDL_OPENGL | SDL_RESIZABLE; SDL_SetVideoMode( width, height, bpp, flags ); ---- .Common Lisp [source,lisp,linenums] ---- (setf flags (logior SDL_OPENGL SDL_RESIZABLE)) (SDL_SetVideoMode width height bpp flags) ---- === The Main Loop Games usually make use of a single loop that checks for events before executing the game logic and redrawing the screen. Here is the C and equivalent Lisp code for this main loop. .C [source,c,linenums] ---- while( 1 ) { /* Process incoming events. */ process_events( ); /* Draw the screen. */ draw_screen( ); } ---- .Common Lisp [source,lisp,linenums] ---- (do () ((eql *quit* t)) ; Process incoming events. (process-events) ; Draw the screen. (draw-screen)) ---- There are several loops available in Lisp (`loop`, `for`, `do`, `dotimes`, `dolist`), and many more can be created using macros (e.g. `while`). [#events] === Processing Events As described in Section &lt;&gt;, the current version of Corman Lisp does not support unions. This poses a problem in that events are returned from `SDL_PollEvent` in the form of an all-encompassing union. .C [source,c,linenums] ---- typedef union { Uint8 type; SDL_ActiveEvent active; SDL_KeyboardEvent key; SDL_MouseMotionEvent motion; SDL_MouseButtonEvent button; SDL_JoyAxisEvent jaxis; SDL_JoyBallEvent jball; SDL_JoyHatEvent jhat; SDL_JoyButtonEvent jbutton; SDL_ResizeEvent resize; SDL_ExposeEvent expose; SDL_QuitEvent quit; SDL_UserEvent user; SDL_SysWMEvent syswm; } SDL_Event; ---- Examining each struct within the union we see that `Uint8` type is used as the type identifier. .C [source,c,linenums] ---- typedef struct { Uint8 type; Uint8 gain; Uint8 state; } SDL_ActiveEvent; typedef struct { Uint8 type; Uint8 which; Uint8 state; SDL_keysym keysym; } SDL_KeyboardEvent; ---- Therefore we are able to replace the union with the following struct in the FFI. This is transparent to the programmer. .C code as defined in the Lisp SDL FFI [source,c,linenums] ---- typedef struct { Uint8 type; Uint8 buffer[1023]; } SDL_Event; ---- All that remains is to check the type and ‘cast’ to the appropriate struct. In C checking the type is something that must be done anyway. In Lisp, ‘cast’ means referring to one type as another using `cref`. So for example, ‘casting’ from `SDL_Event` to `SDL_KeyboardEvent` is as simple as... .Common Lisp [source,lisp,linenums] ---- (ct:cref sdl:SDL_Event sdl-event sdl::type) (ct:cref sdl:SDL_KeyboardEvent sdl-event sdl::type) ---- The following code describes the conversion to Lisp from C style event processing. .C [source,c,linenums] ---- static void process_events( void ) { SDL_Event event; /* Grab all the events off the queue. */ while( SDL_PollEvent( &amp;event ) ) { switch( event.type ) { case SDL_KEYDOWN: /* Handle key presses. */ handle_key_down( &amp;event.key.keysym ); break; case SDL_QUIT: /* Handle quit requests (like Ctrl-c). */ quit_tutorial( 0 ); break; } } } ---- .Common Lisp [source,lisp,linenums] ---- (defun process-events () (let ((sdl-event (ct:malloc (ct:sizeof ’sdl:SDL_Event)))) ;; Grab all the events off the queue. (do ((poll-event 1 (sdl:SDL_PollEvent sdl-event))) ((eql poll-event 0) ‘done) (cond ;; Here we check the type ((eql sdl:SDL_KEYDOWN (ct:cref sdl:SDL_Event sdl-event sdl::type)) ;; Handle key presses. ;; And then reference it as SDL_KeyboardEvent. Fortunately Lisp ;; doesn’t care what we do. (handle-key-down (ct:cref sdl:SDL_KeyboardEvent sdl-event sdl::keysym))) ((eql sdl:SDL_QUIT (ct:cref sdl:SDL_Event sdl-event sdl::type)) ;; Handle quit requests (like Ctrl-c) (setf *quit* t)))))) ---- The FFI forces us to create the `sdl-event` variable on the heap using malloc. But because Lisp is garbage collected there is no need to use free, although there is nothing stopping the reader from explicitly freeing a variable using free. In the Lisp code above, the `sdl-event` variable has scope only within the function `process-events`. Therefore the garbage collector will automatically free the memory for `sdl-event` when it goes out of scope. === Handling Events The following example describes how to handle key presses. .C [source,c,linenums] ---- static void handle_key_down( SDL_keysym* keysym ) { switch( keysym-&gt;sym ) { case SDLK_ESCAPE: quit_tutorial( 0 ); break; case SDLK_SPACE: should_rotate = !should_rotate; break; default: break; } } ---- .Common Lisp [source,lisp,linenums] ---- (defun handle-key-down (keysym) (cond ((eql sdl:SDLK_ESCAPE (ct:cref sdl:SDL_keysym keysym sdl::sym)) (setf *quit* t)) ((eql sdl:SDLK_SPACE (ct:cref sdl:SDL_keysym keysym sdl::sym)) (setf *rotate* (not *rotate*))))) ---- == Conclusion Hopefully this has helped you better understand how to make use of FFI bindings for the Corman Common Lisp. If you have any corrections, additions or comments, please let me know. == Version History * 17 August 2020: Version 0.3 ** Converted to AsciiDoc format * 15 December 2003: Version 0.2 * 11 December 2003: Version 0.1">
+
+<meta property="og:url" content="http://localhost:1313/posts/corman-lisp-ffi/">
+  <meta property="og:site_name" content="Balooga.com">
+  <meta property="og:title" content="Corman Lisp FFI Howto">
+  <meta property="og:description" content="= Future Legacy Applications Luke Crook v1.0, 2003-12-11 :sectanchors: :sectlinks: :icons: font :data-uri: :source-highlighter: rouge :rouge-style: github :page-liquid: :page-layout: false # post # info page default none :page-category: functional :page-tags: [Future Code] [abstract] This post demonstrates the use of the Corman Common Lisp (CCL) FFI.footnote:[https://github.com/sharplispers/cormanlisp] with the SDLfootnote:[https://www.libsdl.org/] library. This post is not a general SDL tutorial, nor should it be considered a primer for learning Common Lisp. NOTE: SDL version 1.2.x is described. SDL APIs described herein have changed in SDL version 2.x. == Introduction This document will describe how Lisp code interfaces with Microsoft Windows Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI. The FFI bindings to SDL are used in many of the examples. This document makes use of an existing example contained in the SDL documentation, &#34;Using OpenGL With SDL&#34;.footnote:[https://www.libsdl.org/release/SDL-1.2.15/docs/html/guidevideoopengl.html] Using the above example, the main components of the SDL library are described in Lisp: initialization, configuration, event handling, drawing to the screen, and exiting. Several Lisp ‘macros’ are later described in an attempt to show some of the advantages of developing using Lisp as opposed to, say Java or C&#43;&#43;. NOTE: The section on macros is TODO. == Basics of the Corman Lisp FFI This section contains a brief introduction on the use of the Corman Lisp FFI. The FFI is used to call C style functions from Dynamic Link Libraries (DLL’s). The most common operations that a programmer may encounter when interfacing to a DLL are covered, including callbacks, creating and referencing arrays and structures, using pointers and managing memory. The Corman Lisp manualfootnote:[https://github.com/sharplispers/cormanlisp/releases] describes how to create FFI definitions. This section assumes that the reader is using existing FFI definitions and wishes to make use of the functions defined therein. Advanced topics, such as interfacing to COM objects are not covered. Please see the Corman Lisp manual for more information on how to use COM objects. === Includes FFI definitions are usually contained in a file, similar to C header files. And like C, these definitions must be included before use. In Lisp, require is used for this purpose. .C [source,c,linenums] ---- #include “SDL/SDL.h” #include “GL/gl.h” ---- .Common Lisp [source,lisp,linenums] ---- (require ’sdl) (require ‘opengl) ---- === Variables: C Datatypes Lisp variables may be passed to or received from C style functions that take any of the standard C datatypes as parameters. C datatypes include byte/char, short, int, float, and double. Corman Lisp transparently takes care of much of the necessary casting and conversion between Lisp and C variables. .C [source,c,linenums] ---- int width = 0; int height = 0; ---- .Common Lisp [source,lisp,linenums] ---- (setf width 0) (setf height 0) ---- [#variables] === Variables: C Arrays and Structures Things begin to get interesting when structures and arrays are used. Pure Lisp arrays are not equivalent to C arrays and therefore it is not possible to pass a Lisp array to a C function. If a C function takes an array a C style array must be created from within Lisp. .C [source,c,linenums] ---- static GLfloat v0[] = { -1.0f, -1.0f, 1.0f }; ---- When using C, arrays may be created on the stack as shown in the C code above. When a C array is created in Lisp, it is always created on the heap - meaning it must be created using malloc. Because Lisp is garbage collected there is no need to explicitly free a variable created using malloc. The garbage collector will automatically free the memory for `v0` when the variable goes out of scope. Although there is nothing stopping the reader from explicitly freeing a variable using the function free. .Common Lisp [source,lisp,linenums] ---- (setf v0 (ct:malloc (ct:sizeof ‘(:single-float 3)))) ---- A C array may be initialized when it is created. In Lisp because C arrays are created on the heap, assignment must take place as a separate step. .Common Lisp [source,lisp,linenums] ---- (setf (ct:cref (:single-float 3) v0 0) -1.0) (setf (ct:cref (:single-float 3) v0 1) -1.0) (setf (ct:cref (:single-float 3) v0 2) 1.0) ---- `cref` (the ct: prefix identifies the package that contains cref) is used for accessing a C style array, or structure. Therefore, looking at the statements in the previous code block: * `ct:cref` - accessing an array or structure. * `(:single-float 3)` - in this case, it is an array of 3 floats. * `v0` - the name of the array we previously created using malloc. * `0` - The index into the array The Lisp implementation seems backward compared to the C-style the reader is probably used to, e.g `v0[0] = -1.` But that’s how it is done in CCL. It is possible to improve upon this using macros The previous code described assignment. Retrieving a value is much the same, but without the `setf`. .Common Lisp [source,lisp,linenums] ---- (ct:cref (:single-float 3) v0 0) -1.0 ---- The code for accessing a C struct is described below. .C [source,c,linenums] ---- typedef struct { Sint16 x; Sint16 y; Uint16 w; Uint16 h; } SDL_Rect; ---- .Common Lisp [source,lisp,linenums] ---- (setf a-rectangle (ct:malloc (ct:sizeof ’sdl:SDL_Rect))) (setf (ct:cref sdl:SDL_Rect a-rectangle sdl::x) 120) (setf (ct:cref sdl:SDL_Rect a-rectangle sdl::x) 200) (setf (ct:cref sdl:SDL_Rect a-rectangle sdl::w) 64) (setf (ct:cref sdl:SDL_Rect a-rectangle sdl::h) 64) ---- The macro `with-c-struct` makes working with structs a lot easier, as shown below: .Common Lisp [source,lisp,linenums] ---- (with-c-struct (x rectangle sdl:SDL_Rect) (setf sdl::x 120 sdl::y 200 sdl::w 64 sdl::h 64)) ---- An important consideration is that the Lisp sizeof function can only be passed defined types, for example `sdl:SDL_Rect`. Calling sizeof on a variable such as `a-rectangle` will fail. === Functions Calling C style functions in Lisp is straightforward. .C [source,c,linenums] ---- SDL_Init( SDL_INIT_VIDEO ); SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 ); ---- .Common Lisp [source,lisp,linenums] ---- (SDL_Init SDL_INIT_VIDEO) (SDL_GL_SetAttribute SDL_GL_RED_SIZE 5) ---- === Callbacks `defun-c-callback` is used to create a function callback in Lisp. As an example, the C prototype for the SDL function `SDL_AddTimer` is shown below. `SDL_AddTimer` takes a function as one of its parameters and calls that function at the specified interval. .C callback function prototype [source,c,linenums] ---- typedef Uint32 (*SDL_NewTimerCallback)(Uint32 interval, void *param); ---- .Common Lisp callback function [source,lisp,linenums] ---- (ct:defun-c-callback timer-callback ((interval SDL:Uint32) (param (:void *))) (fformat “Yup, timer Fired”) (values interval)) ---- .C `SDL_AddTimer` prototype definition [source,c,linenums] ---- SDL_TimerID SDL_AddTimer(Uint32 interval, SDL_NewTimerCallback callback, void *param); ---- .Common Lisp code using a callback [source,lisp,linenums] ---- (setf param (ct:malloc (ct:sizeof :LONG))) (setf a-timer-1 (SDL:SDL_AddTimer 10000 (ct:get-callback-procinst ‘timer-callback) param)) ---- === Pointers All C objects are referenced from Lisp using pointers. For example in Section &lt;&gt;, `v0` is a foreign pointer that points to an array of 3 floats. The function `create-foreign-ptr` is used to create a foreign pointer. A foreign pointer is similar to `void *` in C and can be cast (or assigned) to any object. The function cpointer value returns the address of an object referenced by the foreign pointer. It is therefore possible to assign the pointer to the address of any object using setf. An example is described below. Values returned from Corman Lisp are in bold. .Common Lisp [source,lisp,linenums] ---- (setf f-pointer (ct:create-foreign-ptr)) #&lt; FOREIGN PTR: #x0 &gt; (setf var-1 (ct:malloc (ct:sizeof :LONG))) #&lt; FOREIGN HEAP PTR: #xA63F78, length = 4 bytes &gt; (setf (ct:cref (:long *) var-1 0) 100) 100 (ct:cpointer-value f-pointer) 0 (ct:cpointer-value var-1) 10895224 (setf (ct:cpointer-value f-pointer) (ct:cpointer-value var-1)) (ct:cpointer-value f-pointer) 10895224 (ct:cref (:long *) f-pointer 0) 100 var-1 #&lt; FOREIGN HEAP PTR: #xA63F78, length = 4 bytes &gt; f-pointer #&lt; FOREIGN PTR: #xA63F78 &gt; ---- [#types] === Defining types The function defctype is similar to the C typedef. It allows one to create new types and reference them in Lisp code, greatly improving readability. The following code modifies the example in Section &lt;&gt; and creates a new type called `vertex-arrayf` which is defined as an array of three floats. .Common Lisp [source,lisp,linenums] ---- (ct:defctype vertex-array (:single-float 3)) (setf v0 (ct:malloc (ct:sizeof &#39;vertex-arrayf))) (setf (ct:cref vertex-array v0 0) -1.0) ---- === Coerce In C, 10 / 3 equals 0.3333333… In Lisp, 10 / 3 equals 10/3, allowing 10/3 * 3 to return 10 while in C the result is 0.999999. This becomes problematic when calculations are performed in Lisp and the result must be passed to a C style function. coerce is used to force an object to a specific type. The following code gives an example where coerce is required. The result of `(/ width height)` is forced to the type `‘double-float` .Common Lisp [source,lisp,linenums] ---- (setf ratio (coerce (/ width height) ‘double-float)) (gluPerspective 60.0d0 ratio 1.0d0 1024.0d0)) ---- [#unions] === C Unions The current version of Corman Lisp absolutely does not support unions. So the following is not possible: .C [source,c,linenums] ---- typedef union { Uint8 type; SDL_ActiveEvent active; SDL_KeyboardEvent key; SDL_MouseMotionEvent motion; SDL_MouseButtonEvent button; SDL_JoyAxisEvent jaxis; SDL_JoyBallEvent jball; SDL_JoyHatEvent jhat; SDL_JoyButtonEvent jbutton; SDL_ResizeEvent resize; SDL_ExposeEvent expose; SDL_QuitEvent quit; SDL_UserEvent user; SDL_SysWMEvent syswm; } SDL_Event; ---- This is not as bad as it seems as it is possible to ‘fake’ a union in Lisp by replacing it within a struct. So the C struct equivalent of the previous code, as currently defined in the FFI, looks something like this. .C code as defined in the Lisp SDL FFI [source,c,linenums] ---- typedef struct { Uint8 type; Uint8 buffer[1023]; } SDL_Event; ---- Here, buffer is sized to be large enough to handle the largest variable in the union. See Section &lt;&gt; for an example of how a union is handled == Interfacing to SDL === Initialization Here is some standard code to initialize the SDL subsystems. Notice C uses the `if` construct whereas idiomatic Lisp uses `when` -- for which there is no C equivalent. The reason is a matter of style and readability. Lisp does have an `if` construct, but in Lisp the `if` implies an associated `else`. In this case there is no `else` so we use `when` for the single decision branch. .C [source,c,linenums] ---- if( SDL_Init( SDL_INIT_VIDEO ) &lt; 0 ) { /* Failed, exit. */ fprintf( stderr, &#34;Video initialization failed: %sn&#34;, SDL_GetError( ) ); quit_tutorial( 1 ); } ---- .Common Lisp [source,lisp,linenums] ---- (when (&lt; 0 (SDL_Init SDL_INIT_VIDEO)) (fformat &#34;Video initialization failed: ~A &#34; (SDL_GetError)) (setf quit t)) ---- === Setting the video mode Many functions in SDL take parameters that are set using a bitwise `|` (or). The Lisp equivalent is `logior`. .C [source,c,linenums] ---- flags = SDL_OPENGL | SDL_RESIZABLE; SDL_SetVideoMode( width, height, bpp, flags ); ---- .Common Lisp [source,lisp,linenums] ---- (setf flags (logior SDL_OPENGL SDL_RESIZABLE)) (SDL_SetVideoMode width height bpp flags) ---- === The Main Loop Games usually make use of a single loop that checks for events before executing the game logic and redrawing the screen. Here is the C and equivalent Lisp code for this main loop. .C [source,c,linenums] ---- while( 1 ) { /* Process incoming events. */ process_events( ); /* Draw the screen. */ draw_screen( ); } ---- .Common Lisp [source,lisp,linenums] ---- (do () ((eql *quit* t)) ; Process incoming events. (process-events) ; Draw the screen. (draw-screen)) ---- There are several loops available in Lisp (`loop`, `for`, `do`, `dotimes`, `dolist`), and many more can be created using macros (e.g. `while`). [#events] === Processing Events As described in Section &lt;&gt;, the current version of Corman Lisp does not support unions. This poses a problem in that events are returned from `SDL_PollEvent` in the form of an all-encompassing union. .C [source,c,linenums] ---- typedef union { Uint8 type; SDL_ActiveEvent active; SDL_KeyboardEvent key; SDL_MouseMotionEvent motion; SDL_MouseButtonEvent button; SDL_JoyAxisEvent jaxis; SDL_JoyBallEvent jball; SDL_JoyHatEvent jhat; SDL_JoyButtonEvent jbutton; SDL_ResizeEvent resize; SDL_ExposeEvent expose; SDL_QuitEvent quit; SDL_UserEvent user; SDL_SysWMEvent syswm; } SDL_Event; ---- Examining each struct within the union we see that `Uint8` type is used as the type identifier. .C [source,c,linenums] ---- typedef struct { Uint8 type; Uint8 gain; Uint8 state; } SDL_ActiveEvent; typedef struct { Uint8 type; Uint8 which; Uint8 state; SDL_keysym keysym; } SDL_KeyboardEvent; ---- Therefore we are able to replace the union with the following struct in the FFI. This is transparent to the programmer. .C code as defined in the Lisp SDL FFI [source,c,linenums] ---- typedef struct { Uint8 type; Uint8 buffer[1023]; } SDL_Event; ---- All that remains is to check the type and ‘cast’ to the appropriate struct. In C checking the type is something that must be done anyway. In Lisp, ‘cast’ means referring to one type as another using `cref`. So for example, ‘casting’ from `SDL_Event` to `SDL_KeyboardEvent` is as simple as... .Common Lisp [source,lisp,linenums] ---- (ct:cref sdl:SDL_Event sdl-event sdl::type) (ct:cref sdl:SDL_KeyboardEvent sdl-event sdl::type) ---- The following code describes the conversion to Lisp from C style event processing. .C [source,c,linenums] ---- static void process_events( void ) { SDL_Event event; /* Grab all the events off the queue. */ while( SDL_PollEvent( &amp;event ) ) { switch( event.type ) { case SDL_KEYDOWN: /* Handle key presses. */ handle_key_down( &amp;event.key.keysym ); break; case SDL_QUIT: /* Handle quit requests (like Ctrl-c). */ quit_tutorial( 0 ); break; } } } ---- .Common Lisp [source,lisp,linenums] ---- (defun process-events () (let ((sdl-event (ct:malloc (ct:sizeof ’sdl:SDL_Event)))) ;; Grab all the events off the queue. (do ((poll-event 1 (sdl:SDL_PollEvent sdl-event))) ((eql poll-event 0) ‘done) (cond ;; Here we check the type ((eql sdl:SDL_KEYDOWN (ct:cref sdl:SDL_Event sdl-event sdl::type)) ;; Handle key presses. ;; And then reference it as SDL_KeyboardEvent. Fortunately Lisp ;; doesn’t care what we do. (handle-key-down (ct:cref sdl:SDL_KeyboardEvent sdl-event sdl::keysym))) ((eql sdl:SDL_QUIT (ct:cref sdl:SDL_Event sdl-event sdl::type)) ;; Handle quit requests (like Ctrl-c) (setf *quit* t)))))) ---- The FFI forces us to create the `sdl-event` variable on the heap using malloc. But because Lisp is garbage collected there is no need to use free, although there is nothing stopping the reader from explicitly freeing a variable using free. In the Lisp code above, the `sdl-event` variable has scope only within the function `process-events`. Therefore the garbage collector will automatically free the memory for `sdl-event` when it goes out of scope. === Handling Events The following example describes how to handle key presses. .C [source,c,linenums] ---- static void handle_key_down( SDL_keysym* keysym ) { switch( keysym-&gt;sym ) { case SDLK_ESCAPE: quit_tutorial( 0 ); break; case SDLK_SPACE: should_rotate = !should_rotate; break; default: break; } } ---- .Common Lisp [source,lisp,linenums] ---- (defun handle-key-down (keysym) (cond ((eql sdl:SDLK_ESCAPE (ct:cref sdl:SDL_keysym keysym sdl::sym)) (setf *quit* t)) ((eql sdl:SDLK_SPACE (ct:cref sdl:SDL_keysym keysym sdl::sym)) (setf *rotate* (not *rotate*))))) ---- == Conclusion Hopefully this has helped you better understand how to make use of FFI bindings for the Corman Common Lisp. If you have any corrections, additions or comments, please let me know. == Version History * 17 August 2020: Version 0.3 ** Converted to AsciiDoc format * 15 December 2003: Version 0.2 * 11 December 2003: Version 0.1">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2003-12-11T00:00:00+00:00">
+    <meta property="article:modified_time" content="2003-12-11T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/corman-lisp-ffi/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.css" media="screen">
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Balooga.com
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/corman-lisp-ffi/">
+              Corman Lisp FFI Howto
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2003-12-11T00:00:00Z">
+                December 11, 2003
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              12-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        = Future Legacy Applications
+Luke Crook <luke@balooga.com>
+v1.0, 2003-12-11
+:sectanchors:
+:sectlinks:
+:icons: font
+:data-uri:
+:source-highlighter: rouge
+:rouge-style: github
+:page-liquid:
+:page-layout: false # post # info page default none
+:page-category: functional
+:page-tags: [Future Code]
+
+[abstract]
+This post demonstrates the use of the Corman Common Lisp (CCL)
+FFI.footnote:[https://github.com/sharplispers/cormanlisp] with the
+SDLfootnote:[https://www.libsdl.org/] library. This post is not a general SDL
+tutorial, nor should it be considered a primer for learning Common Lisp. NOTE:
+SDL version 1.2.x is described. SDL APIs described herein have changed in SDL
+version 2.x.
+
+== Introduction
+
+This document will describe how Lisp code interfaces with Microsoft Windows
+Dynamic Link Libraries (DLL’s) using the Corman Common Lisp FFI. The FFI
+bindings to SDL are used in many of the examples. This document makes use of an
+existing example contained in the SDL documentation, &#34;Using OpenGL With
+SDL&#34;.footnote:[https://www.libsdl.org/release/SDL-1.2.15/docs/html/guidevideoopengl.html]
+
+Using the above example, the main components of the SDL library are described in
+Lisp: initialization, configuration, event handling, drawing to the screen, and
+exiting. Several Lisp ‘macros’ are later described in an attempt to show some of
+the advantages of developing using Lisp as opposed to, say Java or C++.
+
+NOTE: The section on macros is TODO.
+
+== Basics of the Corman Lisp FFI
+
+This section contains a brief introduction on the use of the Corman Lisp FFI.
+The FFI is used to call C style functions from Dynamic Link Libraries (DLL’s).
+The most common operations that a programmer may encounter when interfacing to a
+DLL are covered, including callbacks, creating and referencing arrays and
+structures, using pointers and managing memory.
+
+The Corman Lisp
+manualfootnote:[https://github.com/sharplispers/cormanlisp/releases] describes
+how to create FFI definitions. This section assumes that the reader is using
+existing FFI definitions and wishes to make use of the functions defined
+therein. Advanced topics, such as interfacing to COM objects are not covered.
+Please see the Corman Lisp manual for more information on how to use COM
+objects.
+
+=== Includes
+
+FFI definitions are usually contained in a file, similar to C header files. And
+like C, these definitions must be included before use. In Lisp, require is used
+for this purpose.
+
+.C
+[source,c,linenums]
+----
+#include “SDL/SDL.h”
+#include “GL/gl.h”
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(require ’sdl)
+(require ‘opengl)
+----
+
+=== Variables: C Datatypes
+
+Lisp variables may be passed to or received from C style functions that take any
+of the standard C datatypes as parameters. C datatypes include byte/char, short,
+int, float, and double. Corman Lisp transparently takes care of much of the
+necessary casting and conversion between Lisp and C variables.
+
+.C
+[source,c,linenums]
+----
+int width = 0;
+int height = 0;
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf width 0)
+(setf height 0)
+----
+
+[#variables]
+=== Variables: C Arrays and Structures
+
+Things begin to get interesting when structures and arrays are used. Pure Lisp
+arrays are not equivalent to C arrays and therefore it is not possible to pass a
+Lisp array to a C function. If a C function takes an array a C style array must
+be created from within Lisp.
+
+.C
+[source,c,linenums]
+----
+static GLfloat v0[] = { -1.0f, -1.0f,  1.0f };
+----
+
+When using C, arrays may be created on the stack as shown in the C code above.
+When a C array is created in Lisp, it is always created on the heap - meaning it
+must be created using malloc. Because Lisp is garbage collected there is no need
+to explicitly free a variable created using malloc. The garbage collector will
+automatically free the memory for `v0` when the variable goes out of scope.
+Although there is nothing stopping the reader from explicitly freeing a variable
+using the function free.
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf v0 (ct:malloc (ct:sizeof ‘(:single-float 3))))
+----
+
+A C array may be initialized when it is created. In Lisp because C arrays are
+created on the heap, assignment must take place as a separate step.
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf (ct:cref (:single-float 3) v0 0) -1.0)
+(setf (ct:cref (:single-float 3) v0 1) -1.0)
+(setf (ct:cref (:single-float 3) v0 2) 1.0)
+----
+
+`cref` (the ct: prefix identifies the package that contains cref) is used for
+accessing a C style array, or structure. Therefore, looking at the statements
+in the previous code block:
+
+   * `ct:cref` - accessing an array or structure.
+
+   * `(:single-float 3)` - in this case, it is an array of 3 floats.
+
+   * `v0` - the name of the array we previously created using malloc.
+
+   * `0` - The index into the array
+
+The Lisp implementation seems backward compared to the C-style the reader is
+probably used to, e.g `v0[0] = -1.` But that’s how it is done in CCL. It is
+possible to improve upon this using macros
+
+The previous code described assignment. Retrieving a value is much the same, but
+without the `setf`.
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(ct:cref (:single-float 3) v0 0)
+
+-1.0
+----
+
+The code for accessing a C struct is described below.
+
+.C
+[source,c,linenums]
+----
+typedef struct {
+	Sint16 x;
+	Sint16 y;
+	Uint16 w;
+	Uint16 h;
+} SDL_Rect;
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf a-rectangle (ct:malloc (ct:sizeof ’sdl:SDL_Rect)))
+
+(setf (ct:cref sdl:SDL_Rect a-rectangle sdl::x) 120)
+(setf (ct:cref sdl:SDL_Rect a-rectangle sdl::x) 200)
+(setf (ct:cref sdl:SDL_Rect a-rectangle sdl::w) 64)
+(setf (ct:cref sdl:SDL_Rect a-rectangle sdl::h) 64)
+----
+
+The macro `with-c-struct` makes working with structs a lot easier, as shown
+below:
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(with-c-struct (x rectangle sdl:SDL_Rect)
+    (setf
+          sdl::x 120
+          sdl::y 200
+          sdl::w 64
+          sdl::h 64))
+----
+
+An important consideration is that the Lisp sizeof function can only be passed
+defined types, for example `sdl:SDL_Rect`. Calling sizeof on a variable such as
+`a-rectangle` will fail.
+
+=== Functions
+Calling C style functions in Lisp is straightforward.
+
+.C
+[source,c,linenums]
+----
+SDL_Init( SDL_INIT_VIDEO );
+SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(SDL_Init SDL_INIT_VIDEO)
+(SDL_GL_SetAttribute SDL_GL_RED_SIZE 5)
+----
+
+=== Callbacks
+
+`defun-c-callback` is used to create a function callback in Lisp. As an example,
+the C prototype for the SDL function `SDL_AddTimer` is shown below.
+`SDL_AddTimer` takes a function as one of its parameters and calls that function
+at the specified interval.
+
+
+.C callback function prototype
+[source,c,linenums]
+----
+typedef Uint32 (*SDL_NewTimerCallback)(Uint32 interval, void *param);
+----
+
+.Common Lisp callback function
+[source,lisp,linenums]
+----
+(ct:defun-c-callback timer-callback ((interval SDL:Uint32) (param (:void *)))
+    (fformat “Yup, timer Fired”)
+    (values interval))
+----
+
+
+.C `SDL_AddTimer` prototype definition
+[source,c,linenums]
+----
+SDL_TimerID SDL_AddTimer(Uint32 interval, SDL_NewTimerCallback callback, void *param);
+----
+
+.Common Lisp code using a callback
+[source,lisp,linenums]
+----
+(setf param (ct:malloc (ct:sizeof :LONG)))
+
+(setf a-timer-1
+    (SDL:SDL_AddTimer 10000 (ct:get-callback-procinst ‘timer-callback) param))
+----
+
+=== Pointers
+
+All C objects are referenced from Lisp using pointers. For example in Section
+&lt;<variables>&gt;, `v0` is a foreign pointer that points to an array of 3 floats.
+The function `create-foreign-ptr` is used to create a foreign pointer. A foreign
+pointer is similar to `void *` in C and can be cast (or assigned) to any object.
+The function cpointer value returns the address of an object referenced by the
+foreign pointer. It is therefore possible to assign the pointer to the address
+of any object using setf. An example is described below. Values returned from
+Corman Lisp are in bold.
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf f-pointer (ct:create-foreign-ptr))
+#&lt; FOREIGN PTR: #x0 &gt;
+
+(setf var-1 (ct:malloc (ct:sizeof :LONG)))
+#&lt; FOREIGN HEAP PTR: #xA63F78, length = 4 bytes &gt;
+
+(setf (ct:cref (:long *) var-1 0) 100)
+100
+
+(ct:cpointer-value f-pointer)
+0
+
+(ct:cpointer-value var-1)
+10895224
+
+(setf (ct:cpointer-value f-pointer) (ct:cpointer-value var-1))
+(ct:cpointer-value f-pointer)
+10895224
+
+(ct:cref (:long *) f-pointer 0)
+100
+
+var-1
+#&lt; FOREIGN HEAP PTR: #xA63F78, length = 4 bytes &gt;
+
+f-pointer
+#&lt; FOREIGN PTR: #xA63F78 &gt;
+----
+
+[#types]
+=== Defining types
+
+The function defctype is similar to the C typedef. It allows one to create new
+types and reference them in Lisp code, greatly improving readability. The
+following code modifies the example in Section &lt;<variables>&gt; and creates a new
+type called `vertex-arrayf` which is defined as an array of three floats.
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(ct:defctype vertex-array (:single-float 3))
+
+(setf v0 (ct:malloc (ct:sizeof &#39;vertex-arrayf)))
+
+(setf (ct:cref vertex-array v0 0) -1.0)
+----
+
+=== Coerce
+
+In C, 10 / 3 equals 0.3333333… In Lisp, 10 / 3 equals 10/3, allowing 10/3 * 3 to
+return 10 while in C the result is 0.999999. This becomes problematic when
+calculations are performed in Lisp and the result must be passed to a C style
+function. coerce is used to force an object to a specific type. The following
+code gives an example where coerce is required.
+
+The result of `(/ width height)` is forced to the type `‘double-float`
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf ratio (coerce (/ width height) ‘double-float))
+
+(gluPerspective 60.0d0 ratio 1.0d0 1024.0d0))
+----
+
+[#unions]
+=== C Unions
+
+The current version of Corman Lisp absolutely does not support unions. So the
+following is not possible:
+
+.C
+[source,c,linenums]
+----
+typedef union {
+	Uint8 type;
+	SDL_ActiveEvent active;
+	SDL_KeyboardEvent key;
+	SDL_MouseMotionEvent motion;
+	SDL_MouseButtonEvent button;
+	SDL_JoyAxisEvent jaxis;
+	SDL_JoyBallEvent jball;
+	SDL_JoyHatEvent jhat;
+	SDL_JoyButtonEvent jbutton;
+	SDL_ResizeEvent resize;
+	SDL_ExposeEvent expose;
+	SDL_QuitEvent quit;
+	SDL_UserEvent user;
+	SDL_SysWMEvent syswm;
+} SDL_Event;
+----
+
+This is not as bad as it seems as it is possible to ‘fake’ a union in Lisp by
+replacing it within a struct. So the C struct equivalent of the previous code,
+as currently defined in the FFI, looks something like this.
+
+.C code as defined in the Lisp SDL FFI
+[source,c,linenums]
+----
+typedef struct {
+    Uint8 type;
+    Uint8 buffer[1023];
+} SDL_Event;
+----
+
+Here, buffer is sized to be large enough to handle the largest variable in the
+union. See Section &lt;<events>&gt; for an example of how a union is handled
+
+== Interfacing to SDL
+=== Initialization
+
+Here is some standard code to initialize the SDL subsystems. Notice C uses the
+`if` construct whereas idiomatic Lisp uses `when` -- for which there is no C
+equivalent. The reason is a matter of style and readability. Lisp does have an
+`if` construct, but in Lisp the `if` implies an associated `else`. In this case
+there is no `else` so we use `when` for the single decision branch.
+
+.C
+[source,c,linenums]
+----
+if( SDL_Init( SDL_INIT_VIDEO ) &lt; 0 ) {
+   /* Failed, exit. */
+   fprintf( stderr, &#34;Video initialization failed: %sn&#34;,
+        SDL_GetError( ) );
+   quit_tutorial( 1 );
+}
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(when (&lt; 0 (SDL_Init SDL_INIT_VIDEO))
+      (fformat &#34;Video initialization failed: ~A &#34; (SDL_GetError))
+      (setf quit t))
+----
+
+=== Setting the video mode
+Many functions in SDL take parameters that are set using a bitwise `|` (or). The
+Lisp equivalent is `logior`.
+
+.C
+[source,c,linenums]
+----
+flags = SDL_OPENGL | SDL_RESIZABLE;
+SDL_SetVideoMode( width, height, bpp, flags );
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(setf flags (logior SDL_OPENGL SDL_RESIZABLE))
+(SDL_SetVideoMode width height bpp flags)
+----
+
+=== The Main Loop
+
+Games usually make use of a single loop that checks for events before executing
+the game logic and redrawing the screen. Here is the C and equivalent Lisp code
+for this main loop.
+
+.C
+[source,c,linenums]
+----
+while( 1 ) {
+    /* Process incoming events. */
+    process_events( );
+    /* Draw the screen. */
+    draw_screen( );
+}
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(do ()
+    ((eql *quit* t))
+	; Process incoming events.
+    (process-events)
+	; Draw the screen.
+    (draw-screen))
+----
+
+There are several loops available in Lisp (`loop`, `for`, `do`, `dotimes`,
+`dolist`), and many more can be created using macros (e.g. `while`).
+
+[#events]
+=== Processing Events
+
+As described in Section &lt;<unions>&gt;, the current version of Corman Lisp does not
+support unions. This poses a problem in that events are returned from
+`SDL_PollEvent` in the form of an all-encompassing union.
+
+.C
+[source,c,linenums]
+----
+typedef union {
+	Uint8 type;
+	SDL_ActiveEvent active;
+	SDL_KeyboardEvent key;
+	SDL_MouseMotionEvent motion;
+	SDL_MouseButtonEvent button;
+	SDL_JoyAxisEvent jaxis;
+	SDL_JoyBallEvent jball;
+	SDL_JoyHatEvent jhat;
+	SDL_JoyButtonEvent jbutton;
+	SDL_ResizeEvent resize;
+	SDL_ExposeEvent expose;
+	SDL_QuitEvent quit;
+	SDL_UserEvent user;
+	SDL_SysWMEvent syswm;
+} SDL_Event;
+----
+
+Examining each struct within the union we see that `Uint8` type is used as the
+type identifier.
+
+.C
+[source,c,linenums]
+----
+typedef struct {
+	Uint8 type;
+	Uint8 gain;
+	Uint8 state;
+} SDL_ActiveEvent;
+
+typedef struct {
+	Uint8 type;
+	Uint8 which;
+	Uint8 state;
+	SDL_keysym keysym;
+} SDL_KeyboardEvent;
+----
+
+Therefore we are able to replace the union with the following struct in the FFI.
+This is transparent to the programmer.
+
+.C code as defined in the Lisp SDL FFI
+[source,c,linenums]
+----
+typedef struct {
+    Uint8 type;
+    Uint8 buffer[1023];
+} SDL_Event;
+----
+
+All that remains is to check the type and ‘cast’ to the appropriate struct. In C
+checking the type is something that must be done anyway. In Lisp, ‘cast’ means
+referring to one type as another using `cref`. So for example, ‘casting’ from
+`SDL_Event` to `SDL_KeyboardEvent` is as simple as...
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(ct:cref sdl:SDL_Event sdl-event sdl::type)
+
+(ct:cref sdl:SDL_KeyboardEvent sdl-event sdl::type)
+----
+
+The following code describes the conversion to Lisp from C style event
+processing.
+
+.C
+[source,c,linenums]
+----
+static void process_events( void )
+{
+    SDL_Event event;
+
+    /* Grab all the events off the queue. */
+    while( SDL_PollEvent( &amp;event ) ) {
+
+        switch( event.type ) {
+        case SDL_KEYDOWN:
+            /* Handle key presses. */
+            handle_key_down( &amp;event.key.keysym );
+            break;
+        case SDL_QUIT:
+            /* Handle quit requests (like Ctrl-c). */
+            quit_tutorial( 0 );
+            break;
+        }
+    }
+}
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(defun process-events ()
+    (let ((sdl-event (ct:malloc (ct:sizeof ’sdl:SDL_Event))))
+    ;; Grab all the events off the queue.
+    (do ((poll-event 1 (sdl:SDL_PollEvent sdl-event)))
+        ((eql poll-event 0) ‘done)
+        (cond
+            ;; Here we check the type
+            ((eql sdl:SDL_KEYDOWN (ct:cref sdl:SDL_Event sdl-event sdl::type))
+                ;; Handle key presses.
+                ;; And then reference it as SDL_KeyboardEvent. Fortunately Lisp
+                ;; doesn’t care what we do.
+                (handle-key-down (ct:cref sdl:SDL_KeyboardEvent sdl-event sdl::keysym)))
+            ((eql sdl:SDL_QUIT (ct:cref sdl:SDL_Event sdl-event sdl::type))
+                ;; Handle quit requests (like Ctrl-c)
+                (setf *quit* t))))))
+----
+
+The FFI forces us to create the `sdl-event` variable on the heap using malloc.
+But because Lisp is garbage collected there is no need to use free, although
+there is nothing stopping the reader from explicitly freeing a variable using
+free. In the Lisp code above, the `sdl-event` variable has scope only within the
+function `process-events`. Therefore the garbage collector will automatically
+free the memory for `sdl-event` when it goes out of scope.
+
+=== Handling Events
+
+The following example describes how to handle key presses.
+
+.C
+[source,c,linenums]
+----
+static void handle_key_down( SDL_keysym* keysym )
+{
+    switch( keysym-&gt;sym ) {
+    case SDLK_ESCAPE:
+        quit_tutorial( 0 );
+        break;
+    case SDLK_SPACE:
+        should_rotate = !should_rotate;
+        break;
+    default:
+        break;
+    }
+}
+----
+
+.Common Lisp
+[source,lisp,linenums]
+----
+(defun handle-key-down (keysym)
+    (cond
+        ((eql sdl:SDLK_ESCAPE (ct:cref sdl:SDL_keysym keysym sdl::sym))
+            (setf *quit* t))
+        ((eql sdl:SDLK_SPACE (ct:cref sdl:SDL_keysym keysym sdl::sym))
+            (setf *rotate* (not *rotate*)))))
+----
+
+== Conclusion
+
+Hopefully this has helped you better understand how to make use of FFI bindings
+for the Corman Common Lisp. If you have any corrections, additions or comments,
+please let me know.
+
+== Version History
+
+* 17 August 2020: Version 0.3
+  ** Converted to AsciiDoc format
+
+* 15 December 2003: Version 0.2
+
+* 11 December 2003: Version 0.1
+</unions></events></variables></variables></luke@balooga.com>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2024
+     Luke Crook 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>
