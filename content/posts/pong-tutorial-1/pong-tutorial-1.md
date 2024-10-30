@@ -1,6 +1,6 @@
 +++
 date = '2024-10-27T22:30:56-07:00'
-draft = true
+draft = false 
 title = 'Pong Tutorial in Godot; Part 1'
 +++
 (v0.1)
