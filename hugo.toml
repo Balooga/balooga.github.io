@@ -10,10 +10,15 @@ paginations.pagerSize = 20
 [markup.highlight]
 style = "github-dark"
 
+# [[params.contact]]
+#   email = luke@balooga.com
+
 [params]
     author = "Luke Crook"
-    #info = "An infrequent developer of occasionally functional things"
     info = "Meh to the max"
+    email = "luke@balooga.com"
+    #info = "An infrequent developer of occasionally functional things"
+    # footercontent = "Between a REPL and a hard place"
 
     description = "Luke Crook's personal website"
     keywords = "blog,developer,personal"
@@ -22,8 +27,6 @@ style = "github-dark"
 
     favicon_32 = "/img/favicon-32x32.png"
     favicon_16 = "/img/favicon-16x16.png"
-
-    # footercontent = "Between a REPL and a hard place"
 
     dateformat = "January 2, 2006"
 

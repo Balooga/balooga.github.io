@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "coder.css",
-	"sourceRoot": "/Users/lukecrook/Documents (MacbookPro-2012)/dev/hugo/balooga.com",
+	"sourceRoot": "/Users/lukecrook/Documents (MacbookPro-2012)/dev/hugo/balooga.github.io",
 	"sources": [
 		"themes/hugo-coder/assets/scss/coder.scss",
 		"themes/hugo-coder/assets/scss/css/normalize.css",
