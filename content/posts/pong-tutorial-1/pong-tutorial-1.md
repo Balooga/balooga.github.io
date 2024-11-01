@@ -3,7 +3,7 @@ date = '2024-10-27T22:30:56-07:00'
 draft = false 
 title = 'Pong Tutorial in Godot; Part 1'
 +++
-(v0.1)
+(v0.2)
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
@@ -32,7 +32,9 @@ title = 'Pong Tutorial in Godot; Part 1'
     - [Object Constructors and Destructors, Finalizers ](#object-constructors-and-destructors-finalizers)
 - [Conclusion](#conclusion)
     - [The Final Code](#the-final-code)
+- [Software Development Estimation](#software-development-estimation)
 - [Advanced Concepts](#advanced-concepts)
+- [Versions](#versions)
 
 <!-- markdown-toc end -->
 
@@ -41,9 +43,7 @@ This is the first in a series of tutorials building up to a basic Pong clone imp
 
 [OOP (Object-Oriented Programming)](https://en.wikipedia.org/wiki/Object-oriented_programming) is the driving paradigm in the design of [GDScript and the Godot engine](https://docs.godotengine.org/en/stable/tutorials/best_practices/what_are_godot_classes.html). You don't need to become an expert in Object Orientated programming to use the Godot engine or GDScript, but you should take the time to become somewhat proficient. This tutorial introduces some principles of OOP but won't go into much detail as this isn't a general programming tutorial.
 
-The amount of effort and time required to complete any software task is often underestimated. In other words, your game will take longer than you think. Here's a method to estimate any software task; round your first estimate up to the unit of estimation, then double that. For example, if your initial estimate to complete your game is three and a half months, then round up to four months and double that, giving eight months. Double that again if you are providing this estimate to a Producer, Product Owner or Project Manager; so sixteen months.
-
-So instead of jumping in and creating the Pong clone, we will implement something seemingly straightforward, displaying the [frame rate](https://en.wikipedia.org/wiki/Frame_rate) (fps -- frames-per-second).
+We start by implementing something seemingly straightforward, displaying the [frame rate](https://en.wikipedia.org/wiki/Frame_rate) (fps -- frames-per-second). See [Software Development Estimation](#software-development-estimation) (or not) as to why.
 
 ![Pong FPS Tutorial 1](/posts/pong-tutorial-1/pong-execute.png "Displaying the frame rate in Pong FPS Tutorial 1")
 
@@ -433,12 +433,30 @@ func exitGame() -> void:
 	self.get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 	self.get_tree().quit()
 ```
+
+# Software Development Estimation
+Why start with the frame rate instead of jumping in and creating the Pong clone? Because the amount of effort and time required to complete any software task is often underestimated. In other words, your game is going to take longer than you think.
+
+Here are some strategies for estimating any software task;
+
+* Time how long it takes to do a thing the first time and you should have a good handle on estimating how long it will take doing *that exact thing* again.
+
+* Alternatively, round your first estimate up to the unit of estimation (day, week, month, etc), then double that. For example, if the initial estimate to complete your game is three and a half months, then round up to four months and double that, giving eight months. Double that again if you are providing this estimate to a producer, product owner or project manager; so sixteen months. This estimate will still be wrong, but at least you will have given yourself sufficient runway to jump ship to a different project before uncomfortable questions are asked as to why the delivery date is continually pushed out by three weeks.
+
+* Or if you really need to hit that delivery date; jettison seventy percent of the features before the project starts. It is important to do this as early as possible in the project, and not a week before the deadline.
+
+To become good at estimating software projects, you need to have worked on *and delivered* a lot of software projects. Experience counts. And it is always a good idea to try to limit the project scope from the outset.
+
 # Advanced Concepts
 
 * It is possible to [define your own lightweight Nodes](https://docs.godotengine.org/en/stable/tutorials/best_practices/node_alternatives.html). We mention this but an example is too advanced for this tutorial.
 
 * The [Godot class Object](https://docs.godotengine.org/en/stable/classes/class_object.html#class-object)
 
+# Versions
+
+* 0.1 -- Initial.
+* 0.2 -- Added a section on software estimation.
 
 <!-- -------- -->
 

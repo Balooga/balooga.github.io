@@ -13,7 +13,7 @@
 
 
 <meta name="author" content="Luke Crook">
-<meta name="description" content="(v0.1)
+<meta name="description" content="(v0.2)
 
 Table of Contents
 
@@ -62,7 +62,9 @@ Conclusion
 The Final Code
 
 
+Software Development Estimation
 Advanced Concepts
+Versions
 
 
 
@@ -79,16 +81,16 @@ This is the first in a series of tutorials building up to a basic Pong clone imp
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Pong Tutorial in Godot; Part 1">
-  <meta name="twitter:description" content="(v0.1)
+  <meta name="twitter:description" content="(v0.2)
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static and Instance Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Conclusion The Final Code Advanced Concepts Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the Godot engine, relying less on Godot’s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static and Instance Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Conclusion The Final Code Software Development Estimation Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the Godot engine, relying less on Godot’s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.">
 
 <meta property="og:url" content="https://www.balooga.com/posts/pong-tutorial-1/pong-tutorial-1/">
   <meta property="og:site_name" content="Balooga.com">
   <meta property="og:title" content="Pong Tutorial in Godot; Part 1">
-  <meta property="og:description" content="(v0.1)
+  <meta property="og:description" content="(v0.2)
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static and Instance Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Conclusion The Final Code Advanced Concepts Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the Godot engine, relying less on Godot’s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static and Instance Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Conclusion The Final Code Software Development Estimation Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the Godot engine, relying less on Godot’s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -216,7 +218,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              17-minute read
+              18-minute read
             </span>
           </div>
           
@@ -227,7 +229,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
 
       <div class="post-content">
         
-        <p>(v0.1)</p>
+        <p>(v0.2)</p>
 <!-- raw HTML omitted -->
 <p><strong>Table of Contents</strong></p>
 <ul>
@@ -276,7 +278,9 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
 <li><a href="#the-final-code" >The Final Code</a></li>
 </ul>
 </li>
+<li><a href="#software-development-estimation" >Software Development Estimation</a></li>
 <li><a href="#advanced-concepts" >Advanced Concepts</a></li>
+<li><a href="#versions" >Versions</a></li>
 </ul>
 <!-- raw HTML omitted -->
 <h1 id="introduction">
@@ -288,8 +292,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
 </h1>
 <p>This is the first in a series of tutorials building up to a basic Pong clone implemented using the <a href="https://godotengine.org/"  class="external-link" target="_blank" rel="noopener">Godot engine</a>. We will try to accomplish as much as we can in <a href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html"  class="external-link" target="_blank" rel="noopener">GDScript</a>, which is the native scripting language of the Godot engine, relying less on Godot&rsquo;s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; <a href="https://en.wikipedia.org/wiki/Grep"  class="external-link" target="_blank" rel="noopener">grepping</a> over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.</p>
 <p><a href="https://en.wikipedia.org/wiki/Object-oriented_programming"  class="external-link" target="_blank" rel="noopener">OOP (Object-Oriented Programming)</a> is the driving paradigm in the design of <a href="https://docs.godotengine.org/en/stable/tutorials/best_practices/what_are_godot_classes.html"  class="external-link" target="_blank" rel="noopener">GDScript and the Godot engine</a>. You don&rsquo;t need to become an expert in Object Orientated programming to use the Godot engine or GDScript, but you should take the time to become somewhat proficient. This tutorial introduces some principles of OOP but won&rsquo;t go into much detail as this isn&rsquo;t a general programming tutorial.</p>
-<p>The amount of effort and time required to complete any software task is often underestimated. In other words, your game will take longer than you think. Here&rsquo;s a method to estimate any software task; round your first estimate up to the unit of estimation, then double that. For example, if your initial estimate to complete your game is three and a half months, then round up to four months and double that, giving eight months. Double that again if you are providing this estimate to a Producer, Product Owner or Project Manager; so sixteen months.</p>
-<p>So instead of jumping in and creating the Pong clone, we will implement something seemingly straightforward, displaying the <a href="https://en.wikipedia.org/wiki/Frame_rate"  class="external-link" target="_blank" rel="noopener">frame rate</a> (fps &ndash; frames-per-second).</p>
+<p>We start by implementing something seemingly straightforward, displaying the <a href="https://en.wikipedia.org/wiki/Frame_rate"  class="external-link" target="_blank" rel="noopener">frame rate</a> (fps &ndash; frames-per-second). See <a href="#software-development-estimation" >Software Development Estimation</a> (or not) as to why.</p>
 <p><img src="/posts/pong-tutorial-1/pong-execute.png" alt="Pong FPS Tutorial 1" title="Displaying the frame rate in Pong FPS Tutorial 1"></p>
 <p>We begin with a high level description of how the Godot engine <a href="#the-godot-graphics-pipeline" >displays graphics to the screen</a>.</p>
 <h1 id="the-godot-graphics-pipeline">
@@ -743,7 +746,28 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">exitGame</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	self<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">get_tree</span>()<span style="color:#ff7b72;font-weight:bold">.</span>root<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">propagate_notification</span>(NOTIFICATION_WM_CLOSE_REQUEST)
 </span></span><span style="display:flex;"><span>	self<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">get_tree</span>()<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">quit</span>()
-</span></span></code></pre></div><h1 id="advanced-concepts">
+</span></span></code></pre></div><h1 id="software-development-estimation">
+  Software Development Estimation
+  <a class="heading-link" href="#software-development-estimation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Why start with the frame rate instead of jumping in and creating the Pong clone? Because the amount of effort and time required to complete any software task is often underestimated. In other words, your game is going to take longer than you think.</p>
+<p>Here are some strategies for estimating any software task;</p>
+<ul>
+<li>
+<p>Time how long it takes to do a thing the first time and you should have a good handle on estimating how long it will take doing <em>that exact thing</em> again.</p>
+</li>
+<li>
+<p>Alternatively, round your first estimate up to the unit of estimation (day, week, month, etc), then double that. For example, if the initial estimate to complete your game is three and a half months, then round up to four months and double that, giving eight months. Double that again if you are providing this estimate to a producer, product owner or project manager; so sixteen months. This estimate will still be wrong, but at least you will have given yourself sufficient runway to jump ship to a different project before uncomfortable questions are asked as to why the delivery date is continually pushed out by three weeks.</p>
+</li>
+<li>
+<p>Or if you really need to hit that delivery date; jettison seventy percent of the features before the project starts. It is important to do this as early as possible in the project, and not a week before the deadline.</p>
+</li>
+</ul>
+<p>To become good at estimating software projects, you need to have worked on <em>and delivered</em> a lot of software projects. Experience counts. And it is always a good idea to try to limit the project scope from the outset.</p>
+<h1 id="advanced-concepts">
   Advanced Concepts
   <a class="heading-link" href="#advanced-concepts">
     <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
@@ -757,6 +781,17 @@ This method is called when an object is instantiated in, for example, a call to 
 <li>
 <p>The <a href="https://docs.godotengine.org/en/stable/classes/class_object.html#class-object"  class="external-link" target="_blank" rel="noopener">Godot class Object</a></p>
 </li>
+</ul>
+<h1 id="versions">
+  Versions
+  <a class="heading-link" href="#versions">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<ul>
+<li>0.1 &ndash; Initial.</li>
+<li>0.2 &ndash; Added a section on software estimation.</li>
 </ul>
 <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
