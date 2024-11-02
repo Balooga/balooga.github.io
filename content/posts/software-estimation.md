@@ -1,0 +1,18 @@
++++
+date = '2024-11-01T23:36:56-07:00'
+draft = false 
+title = 'Software Estimation'
++++
+
+(v0.2)
+
+The amount of effort and time required to complete any software task is often underestimated. In other words, software always takes longer than you think. Here are some strategies for estimating any software task;
+
+* Time how long it takes to do a thing the first time and you should have a good enough handle on estimating how long it will take doing *that exact thing* again.
+
+* Alternatively, round your first estimate up to the unit of estimation (day, week, month, etc), then double that. For example, if the initial estimate to complete a project is three and a half months, then round up to four months and double that, giving eight months. Double that again if you are providing this estimate to a producer, product owner or project manager; so sixteen months. This estimate will still be wrong, but at least you will have given yourself sufficient runway to jump ship to a different project before uncomfortable questions are asked as to why the delivery date is continually pushed out by three weeks.
+
+* If you really need to hit the delivery date; jettison seventy percent of the ask before the project starts. This is called working towards an MVP ([Minimum Viable Product](https://en.wikipedia.org/wiki/Minimum_viable_product)). It is important to have an agreement on the MVP early in the project life-cycle and not a week before the deadline. MVP are those features that, if delayed, will cause a corresponding slip in the project delivery date to accommodate. If the project can launch without a feature, then that feature is not MVP.
+
+To become good at estimating software projects, you need to have worked on *and delivered* a lot of software projects. Experience counts. And it is always a good idea to try to limit the project scope from the outset.
+

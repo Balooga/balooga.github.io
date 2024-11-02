@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Software Estimation · Balooga.com
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Luke Crook">
+<meta name="description" content="(v0.2)
+The amount of effort and time required to complete any software task is often underestimated. In other words, software always takes longer than you think. Here are some strategies for estimating any software task;
+
+
+Time how long it takes to do a thing the first time and you should have a good enough handle on estimating how long it will take doing that exact thing again.
+
+
+Alternatively, round your first estimate up to the unit of estimation (day, week, month, etc), then double that. For example, if the initial estimate to complete a project is three and a half months, then round up to four months and double that, giving eight months. Double that again if you are providing this estimate to a producer, product owner or project manager; so sixteen months. This estimate will still be wrong, but at least you will have given yourself sufficient runway to jump ship to a different project before uncomfortable questions are asked as to why the delivery date is continually pushed out by three weeks.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Software Estimation">
+  <meta name="twitter:description" content="(v0.2)
+The amount of effort and time required to complete any software task is often underestimated. In other words, software always takes longer than you think. Here are some strategies for estimating any software task;
+Time how long it takes to do a thing the first time and you should have a good enough handle on estimating how long it will take doing that exact thing again.
+Alternatively, round your first estimate up to the unit of estimation (day, week, month, etc), then double that. For example, if the initial estimate to complete a project is three and a half months, then round up to four months and double that, giving eight months. Double that again if you are providing this estimate to a producer, product owner or project manager; so sixteen months. This estimate will still be wrong, but at least you will have given yourself sufficient runway to jump ship to a different project before uncomfortable questions are asked as to why the delivery date is continually pushed out by three weeks.">
+
+<meta property="og:url" content="https://www.balooga.com/posts/software-estimation/">
+  <meta property="og:site_name" content="Balooga.com">
+  <meta property="og:title" content="Software Estimation">
+  <meta property="og:description" content="(v0.2)
+The amount of effort and time required to complete any software task is often underestimated. In other words, software always takes longer than you think. Here are some strategies for estimating any software task;
+Time how long it takes to do a thing the first time and you should have a good enough handle on estimating how long it will take doing that exact thing again.
+Alternatively, round your first estimate up to the unit of estimation (day, week, month, etc), then double that. For example, if the initial estimate to complete a project is three and a half months, then round up to four months and double that, giving eight months. Double that again if you are providing this estimate to a producer, product owner or project manager; so sixteen months. This estimate will still be wrong, but at least you will have given yourself sufficient runway to jump ship to a different project before uncomfortable questions are asked as to why the delivery date is continually pushed out by three weeks.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-11-01T23:36:56-07:00">
+    <meta property="article:modified_time" content="2024-11-01T23:36:56-07:00">
+
+
+
+
+<link rel="canonical" href="https://www.balooga.com/posts/software-estimation/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.aa5ef26fa979d6793724ae2dbd71efa94fd16cb1c5c7db3b6651f21f9892a5fd.css" integrity="sha256-ql7yb6l51nk3JK4tvXHvqU/RbLHFx9s7ZlHyH5iSpf0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://www.balooga.com/">
+      Balooga.com
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://www.balooga.com/posts/software-estimation/">
+              Software Estimation
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2024-11-01T23:36:56-07:00">
+                November 1, 2024
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              2-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <p>(v0.2)</p>
+<p>The amount of effort and time required to complete any software task is often underestimated. In other words, software always takes longer than you think. Here are some strategies for estimating any software task;</p>
+<ul>
+<li>
+<p>Time how long it takes to do a thing the first time and you should have a good enough handle on estimating how long it will take doing <em>that exact thing</em> again.</p>
+</li>
+<li>
+<p>Alternatively, round your first estimate up to the unit of estimation (day, week, month, etc), then double that. For example, if the initial estimate to complete a project is three and a half months, then round up to four months and double that, giving eight months. Double that again if you are providing this estimate to a producer, product owner or project manager; so sixteen months. This estimate will still be wrong, but at least you will have given yourself sufficient runway to jump ship to a different project before uncomfortable questions are asked as to why the delivery date is continually pushed out by three weeks.</p>
+</li>
+<li>
+<p>If you really need to hit the delivery date; jettison seventy percent of the ask before the project starts. This is called working towards an MVP (<a href="https://en.wikipedia.org/wiki/Minimum_viable_product"  class="external-link" target="_blank" rel="noopener">Minimum Viable Product</a>). It is important to have an agreement on the MVP early in the project life-cycle and not a week before the deadline. MVP are those features that, if delayed, will cause a corresponding slip in the project delivery date to accommodate. If the project can launch without a feature, then that feature is not MVP.</p>
+</li>
+</ul>
+<p>To become good at estimating software projects, you need to have worked on <em>and delivered</em> a lot of software projects. Experience counts. And it is always a good idea to try to limit the project scope from the outset.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2003 -
+    
+    2024
+     Luke Crook 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

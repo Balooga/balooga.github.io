@@ -3,7 +3,7 @@ date = '2024-10-27T22:30:56-07:00'
 draft = false 
 title = 'Pong Tutorial in Godot; Part 1'
 +++
-(v0.2)
+(v0.1)
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
@@ -23,7 +23,7 @@ title = 'Pong Tutorial in Godot; Part 1'
 - [Game Loop](#game-loop)
     - [The SceneTree ](#the-scenetree)
     - [Variable Scope](#variable-scope)
-    - [Static and Instance Methods](#static-and-instance-methods)
+    - [Static, Instance, and Virtual Methods](#static-instance-and-virtual-methods)
     - [Conditionals](#conditionals)
     - [Constants](#constants)
 - [Handling Player Input](#handling-player-input)
@@ -32,7 +32,6 @@ title = 'Pong Tutorial in Godot; Part 1'
     - [Object Constructors and Destructors, Finalizers ](#object-constructors-and-destructors-finalizers)
 - [Conclusion](#conclusion)
     - [The Final Code](#the-final-code)
-- [Software Development Estimation](#software-development-estimation)
 - [Advanced Concepts](#advanced-concepts)
 - [Versions](#versions)
 
@@ -43,7 +42,7 @@ This is the first in a series of tutorials building up to a basic Pong clone imp
 
 [OOP (Object-Oriented Programming)](https://en.wikipedia.org/wiki/Object-oriented_programming) is the driving paradigm in the design of [GDScript and the Godot engine](https://docs.godotengine.org/en/stable/tutorials/best_practices/what_are_godot_classes.html). You don't need to become an expert in Object Orientated programming to use the Godot engine or GDScript, but you should take the time to become somewhat proficient. This tutorial introduces some principles of OOP but won't go into much detail as this isn't a general programming tutorial.
 
-We start by implementing something seemingly straightforward, displaying the [frame rate](https://en.wikipedia.org/wiki/Frame_rate) (fps -- frames-per-second). See [Software Development Estimation](#software-development-estimation) (or not) as to why.
+We start by implementing something seemingly straightforward, displaying the [frame rate](https://en.wikipedia.org/wiki/Frame_rate) (fps -- frames-per-second). Why start with the frame rate instead of jumping in and creating the Pong clone? See [Software Development Estimation]({{< ref "/posts/software-estimation/" >}} "Software Development Estimation") as to why.
 
 ![Pong FPS Tutorial 1](/posts/pong-tutorial-1/pong-execute.png "Displaying the frame rate in Pong FPS Tutorial 1")
 
@@ -242,7 +241,7 @@ Still not done;
 
 Steps (1.1) - (1.5) should be performed once, while steps (2.1) - (2.4) are performed each frame. We can accomplish this by [overriding](https://docs.godotengine.org/en/stable/tutorials/scripting/overridable_functions.html) the `_initialize()` and `_process()` methods defined in the [MainLoop](https://docs.godotengine.org/en/stable/classes/class_mainloop.html).
 
-See [The SceneTree](#the-scenetree), [Variable Scope](#variable-scope), [Static and Instance Methods](#static-and-instance-methods), [Conditionals](#conditionals), and [Constants](#constants) for the implementation.
+See [The SceneTree](#the-scenetree), [Variable Scope](#variable-scope), [Static and Instance Methods](#static-instance-and-virtual-methods), [Conditionals](#conditionals), and [Constants](#constants) for the implementation.
 
 ## The SceneTree 
 The [SceneTree](https://docs.godotengine.org/en/stable/classes/class_scenetree.html) is what is called a [scene graph](https://en.wikipedia.org/wiki/Scene_graph), a hierarchy of Nodes in an inverted tree structure.
@@ -310,8 +309,12 @@ func _process(_delta: float):
 
 _instance_ and _local_ variables differ to _static_ variables in that the value of a _static_ variable is shared across all instances of a class, whereas _instance_ and _local_ variables are specific to an instance.
 
-## Static and Instance Methods
-Internally, Godot uses _static_, _instance_, and _virtual_ methods (the engine is written in C++), however GDScript only supports _static_ and _instance_ methods. A developer [can override the _virtual_ methods](https://docs.godotengine.org/en/stable/tutorials/scripting/overridable_functions.html) in predefined classes (e.g. `SceneTree`), but GDScript does not provide the ability for a developer to create their own _virtual_ methods.
+## Static, Instance, and Virtual Methods
+GDScript only supports the creation of [_static_](https://en.wikipedia.org/wiki/Method_(computer_programming)#Static_methods) and _virtual_ [methods](https://en.wikipedia.org/wiki/Method_(computer_programming)). Methods not identified as static using the _static_ keyword are _virtual_ and [can be overridden](https://docs.godotengine.org/en/stable/tutorials/scripting/overridable_functions.html) (GDScript has no _virtual_ keyword). 
+
+A _static_ method can be invoked even if no instances of the class exist yet. A _virtual_ method can only be invoked on an instance of the class. 
+
+A developer cannot create _non-virtual_ methods in GDScript. Internal methods exported by the Godot engine through GDScript however can be _static_, _virtual_ (overridable) and _non-virtual_ (non-overridable).
 
 ## Conditionals
 We don't need to update the frame rate on each frame (e.g. 60 times a second), so we make use of an [if conditional](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#if-else-elif) to update the frame rate every tenth frame.
@@ -434,19 +437,6 @@ func exitGame() -> void:
 	self.get_tree().quit()
 ```
 
-# Software Development Estimation
-Why start with the frame rate instead of jumping in and creating the Pong clone? Because the amount of effort and time required to complete any software task is often underestimated. In other words, your game is going to take longer than you think.
-
-Here are some strategies for estimating any software task;
-
-* Time how long it takes to do a thing the first time and you should have a good handle on estimating how long it will take doing *that exact thing* again.
-
-* Alternatively, round your first estimate up to the unit of estimation (day, week, month, etc), then double that. For example, if the initial estimate to complete your game is three and a half months, then round up to four months and double that, giving eight months. Double that again if you are providing this estimate to a producer, product owner or project manager; so sixteen months. This estimate will still be wrong, but at least you will have given yourself sufficient runway to jump ship to a different project before uncomfortable questions are asked as to why the delivery date is continually pushed out by three weeks.
-
-* Or if you really need to hit that delivery date; jettison seventy percent of the features before the project starts. It is important to do this as early as possible in the project, and not a week before the deadline.
-
-To become good at estimating software projects, you need to have worked on *and delivered* a lot of software projects. Experience counts. And it is always a good idea to try to limit the project scope from the outset.
-
 # Advanced Concepts
 
 * It is possible to [define your own lightweight Nodes](https://docs.godotengine.org/en/stable/tutorials/best_practices/node_alternatives.html). We mention this but an example is too advanced for this tutorial.
@@ -456,7 +446,6 @@ To become good at estimating software projects, you need to have worked on *and 
 # Versions
 
 * 0.1 -- Initial.
-* 0.2 -- Added a section on software estimation.
 
 <!-- -------- -->
 
