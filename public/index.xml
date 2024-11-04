@@ -13,7 +13,7 @@
       <link>https://www.balooga.com/posts/software-estimation/</link>
       <pubDate>Fri, 01 Nov 2024 23:36:56 -0700</pubDate>
       <guid>https://www.balooga.com/posts/software-estimation/</guid>
-      <description>(v0.2)&#xA;The amount of effort and time required to complete any software task is often underestimated. In other words, software always takes longer than you think. Here are some (somewhat tongue-in-cheek) strategies for estimating any software task;&#xA;Time how long it takes to do a thing the first time and you should have a good enough handle on estimating how long it will take doing that exact thing again.&#xA;Alternatively, round your first estimate up to the unit of estimation (day, week, month, etc), then double that.</description>
+      <description>(v0.2)&#xA;The amount of effort and time required to complete any software task is often underestimated. In other words, software will always take longer than you think. Here are two somewhat tongue-in-cheek strategies for estimating any software task;&#xA;Time how long it takes to do a thing the first time and you should have a good enough handle on estimating how long it will take doing that exact thing again.</description>
     </item>
     <item>
       <title>Pong Tutorial in Godot; Part 1</title>
