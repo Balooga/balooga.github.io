@@ -15,8 +15,8 @@ The amount of effort and time required to complete any software task is often un
 
 What generally happens when a project runs late and with the deadline fast approaching, are discussions with the product owner on the list of features that can delayed until after initial launch. These features were considered MVP at the start of the project but are deemed less so as the project deadline approaches. Delaying discussions on MVP until late in the project means that significant effort was already expended working on these non-MVP features, instead of focusing these efforts on the features that are actually MVP. It is critical to the project's success to reach an agreement on the MVP early in the project life-cycle, and to continue these discussions at regular cadences throughout the project to account for inevitable changes in the market and the associated changes in business priorities. Do not push off these discussions until a week before the deadline.
 
-To summarize, it is always a good idea to limit the project scope from the outset. And no-one like surprises, so constant communication is key.
-
-You need to have worked on *and delivered* a lot of software projects to become proficient at estimating software projects. Experience counts.
+To summarize;
+* It is always a good idea to limit the project scope from the outset. And no-one like surprises, so constant communication is key.
+* You need to have worked on *and delivered* a lot of software projects to become proficient at estimating software projects. Experience counts.
 
 <!-- A difference between junior and senior software engineer, besides the amount of code written, is a senior engineer spends less time designing and developing code and more time communicating. Developing an understanding of the market and business and market eases communicating with other groups in the organizaiton understanding the business ask time understanding the business important to spend time understanding what is needed versus what is being asked for as well as any ramifications.  -->
