@@ -18,5 +18,3 @@ With a project running late and the deadline fast approaching, what typically ha
 To summarize;
 * It is always a good idea to limit the project scope from the outset. And no-one like surprises, so constant communication is key.
 * You need to have worked on *and delivered* a lot of software projects to become proficient at estimating software projects. Experience counts.
-
-<!-- A difference between junior and senior software engineer, besides the amount of code written, is a senior engineer spends less time designing and developing code and more time communicating. Developing an understanding of the market and business and market eases communicating with other groups in the organizaiton understanding the business ask time understanding the business important to spend time understanding what is needed versus what is being asked for as well as any ramifications.  -->
