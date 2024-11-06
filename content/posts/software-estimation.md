@@ -17,4 +17,4 @@ With a project running late and the deadline fast approaching, what typically ha
 
 To summarize;
 * It is always a good idea to limit the project scope from the outset. And no-one like surprises, so constant communication is key.
-* You need to have worked on *and delivered* a lot of software projects to become proficient at estimating software projects. Experience counts.
+* It helps to have worked on *and delivered* software projects in order to become proficient at estimating software projects.
