@@ -34,7 +34,7 @@ The following diagram illustrates my thinking when designing an API.
                                  └────────┘                                                                                               
 ```
 
-Stack Overflow overflows with debates about what constitutes good API design, what is or isn't considered RESTful, and if RPC is a relic of the past or the way of the future (again). Should we mangle an API to expose a made-up "resource" just so there is a thing a HTTP method can operate on to conform to a definition of "RESTful"? Even when there exists no such resource in the back-end? Must the operations a service performs be viewed through the lense of the methods of the HTTP application layer? 
+Stack Overflow overflows with debates about what constitutes good API design, what is or isn't considered RESTful, and if RPC is a relic of the past or the way of the future (again). Should we mangle an API to expose a made-up "resource" just so there is a thing a HTTP method can operate on? Even when there exists no such resource in the back-end? Must the operations a service performs be viewed only through the lense of the methods of the HTTP application layer? 
 
 Or, we can accept that RPC can simplify the designs for many real world use cases that cannot be adequately captured as a resource operated on by the HTTP `PUT`, `GET`, `DELETE`, and `UPDATE` methods.
 
