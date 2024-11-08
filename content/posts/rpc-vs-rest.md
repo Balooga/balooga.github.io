@@ -3,6 +3,7 @@ date = '2018-02-22T23:36:56-07:00'
 draft = false 
 title = 'Choosing between RPC and Rest for API Designs'
 +++
+(0.1)
 
 The following diagram illustrates my thinking when designing an API.
 
@@ -34,9 +35,15 @@ The following diagram illustrates my thinking when designing an API.
                                  └────────┘                                                                                               
 ```
 
-Stack Overflow overflows with debates about what constitutes good API design, what is or isn't considered RESTful, and if RPC is a relic of the past or the way of the future (again). Should we mangle an API to expose a made-up "resource" just so there is a thing a HTTP method can operate on? Even when there exists no such resource in the back-end? Must the operations a service performs be viewed only through the lense of the methods of the HTTP application layer? 
+Stack Overflow is flooded with debates on what constitutes good API design, what style is or isn't considered RESTful, and if RPC is a relic of the past or the way of the future (again).
 
-Or, we can accept that RPC can simplify the designs for many real world use cases that cannot be adequately captured as a resource operated on by the HTTP `PUT`, `GET`, `DELETE`, and `UPDATE` methods.
+Nothing beats HTTP 1.1 as the protocol that allows a web-server to communicate with any web browser, and it would be silly to use anything other than HTTP 1.1 for this.
+
+If you are developing a web app or web service and your architectural constraints are the same as, or similar to those of a web browser and web-server, then you could to worse than follow the REST architectural style. Because the REST architectural style is really great for this use-case. See [Reflections on the REST Architectural Style and “Principled Design of the Modern Web Architecture”, Roy T Fielding, et al.](https://research.google.com/pubs/archive/46310.pdf). 
+
+However, there is no need to adhere to the REST style if your web app or web service has a different set of architectural constraints to the browser/web-server model. Different constraints means there is no architectural reason, other than to claim that your API is "RESTful", to mangle an API to expose a made-up "resource" when there exists no such resource in the back-end, simply to have an object for the HTTP methods to operate on. 
+
+Accept that RPC simplifies the designs for many real world use cases that cannot be adequately captured as a resource operated on by the HTTP `PUT`, `GET`, `DELETE`, and `UPDATE` methods, and architect accordingly.
 
 <!-- https://diagon.arthursonzogni.com/#Flowchart -->
 
