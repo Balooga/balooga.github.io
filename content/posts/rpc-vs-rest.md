@@ -44,7 +44,7 @@ Here is the definitive definition of REST, from its creator;
 
 That's a mouthful. Many developers have read that paper and Roy Fielding's [original dissertation on REST](https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm) -- I hadn't for years. Others read only what is written second or third hand on sites like Stack Overflow and Reddit. So it is no surprise that REST is misunderstood. [Roy Fielding's Misappropriated REST Dissertation](https://twobithistory.org/2020/06/28/rest.html) gives a great assessment on how this came about.
 
-What is REST great for? Nothing beats the HTTP 1.1 protocol for allowing a web-server to communicate with any web browser, and it would be silly to use anything other than HTTP 1.1 for this. REST does not prescribe how to build APIs on top of HTTP 1.1. REST describes the architectural constraints one should follow when using HTTP 1.1 to build systems that work like the browser/web-server model.
+What is REST great for? Nothing beats the HTTP protocol for allowing a web-server to communicate with and server web pages to any web browser. REST does not prescribe how to build APIs on top of HTTP. REST describes the architectural constraints one should follow when using HTTP 1.1 to build systems that work like the browser/web-server model.
 
 If you are developing a web app or web service and your architectural constraints are the same as, or similar to those of a web browser and web-server, then you could to worse than follow the REST architectural style. Because the REST architectural style is really great for this use-case. 
 
