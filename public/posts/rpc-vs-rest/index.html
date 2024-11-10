@@ -159,7 +159,7 @@ I a _ s n _ d _ ┌ │ └ t _ ─ R ─ h &#34; _ ─ e ─ e i _ ─ s ─ d 
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              6-minute read
+              7-minute read
             </span>
           </div>
           
@@ -1017,7 +1017,12 @@ I a _ s n _ d _ ┌ │ └ t _ ─ R ─ h &#34; _ ─ e ─ e i _ ─ s ─ d 
 &ndash; <a href="https://research.google.com/pubs/archive/46310.pdf"  class="external-link" target="_blank" rel="noopener">Reflections on the REST Architectural Style and “Principled Design of the Modern Web Architecture”, Roy T Fielding, et al.</a></p>
 </blockquote>
 <p>That&rsquo;s a mouthful. Many developers have read that paper and Roy Fielding&rsquo;s <a href="https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm"  class="external-link" target="_blank" rel="noopener">original dissertation on REST</a> &ndash; I hadn&rsquo;t for years. Others read only what is written second or third hand on sites like Stack Overflow and Reddit. So it is no surprise that REST is misunderstood. <a href="https://twobithistory.org/2020/06/28/rest.html"  class="external-link" target="_blank" rel="noopener">Roy Fielding&rsquo;s Misappropriated REST Dissertation</a> gives a great assessment on how this came about.</p>
-<p>What is REST great for? Nothing beats the HTTP 1.1 protocol for allowing a web-server to communicate with any web browser, and it would be silly to use anything other than HTTP 1.1 for this. REST does not prescribe how to build APIs on top of HTTP 1.1. REST describes the architectural constraints one should follow when using HTTP 1.1 to build systems that work like the browser/web-server model.</p>
+<p>Nothing beats the HTTP protocol for allowing a web-server to communicate with and server web pages to any web browser. Here&rsquo;s the definition of HTTP from Wikipedia;</p>
+<blockquote>
+<p>HTTP (Hypertext Transfer Protocol) is an application layer protocol in the Internet protocol suite model for distributed, collaborative, hypermedia information systems.[1] HTTP is the foundation of data communication for the World Wide Web, where hypertext documents include hyperlinks to other resources that the user can easily access, for example by a mouse click or by tapping the screen in a web browser.
+&ndash; <a href="https://en.wikipedia.org/wiki/HTTP"  class="external-link" target="_blank" rel="noopener">HTTP (Wikipedia)</a></p>
+</blockquote>
+<p>REST does not prescribe how to build APIs on top of HTTP. REST describes the architectural constraints one should follow when building systems using HTTP 1.1 that work just like a web-server serving web pages to a browser; everything is a resource with HTTP methods being the mechanism by which resource state transitions - and therefore application state transitions - are implemented.</p>
 <p>If you are developing a web app or web service and your architectural constraints are the same as, or similar to those of a web browser and web-server, then you could to worse than follow the REST architectural style. Because the REST architectural style is really great for this use-case.</p>
 <p>However, there is no need to adhere to the REST style when building, for example, a native mobile app that communicates with a set of back-end services. Different constraints means there is no architectural reason, other than to claim that your API is &ldquo;RESTful&rdquo;, to mangle an API to expose a made-up &ldquo;resource&rdquo; when there exists no such resource in the back-end, simply to have an object for the HTTP methods to operate on.</p>
 <p>We should accept that RPC simplifies the designs for many real world use cases that cannot be adequately captured as a resource operated on by the HTTP <code>PUT</code>, <code>GET</code>, <code>DELETE</code>, and <code>UPDATE</code> methods, and architect accordingly.</p>
