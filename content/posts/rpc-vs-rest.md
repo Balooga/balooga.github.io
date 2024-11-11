@@ -70,7 +70,7 @@ We should accept that RPC simplifies the designs for many real world use cases t
 
 And then use `POST`, always returning a `HTTP 200 OK` response to each request _processed by the service_.
 
-Our RPC `POST` service that's not "RESTful" should return only `HTTP 200 OK` for all cases and include in the response body an application specific status code that defines how the client is to interpret the response. To the effect of;
+Our RPC `POST` service, that's 100% definitely not "RESTful", should return only `HTTP 200 OK` for all cases and include in a response body an application specific status code that defines how the client is to interpret the response. To the effect of;
 
 ```json
 {
