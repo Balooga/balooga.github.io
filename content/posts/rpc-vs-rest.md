@@ -62,15 +62,13 @@ Per Roy Fielding's [original dissertation on REST](https://ics.uci.edu/~fielding
 
 These describe the web. REST does not prescribe how to build APIs on top of HTTP. REST describes the architectural constraints one should follow when building systems that work just like a web-server serving web pages to a browser; everything is a resource with HTTP methods being the mechanism by which resource state transitions -- and therefore application state transitions, i.e. business logic -- are implemented.
 
-If you are developing a web app and your architectural constraints are the same as, or similar to those of a web browser and web-server, then you could to worse than follow the REST architectural style. Because the REST architectural style is really great for this use-case. 
+If you are developing a web app and your architectural constraints are the same as, or similar to those of a web browser and web-server, then you could to worse than follow the REST architectural style. Because the REST architectural style is really great for this use-case -- the web use-case. 
 
-However, there is no need to adhere to the REST style when building, for example, a native mobile app that communicates with a set of back-end services. Different constraints means there is no architectural reason, other than to claim that your API is "RESTful", to mangle an API to expose a made-up "resource" when there exists no such resource in the back-end, simply to have an object for the HTTP methods to operate on. 
+However, there is no need to adhere to the REST style when building, for example, a native mobile app that communicates with a set of back-end services. Different constraints means there is no architectural reason, other than to claim that your API is "RESTful", to mangle an API to expose a fancifully conceived "resource" where there exists no such resource in the back-end, so as to have a object for the HTTP methods to operate on. 
 
-We should accept that RPC simplifies the designs for many real world use cases that cannot be adequately captured as a resource operated on by the HTTP `PUT`, `GET`, `DELETE`, and `UPDATE` methods, and architect accordingly.
+We should accept that RPC simplifies the designs for many real world use cases that cannot be adequately captured as a resource operated on by the HTTP `PUT`, `GET`, `DELETE`, and `UPDATE` methods, and architect accordingly. And then use `POST`, always returning a `HTTP 200 OK` response to each request _processed by the service_.
 
-And then use `POST`, always returning a `HTTP 200 OK` response to each request _processed by the service_.
-
-Our RPC `POST` service, that's 100% definitely not "RESTful", should return only `HTTP 200 OK` for all cases and include in a response body an application specific status code that defines how the client is to interpret the response. To the effect of;
+Our RPC `POST` service, that's 100% definitely not "RESTful", should return only `HTTP 200 OK` for all cases and include in the response body an application specific status code that defines how the client is to interpret the response. To the effect of;
 
 ```json
 {
