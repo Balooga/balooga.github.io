@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Future-proofing software · Balooga.com
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Luke Crook">
+<meta name="description" content="(0.1)
+Overengineering a bad or wrong design makes future-proofing that much more
+difficult. Like reinforcing a home to withstand a hurricane, using stronger
+materials will only allow the structure to withstand winds up to a certain
+magnitude. To withstand stronger winds the entire design needs to change,
+necessitating razing the home to its foundations and starting again.
+Future-proofing is not about adding a features that you assume your users may
+ask for in the future. These features will go unused, effectively cluttering
+your business logic (requiring testing prior to each release, or being hidden by
+sweeping under a carpet of feature flags), or most likely when the feature is
+requested the requirements will be so different as to necessitate a rewrite.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Future-proofing software">
+  <meta name="twitter:description" content="(0.1)
+Overengineering a bad or wrong design makes future-proofing that much more difficult. Like reinforcing a home to withstand a hurricane, using stronger materials will only allow the structure to withstand winds up to a certain magnitude. To withstand stronger winds the entire design needs to change, necessitating razing the home to its foundations and starting again.
+Future-proofing is not about adding a features that you assume your users may ask for in the future. These features will go unused, effectively cluttering your business logic (requiring testing prior to each release, or being hidden by sweeping under a carpet of feature flags), or most likely when the feature is requested the requirements will be so different as to necessitate a rewrite.">
+
+<meta property="og:url" content="http://localhost:1313/posts/future-proofing/">
+  <meta property="og:site_name" content="Balooga.com">
+  <meta property="og:title" content="Future-proofing software">
+  <meta property="og:description" content="(0.1)
+Overengineering a bad or wrong design makes future-proofing that much more difficult. Like reinforcing a home to withstand a hurricane, using stronger materials will only allow the structure to withstand winds up to a certain magnitude. To withstand stronger winds the entire design needs to change, necessitating razing the home to its foundations and starting again.
+Future-proofing is not about adding a features that you assume your users may ask for in the future. These features will go unused, effectively cluttering your business logic (requiring testing prior to each release, or being hidden by sweeping under a carpet of feature flags), or most likely when the feature is requested the requirements will be so different as to necessitate a rewrite.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-08-14T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-08-14T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/future-proofing/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.css" media="screen">
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Balooga.com
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/future-proofing/">
+              Future-proofing software
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-08-14T00:00:00Z">
+                August 14, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              One-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <p>(0.1)</p>
+<p><em>Overengineering</em> a bad or wrong design makes <em>future-proofing</em> that much more
+difficult. Like reinforcing a home to withstand a hurricane, using stronger
+materials will only allow the structure to withstand winds up to a certain
+magnitude. To withstand stronger winds the entire design needs to change,
+necessitating razing the home to its foundations and starting again.</p>
+<p>Future-proofing is not about adding a features that you assume your users may
+ask for in the future. These features will go unused, effectively cluttering
+your business logic (requiring testing prior to each release, or being hidden by
+sweeping under a carpet of feature flags), or most likely when the feature is
+requested the requirements will be so different as to necessitate a rewrite.</p>
+<p>Future-proofing is removing all unnecessary features.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2003 -
+    
+    2024
+     Luke Crook 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>
