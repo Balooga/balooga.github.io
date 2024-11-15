@@ -276,7 +276,7 @@ To recap;
     3. Process keyboard events,
     4. Exit when `Esc` is depressed.
 
-To implement "Initialization" and "Process each frame", we [override the virtual methods](https://docs.godotengine.org/en/stable/tutorials/scripting/overridable_functions.html), `_ready()_` and `_process()`. Unlike Instance methods, Virtual methods must be implemented by the subclass.
+To implement "Initialization" and "Process each frame", we [override the virtual methods](https://docs.godotengine.org/en/stable/tutorials/scripting/overridable_functions.html), `_ready()` and `_process()`. Unlike Instance methods, Virtual methods must be implemented by the subclass.
 
 * `_ready()` is called after a node is added to the scene graph and is ready for use, and
 * `_process()` is called each frame.
