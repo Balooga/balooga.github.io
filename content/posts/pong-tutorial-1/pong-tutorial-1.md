@@ -30,6 +30,7 @@ title = 'Pong Tutorial in Godot; Part 1'
     - [Handling Input](#handling-input)
 - [Game Exit](#game-exit)
     - [Object Constructors and Destructors, Finalizers ](#object-constructors-and-destructors-finalizers)
+- [Information Hiding and Encapsulation](#information-hiding-and-encapsulation)
 - [Conclusion](#conclusion)
     - [The Final Code](#the-final-code)
 - [Advanced Concepts](#advanced-concepts)
@@ -389,14 +390,102 @@ The virtual methods `_init()`, `_ready()`, and `_finalize()` [can be overridden]
 
 Godot [supports limited garbage collection](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#memory-management), for example resources explicitly allocated (e.g. using `new()`) [must be explicitly deleted using `free()`](https://docs.godotengine.org/en/stable/classes/class_object.html#class-object-method-free). Not doing so will result in [memory leaks](https://en.wikipedia.org/wiki/Memory_leak).
 
-Our tutorial code shows this; we explicitly instantiated `Label` using `new()` requiring that we explicitly delete `Label` by calling `fps.call_deferred("free")` ([`call_deferred()`](https://docs.godotengine.org/en/stable/classes/class_object.html#class-object-method-call-deferred)) when we are done with it. We do this in the `_finalize()` method of our `Pong` class.
+The code shows this; we explicitly instantiated `Label` using `new()` requiring that we explicitly delete `Label` by calling `fps.call_deferred("free")` ([`call_deferred()`](https://docs.godotengine.org/en/stable/classes/class_object.html#class-object-method-call-deferred)) when we are done with it. We do this in the `_finalize()` method of our `Pong` class.
 
 ``` gdscript
 func _finalize() -> void:
-	fps.call_deferred("free") # Becasue we added the label, we also need to delete it
+	fps.call_deferred("free") # Because we added the label, we also need to delete it
 ```
 
 The `Pong` Node was added to the SceneTree in section [Create the Pong Project](#create-the-pong-project), so the creation and deletion of the `Pong` instance is managed by the SceneTree.
+
+# Information Hiding and Encapsulation
+The `Pong` class can be simplified using [information hiding](https://en.wikipedia.org/wiki/Information_hiding), by encapsulating the frame rate logic into its own `FrameRate` class in a new `res://src/FrameRate.gd` file.
+
+```gdscript
+class_name FrameRate
+
+var label: Label: # Set and get the Label
+	get: return label
+	set(value): label = value
+
+var interval: int: # Update the fps at interval
+	set(value): interval = value
+
+func _init(pos: Vector2, i: int):
+	label = Label.new()
+    label.position = pos
+    internal = i
+
+func createText(frames: float) -> String:
+	return "FPS: " + str(frames)
+
+func update(frames: float) -> void:
+	if int(ceil(frames)) % interval == 0:
+		label.text = createText(frames)
+
+func Node() -> Node: return label
+```
+
+Things to note: 
+
+* `FrameRate` does not extend `Node` and in this contrived example it may make more sense if it did. But we will add `Label` to the SceneTree ourselves.
+* We implement [getters and setters](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#properties-setters-and-getters) for `label` and `interval` allowing these class variables to be accessed by external methods.
+* The `_init()` function accepts a `Vector` containing the position and an update interval as an integer. The capability to change the `_init()` constructor in this manner is called_[constructor overloading](https://en.wikipedia.org/wiki/Function_overloading#Constructor_overloading). Note that GDScript does not support [function overloading](https://en.wikipedia.org/wiki/Function_overloading#Rules_in_function_overloading).
+* The function `ceil(frames)` in `update()` will "round up" any fractional frame rate to the nearest integer. For example `33.2` becomes `34`.
+
+Now `Pong` is refactored to remove the frame rate logic;
+
+```gdscript
+func _ready() -> void:
+	Engine.set_max_fps(MAX_FPS)
+	fps = FrameRate.New(Vector2(0,0), UPDATE_INTERVAL)
+	addChild(fps.Node()) # Add the fps.label as a child Node to Pong
+
+func _process(_delta: float) -> void:
+	if Input.is_action_pressed(ACTION_UI_CANCEL): exitGame()
+	fps.update(Engine.get_frames_per_second())
+
+func addChild(n: Node) -> void:
+	self.call_deferred("add_child", n)
+```
+
+In `Pong` above, we add the `FrameRate.Label` Node to the SceneTree. But we could instead have the `FrameRate`  constructor receive the `Pong` Node as `init(self, Vector2(0,0), UPDATE_INTERVAL)` and add the `label` to the SceneTree in the constructor. See the example below.
+
+```gdscript
+### In Pong
+func _ready() -> void:
+	Engine.set_max_fps(MAX_FPS)
+	fps = FrameRate.new(self, Vector2(0,0), UPDATE_INTERVAL)
+
+### In FrameRate
+func _init(parent: Node, pos: Vector2, i: int) -> FrameRate:
+	label = Label.new()
+	label.position = pos
+	interval = i
+	parent.call_deferred("add_child", label)
+```
+
+However having `FrameRate` add itself to the SceneTree introduces the SceneTree as a dependency in `FrameRate` which complicates any [unit tests](https://en.wikipedia.org/wiki/Unit_testing) we may create. We would need to pass the full SceneTree just to test `FrameRate`. Having `Pong` add `FrameRate` to the SceneTree removes this dependency.
+
+Similarly we could have read the frame rate in `FrameRate.update` instead of passing the frame rate from `Pong`. See the example below;
+
+```gdscript
+### In Pong
+func _process(_delta: float) -> void:
+	if Input.is_action_pressed(ACTION_UI_CANCEL): exitGame()
+	fps.update()
+
+### In FrameRate
+func update() -> void:
+    var frames: float = Engine.get_frames_per_second()
+	if int(ceil(frames)) % interval == 0:
+		label.text = createText(frames)
+```
+
+But doing this introduces the full Godot engine as a dependency for testing `update()`.
+
+Always try to minimize dependencies and side-effects when writing software.
 
 # Conclusion
 All that to display the current frame rate. If we had jumped right into the implementation we would also have had to consider loading assets, collision detection, implementing physics for ball strikes and bounces, sound effects, and player point scores for game start and game over. Never mind some rudimentary AI if we want to support single player mode against a computer opponent.
@@ -411,30 +500,59 @@ See [The Final Code](#the-final-code) for the implementation.
 ``` gdscript
 class_name Pong extends Node
 
-const MAX_FPS = 0 # Zero means use the maximum frame rate
+const MAX_FPS = 30 # Zero means use the maximum frame rate
 const UPDATE_INTERVAL = 10 # Update the frames per second every ten frames.
 const FPS_TEXT = "FPS: " # Constant prefix displayed with the current fps, e.g. "FPS: 60"
-
 const ACTION_UI_CANCEL = "ui_cancel"
 
-var fps: Label = Label.new() # Create a new Label object
+var fps: FrameRate
 
 func _ready() -> void:
 	Engine.set_max_fps(MAX_FPS)
-	fps.set_position(Vector2(0,0)) # Set position
-	self.call_deferred("add_child", fps) # Explicitly add the label to the scene
+	fps = FrameRate.new(Vector2(0,0), UPDATE_INTERVAL)
+	addChild(fps.Node())
 
 func _process(_delta: float) -> void:
 	if Input.is_action_pressed(ACTION_UI_CANCEL): exitGame()
-	if Engine.get_process_frames() % UPDATE_INTERVAL == 0:
-		fps.set_text(FPS_TEXT + str (Engine.get_frames_per_second()))
-
-func _finalize() -> void:
-	fps.call_deferred("free") # Becasue we added the label, we also need to delete it
+	fps.update(Engine.get_frames_per_second())
 
 func exitGame() -> void:
 	self.get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 	self.get_tree().quit()
+
+func _finalize() -> void:
+	fps.call_deferred("free") # Becasue we added the label, we also need to delete it
+
+func addChild(n: Node) -> void:
+	self.call_deferred("add_child", n)
+```
+
+`res://src/FrameRate.gd`
+```gdscript
+class_name FrameRate
+
+var label: Label:
+	get: return label
+	set(value): label = value
+
+var interval: int: # Update the fps at interval
+	set(value): interval = value
+
+func _init(pos: Vector2, i: int):
+	# Create the label in _init() as FrameRate is not added to
+	# the SceneTree hence _ready() is not called.
+	label = Label.new()
+	label.position = pos
+	interval = i
+
+func createText(frames: float) -> String:
+	return "FPS: " + str(frames)
+
+func update(frames: float) -> void:
+	if int(ceil(frames)) % interval == 0:
+		label.text = createText(frames)
+
+func Node() -> Node: return label
 ```
 
 # Advanced Concepts
