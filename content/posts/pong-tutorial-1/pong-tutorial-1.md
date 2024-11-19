@@ -437,6 +437,7 @@ Things to note:
 Now `Pong` is refactored to remove the frame rate logic;
 
 ```gdscript
+### In Pong
 func _ready() -> void:
 	Engine.set_max_fps(MAX_FPS)
 	fps = FrameRate.New(Vector2(0,0), UPDATE_INTERVAL)
