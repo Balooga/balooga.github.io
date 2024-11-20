@@ -14,67 +14,8 @@
 
 <meta name="author" content="Luke Crook">
 <meta name="description" content="(v0.1)
-
 Table of Contents
-
-Introduction
-The Godot Graphics Pipeline
-Install the Godot Engine
-Design 
-Create the Pong Project
-Viewport
-
-Classes and Class Inheritance
-
-
-Text Label
-
-Object Instantiation and Variables
-Dynamic vs Static Typing
-
-
-Frame Rate
-
-Singletons
-
-
-Game Loop
-
-The SceneTree 
-Variable Scope
-Static, Instance, and Virtual Methods
-Conditionals
-Constants
-
-
-Handling Player Input
-
-Handling Input
-
-
-Game Exit
-
-Object Constructors and Destructors, Finalizers 
-
-
-Information Hiding and Encapsulation
-Conclusion
-
-The Final Code
-
-
-Advanced Concepts
-Versions
-
-
-
-  Introduction
-  
-    
-    Link to heading
-  
-
-This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the Godot engine, relying less on Godot&rsquo;s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
 <meta name="keywords" content="blog,developer,personal">
 
 
@@ -83,14 +24,14 @@ This is the first in a series of tutorials building up to a basic Pong clone imp
   <meta name="twitter:title" content="Pong Tutorial in Godot; Part 1">
   <meta name="twitter:description" content="(v0.1)
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the Godot engine, relying less on Godot’s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
 
 <meta property="og:url" content="https://www.balooga.com/posts/pong-tutorial-1/pong-tutorial-1/">
   <meta property="og:site_name" content="Balooga.com">
   <meta property="og:title" content="Pong Tutorial in Godot; Part 1">
   <meta property="og:description" content="(v0.1)
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the Godot engine, relying less on Godot’s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -947,6 +888,9 @@ This method is called when an object is instantiated in, for example, a call to 
 
 
   
+  
+
+
 
   
 
