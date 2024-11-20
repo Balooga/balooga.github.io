@@ -20,3 +20,13 @@ requested the requirements will be so different as to necessitate a rewrite.
 
 Future-proofing is removing all unnecessary features.
 
+
+* Minimize dependencies.
+
+* Don't use a framework.
+
+* Use technologies that have a history of maintaining backwards compatibility.
+
+* Choose a stable platform to develop in.
+
+* The UNIX philosophy
