@@ -31,7 +31,7 @@ title = 'Pong Tutorial in Godot; Part 1'
 - [Game Exit](#game-exit)
     - [Object Constructors and Destructors, Finalizers ](#object-constructors-and-destructors-finalizers)
 - [Information Hiding and Encapsulation](#information-hiding-and-encapsulation)
-- [Alternative Implementations](#alternative-implementations)
+    - [Alternative Implementation](#alternative-implementation)
 - [Composition vs Inheritance](#composition-vs-inheritance)
 - [Conclusion](#conclusion)
     - [The Final Code](#the-final-code)
@@ -453,7 +453,7 @@ func addChild(n: Node) -> void:
 
 `Pong` is responsible for adding the FrameRate object to the SceneTree. via `addChild()`.
 
-# Alternative Implementations
+## Alternative Implementation
 The `FrameRate`  object is able to add itself to the SceneTree by passing the `Pong` node in the `FrameRate` constructor `init(self, Vector2(0,0), UPDATE_INTERVAL)`. See the example below.
 
 ```gdscript

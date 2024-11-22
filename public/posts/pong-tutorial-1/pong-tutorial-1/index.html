@@ -14,8 +14,72 @@
 
 <meta name="author" content="Luke Crook">
 <meta name="description" content="(v0.1)
+
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Alternative Implementations Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
+
+Introduction
+The Godot Graphics Pipeline
+Install the Godot Engine
+Design 
+Create the Pong Project
+Viewport
+
+Classes and Class Inheritance
+
+
+Text Label
+
+Object Instantiation and Variables
+Dynamic vs Static Typing
+
+
+Frame Rate
+
+Singletons
+
+
+Game Loop
+
+The SceneTree 
+Variable Scope
+Static, Instance, and Virtual Methods
+Conditionals
+Constants
+
+
+Handling Player Input
+
+Handling Input
+
+
+Game Exit
+
+Object Constructors and Destructors, Finalizers 
+
+
+Information Hiding and Encapsulation
+
+Alternative Implementation
+
+
+Composition vs Inheritance
+Conclusion
+
+The Final Code
+
+
+Advanced Concepts
+Versions
+
+
+
+  Introduction
+  
+    
+    Link to heading
+  
+
+This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the Godot engine, relying less on Godot&rsquo;s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.">
 <meta name="keywords" content="blog,developer,personal">
 
 
@@ -24,14 +88,14 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
   <meta name="twitter:title" content="Pong Tutorial in Godot; Part 1">
   <meta name="twitter:description" content="(v0.1)
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Alternative Implementations Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Alternative Implementation Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the Godot engine, relying less on Godot’s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.">
 
 <meta property="og:url" content="https://www.balooga.com/posts/pong-tutorial-1/pong-tutorial-1/">
   <meta property="og:site_name" content="Balooga.com">
   <meta property="og:title" content="Pong Tutorial in Godot; Part 1">
   <meta property="og:description" content="(v0.1)
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Alternative Implementations Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Alternative Implementation Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the Godot engine, relying less on Godot’s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -214,8 +278,11 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
 <li><a href="#object-constructors-and-destructors-finalizers" >Object Constructors and Destructors, Finalizers </a></li>
 </ul>
 </li>
-<li><a href="#information-hiding-and-encapsulation" >Information Hiding and Encapsulation</a></li>
-<li><a href="#alternative-implementations" >Alternative Implementations</a></li>
+<li><a href="#information-hiding-and-encapsulation" >Information Hiding and Encapsulation</a>
+<ul>
+<li><a href="#alternative-implementation" >Alternative Implementation</a></li>
+</ul>
+</li>
 <li><a href="#composition-vs-inheritance" >Composition vs Inheritance</a></li>
 <li><a href="#conclusion" >Conclusion</a>
 <ul>
@@ -696,13 +763,13 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">addChild</span>(n: <span style="color:#f0883e;font-weight:bold">Node</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	self<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">call_deferred</span>(<span style="color:#a5d6ff">&#34;add_child&#34;</span>, n)
 </span></span></code></pre></div><p><code>Pong</code> is responsible for adding the FrameRate object to the SceneTree. via <code>addChild()</code>.</p>
-<h1 id="alternative-implementations">
-  Alternative Implementations
-  <a class="heading-link" href="#alternative-implementations">
+<h2 id="alternative-implementation">
+  Alternative Implementation
+  <a class="heading-link" href="#alternative-implementation">
     <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
     <span class="sr-only">Link to heading</span>
   </a>
-</h1>
+</h2>
 <p>The <code>FrameRate</code>  object is able to add itself to the SceneTree by passing the <code>Pong</code> node in the <code>FrameRate</code> constructor <code>init(self, Vector2(0,0), UPDATE_INTERVAL)</code>. See the example below.</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In Pong</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_ready</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
@@ -951,9 +1018,6 @@ This method is called when an object is instantiated in, for example, a call to 
 
 
   
-  
-
-
 
   
 
