@@ -15,7 +15,7 @@
 <meta name="author" content="Luke Crook">
 <meta name="description" content="(v0.1)
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Alternative Implementations Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
 <meta name="keywords" content="blog,developer,personal">
 
 
@@ -24,14 +24,14 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
   <meta name="twitter:title" content="Pong Tutorial in Godot; Part 1">
   <meta name="twitter:description" content="(v0.1)
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Alternative Implementations Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
 
 <meta property="og:url" content="https://www.balooga.com/posts/pong-tutorial-1/pong-tutorial-1/">
   <meta property="og:site_name" content="Balooga.com">
   <meta property="og:title" content="Pong Tutorial in Godot; Part 1">
   <meta property="og:description" content="(v0.1)
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Alternative Implementations Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -159,7 +159,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              19-minute read
+              21-minute read
             </span>
           </div>
           
@@ -215,6 +215,8 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
 </ul>
 </li>
 <li><a href="#information-hiding-and-encapsulation" >Information Hiding and Encapsulation</a></li>
+<li><a href="#alternative-implementations" >Alternative Implementations</a></li>
+<li><a href="#composition-vs-inheritance" >Composition vs Inheritance</a></li>
 <li><a href="#conclusion" >Conclusion</a>
 <ul>
 <li><a href="#the-final-code" >The Final Code</a></li>
@@ -490,7 +492,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
 </span></span><span style="display:flex;"><span>fps<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">set_text</span>(str(<span style="color:#f0883e;font-weight:bold">Engine</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">get_frames_per_second</span>())) <span style="color:#8b949e;font-style:italic"># Set fps.text to the current fps</span>
 </span></span></code></pre></div><p>Calls to <code>add_child()</code> (and <code>free()</code>) are generally passed into a <a href="https://docs.godotengine.org/en/stable/classes/class_object.html#class-object-method-call-deferred"  class="external-link" target="_blank" rel="noopener"><code>call_deferred()</code></a> method that postpones execution of <code>&quot;add_child&quot;</code> until idle time.</p>
 <p>In the code, we call <code>self.call_deferred</code>, where <code>self</code> refers to &ldquo;the current Node&rdquo;, in this case the <code>Pong</code> Node. GDScript does allow <code>self</code> to be omitted but I prefer to use <code>self</code> as it makes explicit that a method is being invoked on the current Node.</p>
-<p>The SceneTree manages the <a href="https://docs.godotengine.org/en/stable/classes/class_mainloop.html"  class="external-link" target="_blank" rel="noopener">MainLoop</a> which defines the virtual methods <code>_initialize()</code>, <code>_finalize()</code>, and <code>_process()</code>.</p>
+<p>The SceneTree manages the <a href="https://docs.godotengine.org/en/stable/classes/class_mainloop.html"  class="external-link" target="_blank" rel="noopener">MainLoop</a> which calls the virtual methods <code>_initialize()</code>, <code>_finalize()</code>, and <code>_process()</code> on each <code>Node</code> object in the SceneTree.</p>
 <p>To recap;</p>
 <ol>
 <li>Initialization:
@@ -653,7 +655,8 @@ This method is called when an object is instantiated in, for example, a call to 
   </a>
 </h1>
 <p>The <code>Pong</code> class can be simplified using <a href="https://en.wikipedia.org/wiki/Information_hiding"  class="external-link" target="_blank" rel="noopener">information hiding</a>, by encapsulating the frame rate logic into its own <code>FrameRate</code> class in a new <code>res://src/FrameRate.gd</code> file.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#ff7b72">class_name</span> <span style="color:#f0883e;font-weight:bold">FrameRate</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In FrameRate</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">class_name</span> <span style="color:#f0883e;font-weight:bold">FrameRate</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">var</span> label: <span style="color:#f0883e;font-weight:bold">Label</span>: <span style="color:#8b949e;font-style:italic"># Set and get the Label</span>
 </span></span><span style="display:flex;"><span>	get: <span style="color:#ff7b72">return</span> label
@@ -667,20 +670,17 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span>    label<span style="color:#ff7b72;font-weight:bold">.</span>position <span style="color:#ff7b72;font-weight:bold">=</span> pos
 </span></span><span style="display:flex;"><span>    internal <span style="color:#ff7b72;font-weight:bold">=</span> i
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">createText</span>(frames: <span style="color:#ff7b72">float</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#f0883e;font-weight:bold">String</span>:
-</span></span><span style="display:flex;"><span>	<span style="color:#ff7b72">return</span> <span style="color:#a5d6ff">&#34;FPS: &#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> str(frames)
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">update</span>(frames: <span style="color:#ff7b72">float</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	<span style="color:#ff7b72">if</span> <span style="color:#ff7b72">int</span>(ceil(frames)) <span style="color:#ff7b72;font-weight:bold">%</span> interval <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">0</span>:
-</span></span><span style="display:flex;"><span>		label<span style="color:#ff7b72;font-weight:bold">.</span>text <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#d2a8ff;font-weight:bold">createText</span>(frames)
+</span></span><span style="display:flex;"><span>		label<span style="color:#ff7b72;font-weight:bold">.</span>text <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;FPS: &#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> str(frames)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">Node</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#f0883e;font-weight:bold">Node</span>: <span style="color:#ff7b72">return</span> label
 </span></span></code></pre></div><p>Things to note:</p>
 <ul>
-<li><code>FrameRate</code> does not extend <code>Node</code> and in this contrived example it may make more sense if it did. But we will add <code>Label</code> to the SceneTree ourselves.</li>
 <li>We implement <a href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#properties-setters-and-getters"  class="external-link" target="_blank" rel="noopener">getters and setters</a> for <code>label</code> and <code>interval</code> allowing these class variables to be accessed by external methods.</li>
 <li>The <code>_init()</code> function accepts a <code>Vector</code> containing the position and an update interval as an integer. The capability to change the <code>_init()</code> constructor in this manner is called_<a href="https://en.wikipedia.org/wiki/Function_overloading#Constructor_overloading"  class="external-link" target="_blank" rel="noopener">constructor overloading</a>. Note that GDScript does not support <a href="https://en.wikipedia.org/wiki/Function_overloading#Rules_in_function_overloading"  class="external-link" target="_blank" rel="noopener">function overloading</a>.</li>
-<li>The function <code>ceil(frames)</code> in <code>update()</code> will &ldquo;round up&rdquo; any fractional frame rate to the nearest integer. For example <code>33.2</code> becomes <code>34</code>.</li>
+<li>The function <code>ceil(frames)</code> in <code>update()</code> rounds up a fractional frame rate to the nearest integer, e.g. <code>33.2</code> becomes <code>34</code>.</li>
+<li>The function <code>node()</code> provides a common interface for retrieving the <code>Ndde</code> associated with the <code>FrameRate</code> object, in this case the <code>Label</code>. In If we had implemented <code>FrameRate</code> to extend<code>Label</code>, then <code>node()</code> would return the <code>FrameRate</code> object</li>
 </ul>
 <p>Now <code>Pong</code> is refactored to remove the frame rate logic;</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In Pong</span>
@@ -695,7 +695,15 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">addChild</span>(n: <span style="color:#f0883e;font-weight:bold">Node</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	self<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">call_deferred</span>(<span style="color:#a5d6ff">&#34;add_child&#34;</span>, n)
-</span></span></code></pre></div><p>In <code>Pong</code> above, we add the <code>FrameRate.Label</code> Node to the SceneTree. But we could instead have the <code>FrameRate</code>  constructor receive the <code>Pong</code> Node as <code>init(self, Vector2(0,0), UPDATE_INTERVAL)</code> and add the <code>label</code> to the SceneTree in the constructor. See the example below.</p>
+</span></span></code></pre></div><p><code>Pong</code> is responsible for adding the FrameRate object to the SceneTree. via <code>addChild()</code>.</p>
+<h1 id="alternative-implementations">
+  Alternative Implementations
+  <a class="heading-link" href="#alternative-implementations">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>The <code>FrameRate</code>  object is able to add itself to the SceneTree by passing the <code>Pong</code> node in the <code>FrameRate</code> constructor <code>init(self, Vector2(0,0), UPDATE_INTERVAL)</code>. See the example below.</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In Pong</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_ready</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	<span style="color:#f0883e;font-weight:bold">Engine</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">set_max_fps</span>(MAX_FPS)
@@ -707,8 +715,8 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span>	label<span style="color:#ff7b72;font-weight:bold">.</span>position <span style="color:#ff7b72;font-weight:bold">=</span> pos
 </span></span><span style="display:flex;"><span>	interval <span style="color:#ff7b72;font-weight:bold">=</span> i
 </span></span><span style="display:flex;"><span>	parent<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">call_deferred</span>(<span style="color:#a5d6ff">&#34;add_child&#34;</span>, label)
-</span></span></code></pre></div><p>However having <code>FrameRate</code> add itself to the SceneTree introduces the SceneTree as a dependency in <code>FrameRate</code> which complicates any <a href="https://en.wikipedia.org/wiki/Unit_testing"  class="external-link" target="_blank" rel="noopener">unit tests</a> we may create. We would need to pass the full SceneTree just to test <code>FrameRate</code>. Having <code>Pong</code> add <code>FrameRate</code> to the SceneTree removes this dependency.</p>
-<p>Similarly we could have read the frame rate in <code>FrameRate.update</code> instead of passing the frame rate from <code>Pong</code>. See the example below;</p>
+</span></span></code></pre></div><p>Having <code>FrameRate</code> add itself to the SceneTree introduces the SceneTree as a dependency in <code>FrameRate</code> which complicates any <a href="https://en.wikipedia.org/wiki/Unit_testing"  class="external-link" target="_blank" rel="noopener">unit tests</a> we may create. We would need to pass a SceneTree just to test <code>FrameRate</code>. Having <code>Pong</code> add <code>FrameRate</code> to the SceneTree removes this dependency.</p>
+<p>Similarly <code>FrameRate.update</code> can retrieve the frame rate directly instead of receiving the frame rate from <code>Pong._process()</code>. See the example below;</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In Pong</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_process</span>(_delta: <span style="color:#ff7b72">float</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	<span style="color:#ff7b72">if</span> <span style="color:#f0883e;font-weight:bold">Input</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">is_action_pressed</span>(ACTION_UI_CANCEL): <span style="color:#d2a8ff;font-weight:bold">exitGame</span>()
@@ -718,9 +726,67 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">update</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">var</span> frames: <span style="color:#ff7b72">float</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#f0883e;font-weight:bold">Engine</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">get_frames_per_second</span>()
 </span></span><span style="display:flex;"><span>	<span style="color:#ff7b72">if</span> <span style="color:#ff7b72">int</span>(ceil(frames)) <span style="color:#ff7b72;font-weight:bold">%</span> interval <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">0</span>:
-</span></span><span style="display:flex;"><span>		label<span style="color:#ff7b72;font-weight:bold">.</span>text <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#d2a8ff;font-weight:bold">createText</span>(frames)
-</span></span></code></pre></div><p>But doing this introduces the full Godot engine as a dependency for testing <code>update()</code>.</p>
-<p>Always try to minimize dependencies and side-effects when writing software.</p>
+</span></span><span style="display:flex;"><span>		label<span style="color:#ff7b72;font-weight:bold">.</span>text <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;FPS: &#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> str(frames)
+</span></span></code></pre></div><p>But this introduces the Godot engine as a dependency for testing <code>FrameRate.update()</code>. Always try to minimize dependencies and side-effects when writing software.</p>
+<h1 id="composition-vs-inheritance">
+  Composition vs Inheritance
+  <a class="heading-link" href="#composition-vs-inheritance">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<blockquote>
+<p>&hellip; classes should favor polymorphic behavior and code reuse by their composition (by containing instances of other classes that implement the desired functionality) over inheritance from a base or parent class
+&ndash; <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance"  class="external-link" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Composition_over_inheritance</a></p>
+</blockquote>
+<blockquote>
+<p>Composition over Inheritance Explained by Games &ndash; YouTube
+&ndash; <a href="https://www.youtube.com/watch?v=HNzP1aLAffM"  class="external-link" target="_blank" rel="noopener">https://www.youtube.com/watch?v=HNzP1aLAffM</a></p>
+</blockquote>
+<p>Inheritance vs composition is a design choice however I prefer composition. GoDot definitely favors inheritance.</p>
+<p>Our implementation has <code>FrameRate</code> containing a <code>Label</code> (&ldquo;has-a&rdquo; composition). But <code>FrameRate</code> can inherit from and extend<code>Label</code>, see the example below. FrameRate becomes an &ldquo;is-a&rdquo; of Label.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In Pong</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_process</span>(_delta: <span style="color:#ff7b72">float</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#ff7b72">if</span> <span style="color:#f0883e;font-weight:bold">Input</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">is_action_pressed</span>(ACTION_UI_CANCEL): <span style="color:#d2a8ff;font-weight:bold">exitGame</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In FrameRate</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">class_name</span> <span style="color:#f0883e;font-weight:bold">FrameRate</span> <span style="color:#ff7b72">extends</span> <span style="color:#f0883e;font-weight:bold">Label</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">var</span> interval: <span style="color:#ff7b72">int</span>: <span style="color:#8b949e;font-style:italic"># Update the fps at interval</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#d2a8ff;font-weight:bold">set</span>(value): interval <span style="color:#ff7b72;font-weight:bold">=</span> value
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_init</span>(pos: <span style="color:#f0883e;font-weight:bold">Vector2</span>, i: <span style="color:#ff7b72">int</span>):
+</span></span><span style="display:flex;"><span>	position <span style="color:#ff7b72;font-weight:bold">=</span> pos
+</span></span><span style="display:flex;"><span>	interval <span style="color:#ff7b72;font-weight:bold">=</span> i
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_process</span>(_delta: <span style="color:#ff7b72">float</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">var</span> frames: <span style="color:#ff7b72">float</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#f0883e;font-weight:bold">Engine</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">get_frames_per_second</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#ff7b72">if</span> <span style="color:#ff7b72">int</span>(ceil(frames)) <span style="color:#ff7b72;font-weight:bold">%</span> interval <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">0</span>:
+</span></span><span style="display:flex;"><span>		text <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;FPS: &#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> str(frames)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">node</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#f0883e;font-weight:bold">Node</span>: <span style="color:#ff7b72">return</span> self
+</span></span></code></pre></div><p>We can move the logic from <code>update()</code> into the inherited virtual method <code>_process()</code>. The SceneTree calls <code>_process()</code> each frame so we can remove the call into <code>FrameRate</code> from <code>Pong._process()</code>,</p>
+<p>The advantage of inheritance, in this example at least, is less code. On the other hand, rendering the frame rate in a 3D scene will require that <code>FrameRate</code> inherit from <code>Label3D</code> which will mean defining a new class <code>FrameRate3D</code> with much the same logic as <code>Label</code>. Inheritance generally leads to the proliferation of small classes in large projects.</p>
+<p>Using composition, we can modify <code>FrateRate</code> to support both <code>Label</code> and <code>Label3D</code> as follows;</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In Pong, specifying a 2D label, passing this object into FrameRate</span>
+</span></span><span style="display:flex;"><span>fps <span style="color:#ff7b72;font-weight:bold">=</span> LabelFR<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">new</span>(<span style="color:#f0883e;font-weight:bold">Label</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">new</span>(), <span style="color:#f0883e;font-weight:bold">Vector2</span>(<span style="color:#a5d6ff">0</span>,<span style="color:#a5d6ff">0</span>), UPDATE_INTERVAL)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In Pong, specifying a 2D label, passing this object into FrameRate</span>
+</span></span><span style="display:flex;"><span>fps <span style="color:#ff7b72;font-weight:bold">=</span> LabelFR<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">new</span>(<span style="color:#f0883e;font-weight:bold">Label3D</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">new</span>(), <span style="color:#f0883e;font-weight:bold">Vector2</span>(<span style="color:#a5d6ff">0</span>,<span style="color:#a5d6ff">0</span>), UPDATE_INTERVAL)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In FrameRate</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">var</span> label: <span style="color:#f0883e;font-weight:bold">Node</span>:
+</span></span><span style="display:flex;"><span>	get: <span style="color:#ff7b72">return</span> label
+</span></span><span style="display:flex;"><span>	<span style="color:#d2a8ff;font-weight:bold">set</span>(value): label <span style="color:#ff7b72;font-weight:bold">=</span> value
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_init</span>(n: <span style="color:#f0883e;font-weight:bold">Node</span>, pos: <span style="color:#f0883e;font-weight:bold">Vector2</span>, i: <span style="color:#ff7b72">int</span>):
+</span></span><span style="display:flex;"><span>	label <span style="color:#ff7b72;font-weight:bold">=</span> n
+</span></span><span style="display:flex;"><span>	label<span style="color:#ff7b72;font-weight:bold">.</span>position <span style="color:#ff7b72;font-weight:bold">=</span> pos
+</span></span><span style="display:flex;"><span>	interval <span style="color:#ff7b72;font-weight:bold">=</span> i
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">node</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#f0883e;font-weight:bold">Node</span>: <span style="color:#ff7b72">return</span> label
+</span></span></code></pre></div><p><code>Pong</code> creates either a <code>Label</code> or <code>Label3D</code> and passes this object to the <code>FrameRate.New()</code> constructor. Using composition actually results in less code and one less class.</p>
 <h1 id="conclusion">
   Conclusion
   <a class="heading-link" href="#conclusion">
@@ -750,8 +816,8 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_ready</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	<span style="color:#f0883e;font-weight:bold">Engine</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">set_max_fps</span>(MAX_FPS)
-</span></span><span style="display:flex;"><span>	fps <span style="color:#ff7b72;font-weight:bold">=</span> FrameRate<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">new</span>(<span style="color:#f0883e;font-weight:bold">Vector2</span>(<span style="color:#a5d6ff">0</span>,<span style="color:#a5d6ff">0</span>), UPDATE_INTERVAL)
-</span></span><span style="display:flex;"><span>	<span style="color:#d2a8ff;font-weight:bold">addChild</span>(fps<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#f0883e;font-weight:bold">Node</span>())
+</span></span><span style="display:flex;"><span>	fps <span style="color:#ff7b72;font-weight:bold">=</span> FrameRate<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">new</span>(<span style="color:#f0883e;font-weight:bold">Label</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">new</span>(), <span style="color:#f0883e;font-weight:bold">Vector2</span>(<span style="color:#a5d6ff">0</span>,<span style="color:#a5d6ff">0</span>), UPDATE_INTERVAL)
+</span></span><span style="display:flex;"><span>	<span style="color:#d2a8ff;font-weight:bold">addChild</span>(fps<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">node</span>())
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_process</span>(_delta: <span style="color:#ff7b72">float</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	<span style="color:#ff7b72">if</span> <span style="color:#f0883e;font-weight:bold">Input</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">is_action_pressed</span>(ACTION_UI_CANCEL): <span style="color:#d2a8ff;font-weight:bold">exitGame</span>()
@@ -762,7 +828,7 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span>	self<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">get_tree</span>()<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">quit</span>()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_finalize</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
-</span></span><span style="display:flex;"><span>	fps<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">call_deferred</span>(<span style="color:#a5d6ff">&#34;free&#34;</span>) <span style="color:#8b949e;font-style:italic"># Becasue we added the label, we also need to delete it</span>
+</span></span><span style="display:flex;"><span>	fps<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">call_deferred</span>(<span style="color:#a5d6ff">&#34;free&#34;</span>) <span style="color:#8b949e;font-style:italic"># Because we added the label, we also need to delete it</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">addChild</span>(n: <span style="color:#f0883e;font-weight:bold">Node</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	self<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">call_deferred</span>(<span style="color:#a5d6ff">&#34;add_child&#34;</span>, n)
@@ -776,21 +842,18 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">var</span> interval: <span style="color:#ff7b72">int</span>: <span style="color:#8b949e;font-style:italic"># Update the fps at interval</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#d2a8ff;font-weight:bold">set</span>(value): interval <span style="color:#ff7b72;font-weight:bold">=</span> value
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_init</span>(pos: <span style="color:#f0883e;font-weight:bold">Vector2</span>, i: <span style="color:#ff7b72">int</span>):
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_init</span>(l: <span style="color:#f0883e;font-weight:bold">Node</span>, pos: <span style="color:#f0883e;font-weight:bold">Vector2</span>, i: <span style="color:#ff7b72">int</span>):
 </span></span><span style="display:flex;"><span>	<span style="color:#8b949e;font-style:italic"># Create the label in _init() as FrameRate is not added to</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#8b949e;font-style:italic"># the SceneTree hence _ready() is not called.</span>
-</span></span><span style="display:flex;"><span>	label <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#f0883e;font-weight:bold">Label</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">new</span>()
+</span></span><span style="display:flex;"><span>	label <span style="color:#ff7b72;font-weight:bold">=</span> l
 </span></span><span style="display:flex;"><span>	label<span style="color:#ff7b72;font-weight:bold">.</span>position <span style="color:#ff7b72;font-weight:bold">=</span> pos
 </span></span><span style="display:flex;"><span>	interval <span style="color:#ff7b72;font-weight:bold">=</span> i
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">createText</span>(frames: <span style="color:#ff7b72">float</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#f0883e;font-weight:bold">String</span>:
-</span></span><span style="display:flex;"><span>	<span style="color:#ff7b72">return</span> <span style="color:#a5d6ff">&#34;FPS: &#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> str(frames)
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">update</span>(frames: <span style="color:#ff7b72">float</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	<span style="color:#ff7b72">if</span> <span style="color:#ff7b72">int</span>(ceil(frames)) <span style="color:#ff7b72;font-weight:bold">%</span> interval <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">0</span>:
-</span></span><span style="display:flex;"><span>		label<span style="color:#ff7b72;font-weight:bold">.</span>text <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#d2a8ff;font-weight:bold">createText</span>(frames)
+</span></span><span style="display:flex;"><span>		label<span style="color:#ff7b72;font-weight:bold">.</span>text <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;FPS: &#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> str(frames)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">Node</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#f0883e;font-weight:bold">Node</span>: <span style="color:#ff7b72">return</span> label
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">node</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#f0883e;font-weight:bold">Node</span>: <span style="color:#ff7b72">return</span> label
 </span></span></code></pre></div><h1 id="advanced-concepts">
   Advanced Concepts
   <a class="heading-link" href="#advanced-concepts">

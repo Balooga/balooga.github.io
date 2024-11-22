@@ -31,6 +31,8 @@ title = 'Pong Tutorial in Godot; Part 1'
 - [Game Exit](#game-exit)
     - [Object Constructors and Destructors, Finalizers ](#object-constructors-and-destructors-finalizers)
 - [Information Hiding and Encapsulation](#information-hiding-and-encapsulation)
+- [Alternative Implementations](#alternative-implementations)
+- [Composition vs Inheritance](#composition-vs-inheritance)
 - [Conclusion](#conclusion)
     - [The Final Code](#the-final-code)
 - [Advanced Concepts](#advanced-concepts)
@@ -260,7 +262,7 @@ Calls to `add_child()` (and `free()`) are generally passed into a [`call_deferre
 
 In the code, we call `self.call_deferred`, where `self` refers to "the current Node", in this case the `Pong` Node. GDScript does allow `self` to be omitted but I prefer to use `self` as it makes explicit that a method is being invoked on the current Node.
 
-The SceneTree manages the [MainLoop](https://docs.godotengine.org/en/stable/classes/class_mainloop.html) which defines the virtual methods `_initialize()`, `_finalize()`, and `_process()`.
+The SceneTree manages the [MainLoop](https://docs.godotengine.org/en/stable/classes/class_mainloop.html) which calls the virtual methods `_initialize()`, `_finalize()`, and `_process()` on each `Node` object in the SceneTree.
 
 To recap;
 
@@ -403,6 +405,7 @@ The `Pong` Node was added to the SceneTree in section [Create the Pong Project](
 The `Pong` class can be simplified using [information hiding](https://en.wikipedia.org/wiki/Information_hiding), by encapsulating the frame rate logic into its own `FrameRate` class in a new `res://src/FrameRate.gd` file.
 
 ```gdscript
+### In FrameRate
 class_name FrameRate
 
 var label: Label: # Set and get the Label
@@ -417,22 +420,19 @@ func _init(pos: Vector2, i: int):
     label.position = pos
     internal = i
 
-func createText(frames: float) -> String:
-	return "FPS: " + str(frames)
-
 func update(frames: float) -> void:
 	if int(ceil(frames)) % interval == 0:
-		label.text = createText(frames)
+		label.text = "FPS: " + str(frames)
 
 func Node() -> Node: return label
 ```
 
 Things to note: 
 
-* `FrameRate` does not extend `Node` and in this contrived example it may make more sense if it did. But we will add `Label` to the SceneTree ourselves.
 * We implement [getters and setters](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#properties-setters-and-getters) for `label` and `interval` allowing these class variables to be accessed by external methods.
 * The `_init()` function accepts a `Vector` containing the position and an update interval as an integer. The capability to change the `_init()` constructor in this manner is called_[constructor overloading](https://en.wikipedia.org/wiki/Function_overloading#Constructor_overloading). Note that GDScript does not support [function overloading](https://en.wikipedia.org/wiki/Function_overloading#Rules_in_function_overloading).
-* The function `ceil(frames)` in `update()` will "round up" any fractional frame rate to the nearest integer. For example `33.2` becomes `34`.
+* The function `ceil(frames)` in `update()` rounds up a fractional frame rate to the nearest integer, e.g. `33.2` becomes `34`.
+* The function `node()` provides a common interface for retrieving the `Ndde` associated with the `FrameRate` object, in this case the `Label`. In If we had implemented `FrameRate` to extend`Label`, then `node()` would return the `FrameRate` object
 
 Now `Pong` is refactored to remove the frame rate logic;
 
@@ -451,7 +451,10 @@ func addChild(n: Node) -> void:
 	self.call_deferred("add_child", n)
 ```
 
-In `Pong` above, we add the `FrameRate.Label` Node to the SceneTree. But we could instead have the `FrameRate`  constructor receive the `Pong` Node as `init(self, Vector2(0,0), UPDATE_INTERVAL)` and add the `label` to the SceneTree in the constructor. See the example below.
+`Pong` is responsible for adding the FrameRate object to the SceneTree. via `addChild()`.
+
+# Alternative Implementations
+The `FrameRate`  object is able to add itself to the SceneTree by passing the `Pong` node in the `FrameRate` constructor `init(self, Vector2(0,0), UPDATE_INTERVAL)`. See the example below.
 
 ```gdscript
 ### In Pong
@@ -467,9 +470,9 @@ func _init(parent: Node, pos: Vector2, i: int) -> FrameRate:
 	parent.call_deferred("add_child", label)
 ```
 
-However having `FrameRate` add itself to the SceneTree introduces the SceneTree as a dependency in `FrameRate` which complicates any [unit tests](https://en.wikipedia.org/wiki/Unit_testing) we may create. We would need to pass the full SceneTree just to test `FrameRate`. Having `Pong` add `FrameRate` to the SceneTree removes this dependency.
+Having `FrameRate` add itself to the SceneTree introduces the SceneTree as a dependency in `FrameRate` which complicates any [unit tests](https://en.wikipedia.org/wiki/Unit_testing) we may create. We would need to pass a SceneTree just to test `FrameRate`. Having `Pong` add `FrameRate` to the SceneTree removes this dependency.
 
-Similarly we could have read the frame rate in `FrameRate.update` instead of passing the frame rate from `Pong`. See the example below;
+Similarly `FrameRate.update` can retrieve the frame rate directly instead of receiving the frame rate from `Pong._process()`. See the example below;
 
 ```gdscript
 ### In Pong
@@ -481,12 +484,72 @@ func _process(_delta: float) -> void:
 func update() -> void:
     var frames: float = Engine.get_frames_per_second()
 	if int(ceil(frames)) % interval == 0:
-		label.text = createText(frames)
+		label.text = "FPS: " + str(frames)
 ```
 
-But doing this introduces the full Godot engine as a dependency for testing `update()`.
+But this introduces the Godot engine as a dependency for testing `FrameRate.update()`. Always try to minimize dependencies and side-effects when writing software.
 
-Always try to minimize dependencies and side-effects when writing software.
+# Composition vs Inheritance
+> ... classes should favor polymorphic behavior and code reuse by their composition (by containing instances of other classes that implement the desired functionality) over inheritance from a base or parent class
+-- https://en.wikipedia.org/wiki/Composition_over_inheritance
+
+> Composition over Inheritance Explained by Games -- YouTube
+-- https://www.youtube.com/watch?v=HNzP1aLAffM
+
+Inheritance vs composition is a design choice however I prefer composition. GoDot definitely favors inheritance.
+
+Our implementation has `FrameRate` containing a `Label` ("has-a" composition). But `FrameRate` can inherit from and extend`Label`, see the example below. FrameRate becomes an "is-a" of Label. 
+
+```gdscript
+### In Pong
+func _process(_delta: float) -> void:
+	if Input.is_action_pressed(ACTION_UI_CANCEL): exitGame()
+
+### In FrameRate
+class_name FrameRate extends Label
+
+var interval: int: # Update the fps at interval
+	set(value): interval = value
+
+func _init(pos: Vector2, i: int):
+	position = pos
+	interval = i
+
+func _process(_delta: float) -> void:
+    var frames: float = Engine.get_frames_per_second()
+	if int(ceil(frames)) % interval == 0:
+		text = "FPS: " + str(frames)
+
+func node() -> Node: return self
+```
+
+We can move the logic from `update()` into the inherited virtual method `_process()`. The SceneTree calls `_process()` each frame so we can remove the call into `FrameRate` from `Pong._process()`, 
+
+The advantage of inheritance, in this example at least, is less code. On the other hand, rendering the frame rate in a 3D scene will require that `FrameRate` inherit from `Label3D` which will mean defining a new class `FrameRate3D` with much the same logic as `Label`. Inheritance generally leads to the proliferation of small classes in large projects.
+
+Using composition, we can modify `FrateRate` to support both `Label` and `Label3D` as follows;
+
+```gdscript
+
+### In Pong, specifying a 2D label, passing this object into FrameRate
+fps = LabelFR.new(Label.new(), Vector2(0,0), UPDATE_INTERVAL)
+
+### In Pong, specifying a 2D label, passing this object into FrameRate
+fps = LabelFR.new(Label3D.new(), Vector2(0,0), UPDATE_INTERVAL)
+
+### In FrameRate
+var label: Node:
+	get: return label
+	set(value): label = value
+
+func _init(n: Node, pos: Vector2, i: int):
+	label = n
+	label.position = pos
+	interval = i
+    
+func node() -> Node: return label
+```
+`Pong` creates either a `Label` or `Label3D` and passes this object to the `FrameRate.New()` constructor. Using composition actually results in less code and one less class.
 
 # Conclusion
 All that to display the current frame rate. If we had jumped right into the implementation we would also have had to consider loading assets, collision detection, implementing physics for ball strikes and bounces, sound effects, and player point scores for game start and game over. Never mind some rudimentary AI if we want to support single player mode against a computer opponent.
@@ -510,8 +573,8 @@ var fps: FrameRate
 
 func _ready() -> void:
 	Engine.set_max_fps(MAX_FPS)
-	fps = FrameRate.new(Vector2(0,0), UPDATE_INTERVAL)
-	addChild(fps.Node())
+	fps = FrameRate.new(Label.new(), Vector2(0,0), UPDATE_INTERVAL)
+	addChild(fps.node())
 
 func _process(_delta: float) -> void:
 	if Input.is_action_pressed(ACTION_UI_CANCEL): exitGame()
@@ -522,7 +585,7 @@ func exitGame() -> void:
 	self.get_tree().quit()
 
 func _finalize() -> void:
-	fps.call_deferred("free") # Becasue we added the label, we also need to delete it
+	fps.call_deferred("free") # Because we added the label, we also need to delete it
 
 func addChild(n: Node) -> void:
 	self.call_deferred("add_child", n)
@@ -539,21 +602,18 @@ var label: Label:
 var interval: int: # Update the fps at interval
 	set(value): interval = value
 
-func _init(pos: Vector2, i: int):
+func _init(l: Node, pos: Vector2, i: int):
 	# Create the label in _init() as FrameRate is not added to
 	# the SceneTree hence _ready() is not called.
-	label = Label.new()
+	label = l
 	label.position = pos
 	interval = i
 
-func createText(frames: float) -> String:
-	return "FPS: " + str(frames)
-
 func update(frames: float) -> void:
 	if int(ceil(frames)) % interval == 0:
-		label.text = createText(frames)
+		label.text = "FPS: " + str(frames)
 
-func Node() -> Node: return label
+func node() -> Node: return label
 ```
 
 # Advanced Concepts
