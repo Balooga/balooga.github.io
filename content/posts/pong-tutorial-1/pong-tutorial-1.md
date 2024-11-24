@@ -533,11 +533,17 @@ Using composition, we can modify `FrateRate` to support both `Label` and `Label3
 ```gdscript
 ### In res://src/Pong.gd
 ### Specifying a 2D label, passing this object into FrameRate
-fps = LabelFR.new(Label.new(), Vector2(0,0), UPDATE_INTERVAL)
+func _ready() -> void:
+	Engine.set_max_fps(MAX_FPS)
+	fps = FrameRate.new(Label.new(), Vector2(0,0), UPDATE_INTERVAL)
+	addChild(fps.node())
 
 ### In res://src/Pong.gd
 ### Specifying a 2D label, passing this object into FrameRate
-fps = LabelFR.new(Label3D.new(), Vector2(0,0), UPDATE_INTERVAL)
+func _ready() -> void:
+	Engine.set_max_fps(MAX_FPS)
+	fps = FrameRate.new(Label3D.new(), Vector2(0,0), UPDATE_INTERVAL)
+	addChild(fps.node())
 
 ### In res://src/FrameRate.gd
 var label: Node:
