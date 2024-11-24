@@ -539,7 +539,7 @@ func _ready() -> void:
 	addChild(fps.node())
 
 ### In res://src/Pong.gd
-### Specifying a 2D label, passing this object into FrameRate
+### Specifying a 3D label, passing this object into FrameRate
 func _ready() -> void:
 	Engine.set_max_fps(MAX_FPS)
 	fps = FrameRate.new(Label3D.new(), Vector2(0,0), UPDATE_INTERVAL)
