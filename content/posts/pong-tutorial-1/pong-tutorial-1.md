@@ -41,9 +41,9 @@ title = 'Pong Tutorial in Godot; Part 1'
 <!-- markdown-toc end -->
 
 # Introduction
-This is the first in a series of tutorials building up to a basic Pong clone implemented using the [Godot engine](https://godotengine.org/). We will try to accomplish as much as we can in [GDScript](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html), which is the native scripting language of the engine, relying less on Godot's SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; [grepping](https://en.wikipedia.org/wiki/Grep) over files in your project folder is much faster than having to manually inspect properties of the Nodes in the SceneTree, for example.
+This is the first in a series of tutorials building up to a basic Pong clone implemented using the [Godot engine](https://godotengine.org/). We will try to accomplish as much as we can in [GDScript](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html), which is the native scripting language of the engine, relying less on Godot's SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; [grepping](https://en.wikipedia.org/wiki/Grep) over files in your project folder is much faster than having to inspect properties of the Nodes in the SceneTree, for example.
 
-[OOP (Object-Oriented Programming)](https://en.wikipedia.org/wiki/Object-oriented_programming) is the driving paradigm in the design of [GDScript and the Godot engine](https://docs.godotengine.org/en/stable/tutorials/best_practices/what_are_godot_classes.html). You don't need to become an expert in Object Orientated programming to use the Godot engine or GDScript, but you should take the time to become somewhat proficient. This tutorial introduces some principles of OOP but won't go into much detail as this isn't a general programming tutorial.
+[OOP (Object-Oriented Programming)](https://en.wikipedia.org/wiki/Object-oriented_programming) is the driving paradigm in the design of [GDScript and the Godot engine](https://docs.godotengine.org/en/stable/tutorials/best_practices/what_are_godot_classes.html). You don't need to become an expert in Object Orientated programming to use the Godot engine or GDScript, but you should take the time to become somewhat proficient. This tutorial introduces some principles of OOP but OOP isn't covered in depth as this isn't a general programming tutorial.
 
 We start by implementing something seemingly straightforward, displaying the [frame rate](https://en.wikipedia.org/wiki/Frame_rate) (fps -- frames-per-second). Why start with the frame rate instead of jumping in and creating the Pong clone? See [Software Development Estimation]({{< ref "/posts/software-estimation/" >}} "Software Development Estimation") as to why.
 
@@ -497,9 +497,12 @@ But this introduces the Godot engine as a dependency when testing `FrameRate.upd
 > Composition over Inheritance Explained by Games -- YouTube
 -- https://www.youtube.com/watch?v=HNzP1aLAffM
 
+> HN: Game developers: don't use inheritance for your game objects
+-- https://news.ycombinator.com/item?id=3560408
+
 Inheritance vs composition is a design choice. GoDot definitely favors inheritance, however I prefer composition.
 
-Our implementation has `FrameRate` containing a `Label` ("has-a" composition). But `FrameRate` can inherit from and extend `Label`, see the example below. `FrameRate` becomes an "is-a" of Label. 
+Our implementation uses composition where `FrameRate` contains a `Label` ("has-a"). But `FrameRate` can inherit from and extend `Label` ("is-a"), see the example below. 
 
 ```gdscript
 ### In res://src/Pong.gd
@@ -524,9 +527,11 @@ func _process(_delta: float) -> void:
 func node() -> Node: return self
 ```
 
-We can move the logic from `FrameRate.update()` into the inherited virtual method `FrameRate_process()`. The SceneTree calls `_process()` each frame so `Pong._process()` no longer needs to call `FrameRate._process()`, 
+Inheritance generally has the advantage of less code and this holds true here;
+* The logic from `FrameRate.update()` moves into the inherited virtual method `FrameRate_process()`,
+* `Pong._process()` no longer needs to call `FrameRate._process()` as the SceneTree calls `FrameRate_process()` on each frame.
 
-The advantage of inheritance, in the above example at least, is less code. On the other hand, rendering the frame rate in a 3D scene will require that `FrameRate` inherit from `Label3D` which will mean defining a new class `FrameRate3D` with much the same logic as `Label`, resulting in double the code. Inheritance generally leads to the proliferation of small classes in large projects.
+A limitation of inheritance is that rendering the frame rate in a 3D scene requires that `FrameRate` inherit from `Label3D` which means defining a new class `FrameRate3D`. This new class contains much the same logic as `Label` resulting in double the code. Inheritance generally leads to the proliferation of small classes.
 
 Using composition, we can modify `FrateRate` to support both `Label` and `Label3D` as follows;
 
