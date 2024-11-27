@@ -223,7 +223,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              21-minute read
+              22-minute read
             </span>
           </div>
           
@@ -464,7 +464,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
   </a>
 </h1>
 <p>We cannot render text directly to a Viewport surface as it does not support this capability, so we cannot print &ldquo;Hello World&rdquo; as we would to a terminal. Instead we need to add a <a href="https://docs.godotengine.org/en/stable/classes/class_label.html"  class="external-link" target="_blank" rel="noopener">Label</a> Node to the SceneTree and write the current frame rate to this control using its <a href="https://docs.godotengine.org/en/stable/classes/class_label.html#class-label-property-text"  class="external-link" target="_blank" rel="noopener"><code>set_text()</code> method</a>.</p>
-<p>See <a href="#object-instantiation-and-variables" >Object Instantiation</a>, and <a href="#dynamic-vs-static-typing" >Dynamic vs Static Typing</a> for the implementation.</p>
+<p>See the following sections <a href="#object-instantiation-and-variables" >Object Instantiation and Variables</a>, and <a href="#dynamic-vs-static-typing" >Dynamic vs Static Typing</a> for the implementation.</p>
 <h2 id="object-instantiation-and-variables">
   Object Instantiation and Variables
   <a class="heading-link" href="#object-instantiation-and-variables">
@@ -509,18 +509,18 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
     <span class="sr-only">Link to heading</span>
   </a>
 </h2>
-<p>Godot provides the <a href="https://en.wikipedia.org/wiki/Singleton_pattern"  class="external-link" target="_blank" rel="noopener">Singleton</a> object <a href="https://docs.godotengine.org/en/stable/classes/class_engine.html"  class="external-link" target="_blank" rel="noopener">Engine</a> that implements the method <a href="https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second"  class="external-link" target="_blank" rel="noopener"><code>get_frames_per_second()</code></a> that returns the current frames-per-second. In general terms, a Singleton can be thought of as a global variable containing an instance of Engine. As the term implies, there can only be one instance of Engine and it is managed by Godot. As such, we don&rsquo;t need to create an instance of <a href="https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second"  class="external-link" target="_blank" rel="noopener"><code>Engine</code></a> using <code>new()</code>.</p>
+<p>Godot provides the <a href="https://en.wikipedia.org/wiki/Singleton_pattern"  class="external-link" target="_blank" rel="noopener">Singleton</a> object <a href="https://docs.godotengine.org/en/stable/classes/class_engine.html"  class="external-link" target="_blank" rel="noopener">Engine</a> that implements the method <a href="https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second"  class="external-link" target="_blank" rel="noopener"><code>get_frames_per_second()</code></a> that returns the current frames-per-second. A Singleton is a <a href="https://en.wikipedia.org/wiki/Design_Patterns"  class="external-link" target="_blank" rel="noopener">design pattern</a> used to ensure that there will only ever be one instance of a class, as an alternative to assigning an object to a global variable. We don&rsquo;t need to create an instance of <a href="https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second"  class="external-link" target="_blank" rel="noopener"><code>Engine</code></a> using <code>new()</code> as the Engine is managed by Godot.</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#ff7b72">var</span> fps: <span style="color:#f0883e;font-weight:bold">Label</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#f0883e;font-weight:bold">Label</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">new</span>() <span style="color:#8b949e;font-style:italic"># Create a new Label object</span>
 </span></span><span style="display:flex;"><span>fps<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">set_text</span>(str(<span style="color:#f0883e;font-weight:bold">Engine</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">get_frames_per_second</span>())) <span style="color:#8b949e;font-style:italic"># Set fps.text to the current fps</span>
 </span></span></code></pre></div><p>The <code>str()</code> function converts the <code>float</code> returned by <code>Engine.get_frames_per_second()</code> to a <code>String</code> value required by <code>set_text</code>. Not performing this conversion will result in a runtime error.</p>
-<h1 id="game-loop">
-  Game Loop
-  <a class="heading-link" href="#game-loop">
+<h1 id="the-game-loop">
+  The Game Loop
+  <a class="heading-link" href="#the-game-loop">
     <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
     <span class="sr-only">Link to heading</span>
   </a>
 </h1>
-<p>Still not done;</p>
+<p>The game loop drives the game. Everything that happens in the game, physics, AI, sound, handling input, rendering graphics, networking, game mechanics, happens in the game loop. A game loop will typically execute between 30 and 60 times each second.</p>
 <ol start="0">
 <li><input checked="" disabled="" type="checkbox"> <a href="#the-project" >Create the Project</a>,</li>
 <li>Initialization:
@@ -632,7 +632,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_process</span>(_delta: <span style="color:#ff7b72">float</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	<span style="color:#ff7b72">if</span> <span style="color:#f0883e;font-weight:bold">Engine</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">get_process_frames</span>() <span style="color:#ff7b72;font-weight:bold">%</span> <span style="color:#a5d6ff">10</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">0</span>:
 </span></span><span style="display:flex;"><span>		fps<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">set_text</span>(FPS_TEXT <span style="color:#ff7b72;font-weight:bold">+</span> str (<span style="color:#f0883e;font-weight:bold">Engine</span><span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">get_frames_per_second</span>()))
-</span></span></code></pre></div><p>The <code>%</code> is the modulo or remainder operator. It returns the remainder when dividing the number of frames since game start (<code>Engine.get_process_frames()</code>) by <code>10</code>. If the remainder is <code>0</code> then the conditional is <code>true</code> and we update the frame rate.</p>
+</span></span></code></pre></div><p>The <code>%</code> is the modulo or remainder operator. It returns the remainder when dividing the number of frames since game start (<code>Engine.get_process_frames()</code>) by <code>10</code>. If the remainder is <code>0</code> then the conditional is said to evaluate to <code>true</code> and we update the frame rate.</p>
 <h2 id="constants">
   Constants
   <a class="heading-link" href="#constants">
@@ -666,7 +666,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
     <span class="sr-only">Link to heading</span>
   </a>
 </h1>
-<p>We can exit the game by closing the Godot window. But as the plan is to use the keyboard to control the paddles, we may as well explore how to handle keyboard input and exit the game when the <code>Esc</code> key is depressed.</p>
+<p>We can exit the game by closing the Godot window. But as the plan is to use the keyboard to control the paddles, we may as well start now and explore how to handle keyboard input and exit the game when the <code>Esc</code> key is depressed.</p>
 <p>The methods to retrieve player input are provided by the <a href="https://docs.godotengine.org/en/stable/classes/class_input.html"  class="external-link" target="_blank" rel="noopener">Input Singleton</a>. We use the <a href="https://docs.godotengine.org/en/stable/classes/class_input.html#class-input-method-is-action-pressed"  class="external-link" target="_blank" rel="noopener">is_action_pressed()</a> method and filter events to the <code>&quot;ui_cancel&quot;</code> signal which is by default mapped to the <code>Esc</code> key.</p>
 <p>See <a href="#handling-input" >Handling Input</a> for the implementation.</p>
 <h2 id="handling-input">

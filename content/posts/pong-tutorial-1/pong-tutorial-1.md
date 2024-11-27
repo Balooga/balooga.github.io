@@ -178,7 +178,7 @@ We don't explicitly create an instance of `Pong` [using `new()`](#object-instant
 # Text Label
 We cannot render text directly to a Viewport surface as it does not support this capability, so we cannot print "Hello World" as we would to a terminal. Instead we need to add a [Label](https://docs.godotengine.org/en/stable/classes/class_label.html) Node to the SceneTree and write the current frame rate to this control using its [`set_text()` method](https://docs.godotengine.org/en/stable/classes/class_label.html#class-label-property-text).
 
-See [Object Instantiation](#object-instantiation-and-variables), and [Dynamic vs Static Typing](#dynamic-vs-static-typing) for the implementation.
+See the following sections [Object Instantiation and Variables](#object-instantiation-and-variables), and [Dynamic vs Static Typing](#dynamic-vs-static-typing) for the implementation.
 
 ## Object Instantiation and Variables
 We need to create an instance of [`Label`](https://docs.godotengine.org/en/stable/classes/class_label.html) to display the frame rate -- in effect we are [instantiating](https://en.wikipedia.org/wiki/Instance_(computer_science)) a new `Label` object. We do this by calling the [constructor](https://en.wikipedia.org/wiki/Constructor_(object-oriented_programming)) method
@@ -216,7 +216,7 @@ Now we need to calculate or retrieve the current frame rate. Handily, Godot prov
 See [Singletons](#singletons) for the implementation.
 
 ## Singletons
-Godot provides the [Singleton](https://en.wikipedia.org/wiki/Singleton_pattern) object [Engine](https://docs.godotengine.org/en/stable/classes/class_engine.html) that implements the method [`get_frames_per_second()`](https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second) that returns the current frames-per-second. In general terms, a Singleton can be thought of as a global variable containing an instance of Engine. As the term implies, there can only be one instance of Engine and it is managed by Godot. As such, we don't need to create an instance of [`Engine`](https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second) using `new()`.
+Godot provides the [Singleton](https://en.wikipedia.org/wiki/Singleton_pattern) object [Engine](https://docs.godotengine.org/en/stable/classes/class_engine.html) that implements the method [`get_frames_per_second()`](https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second) that returns the current frames-per-second. A Singleton is a [design pattern](https://en.wikipedia.org/wiki/Design_Patterns) used to ensure that there will only ever be one instance of a class, as an alternative to assigning an object to a global variable. We don't need to create an instance of [`Engine`](https://docs.godotengine.org/en/stable/classes/class_engine.html#class-engine-method-get-frames-per-second) using `new()` as the Engine is managed by Godot.
 
 ``` gdscript
 var fps: Label = Label.new() # Create a new Label object
@@ -225,8 +225,8 @@ fps.set_text(str(Engine.get_frames_per_second())) # Set fps.text to the current 
 
 The `str()` function converts the `float` returned by `Engine.get_frames_per_second()` to a `String` value required by `set_text`. Not performing this conversion will result in a runtime error.
 
-# Game Loop
-Still not done; 
+# The Game Loop
+The game loop drives the game. Everything that happens in the game, physics, AI, sound, handling input, rendering graphics, networking, game mechanics, happens in the game loop. A game loop will typically execute between 30 and 60 times each second.
 
 0. [X] [Create the Project](#the-project),
 1. Initialization:
@@ -328,7 +328,7 @@ func _process(_delta: float) -> void:
 		fps.set_text(FPS_TEXT + str (Engine.get_frames_per_second()))
 ```
 
-The `%` is the modulo or remainder operator. It returns the remainder when dividing the number of frames since game start (`Engine.get_process_frames()`) by `10`. If the remainder is `0` then the conditional is `true` and we update the frame rate.
+The `%` is the modulo or remainder operator. It returns the remainder when dividing the number of frames since game start (`Engine.get_process_frames()`) by `10`. If the remainder is `0` then the conditional is said to evaluate to `true` and we update the frame rate.
 
 ## Constants
 We define several [constants](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#constants) with values for maximum frame rate, fps update interval, and the FPS text. Constants are used instead of variables when we don't want the value assigned to a variable to change during program execution. Some other advantages of constants include improving code readability, and changing the value of a constant will be reflected everywhere that constant is used.
@@ -355,7 +355,7 @@ func _process(_delta: float) -> void:
 ```
 
 # Handling Player Input
-We can exit the game by closing the Godot window. But as the plan is to use the keyboard to control the paddles, we may as well explore how to handle keyboard input and exit the game when the `Esc` key is depressed.
+We can exit the game by closing the Godot window. But as the plan is to use the keyboard to control the paddles, we may as well start now and explore how to handle keyboard input and exit the game when the `Esc` key is depressed.
 
 The methods to retrieve player input are provided by the [Input Singleton](https://docs.godotengine.org/en/stable/classes/class_input.html). We use the [is_action_pressed()](https://docs.godotengine.org/en/stable/classes/class_input.html#class-input-method-is-action-pressed) method and filter events to the `"ui_cancel"` signal which is by default mapped to the `Esc` key.
 
