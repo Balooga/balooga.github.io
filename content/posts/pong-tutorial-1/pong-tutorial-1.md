@@ -20,7 +20,7 @@ title = 'Pong Tutorial in Godot; Part 1'
     - [Dynamic vs Static Typing](#dynamic-vs-static-typing)
 - [Frame Rate](#frame-rate)
     - [Singletons](#singletons)
-- [Game Loop](#game-loop)
+- [The Game Loop](#the-game-loop)
     - [The SceneTree ](#the-scenetree)
     - [Variable Scope](#variable-scope)
     - [Static, Instance, and Virtual Methods](#static-instance-and-virtual-methods)
@@ -31,6 +31,7 @@ title = 'Pong Tutorial in Godot; Part 1'
 - [Game Exit](#game-exit)
     - [Object Constructors and Destructors, Finalizers ](#object-constructors-and-destructors-finalizers)
 - [Information Hiding and Encapsulation](#information-hiding-and-encapsulation)
+    - [Duck Typing, Polymorphism, Function Overloading and Function Overriding](#duck-typing-polymorphism-function-overloading-and-function-overriding)
     - [Alternative Implementation](#alternative-implementation)
 - [Composition vs Inheritance](#composition-vs-inheritance)
 - [Conclusion](#conclusion)
@@ -41,7 +42,7 @@ title = 'Pong Tutorial in Godot; Part 1'
 <!-- markdown-toc end -->
 
 # Introduction
-This is the first in a series of tutorials building up to a basic Pong clone implemented using the [Godot engine](https://godotengine.org/). We will try to accomplish as much as we can in [GDScript](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html), which is the native scripting language of the engine, relying less on Godot's SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; [grepping](https://en.wikipedia.org/wiki/Grep) over files in your project folder is much faster than having to inspect properties of the Nodes in the SceneTree, for example.
+This is the first in a series of tutorials that will build up to a basic Pong clone implemented using the [Godot engine](https://godotengine.org/). We will try to accomplish as much as we can in [GDScript](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html), which is the native scripting language of the engine, relying less on Godot's SceneTree editor and Property Inspector. These tools, while incredibly useful, can make refactoring code, debugging, and writing unit tests more difficult; [grepping](https://en.wikipedia.org/wiki/Grep) over files in your project folder is much faster than having to inspect properties of the Nodes in the SceneTree, for example.
 
 [OOP (Object-Oriented Programming)](https://en.wikipedia.org/wiki/Object-oriented_programming) is the driving paradigm in the design of [GDScript and the Godot engine](https://docs.godotengine.org/en/stable/tutorials/best_practices/what_are_godot_classes.html). You don't need to become an expert in Object Orientated programming to use the Godot engine or GDScript, but you should take the time to become somewhat proficient. This tutorial introduces some principles of OOP but OOP isn't covered in depth as this isn't a general programming tutorial.
 
@@ -427,13 +428,10 @@ func update(frames: float) -> void:
 func Node() -> Node: return label
 ```
 
-* We implement [getters and setters](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#properties-setters-and-getters) for `label` and `interval` as an example of how to hide variables from direct access by external classes. This is useful when logic must run each time a variable is accessed. Here, we convert a value to an integer before assigning to `interval`.
-* The `_init()` function accepts a `Vector` containing the position and an update interval as an `integer`. The ability to change the `_init()` constructor in this manner is called_[constructor overloading](https://en.wikipedia.org/wiki/Function_overloading#Constructor_overloading). 
-    * GDScript does not support [function overloading](https://en.wikipedia.org/wiki/Function_overloading#Rules_in_function_overloading) -- different functions with the same function name but different parameters, 
-    * GDScript does support [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) -- a single function that is able to accept different types for the same parameter, and
-    * [Function overriding](https://en.wikipedia.org/wiki/Method_overriding) -- a function in a derived class providing an implemention already provided by a function in superclass.
+* We implement [getters and setters](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#properties-setters-and-getters) for `label` and `interval` as an example of how GDScript allows hiding variables from direct access by external methods. Getters and Setters are useful when additional logic must execute each time a variable is accessed. Here for example, we convert a value to an integer before assigning to `interval`. GDScript does not support [public or private methods](https://en.wikipedia.org/wiki/Access_modifiers) so getters/setters are as close as we can get. 
+* The `_init()` function accepts a `Vector` containing the position and an update interval as an `integer`. The ability to change the `_init()` constructor in this manner is called_[constructor overloading](https://en.wikipedia.org/wiki/Function_overloading#Constructor_overloading). Note that GDScript only allows a single `_init()` function in a class. 
 * The function `ceil(frames)` in `update()` rounds up a fractional frame rate to the nearest integer, e.g. `33.2` becomes `34`.
-* The function `node()` is the common interface for retrieving the `Ndde` associated with the `FrameRate` object, in this case the `Label`. In If we had implemented `FrameRate` to extend`Label`, then `node()` would return the `FrameRate` object itself.
+* We define a method `node()` as the interface for retrieving the `Label` `Ndde` associated with the `FrameRate` object. If `FrameRate` had instead extended`Label`, then `node()` would return the `FrameRate` object itself, see [Composition vs Inheritance](#composition-vs-inheritance).
 
 Now `Pong` is refactored to remove the frame rate logic;
 
@@ -453,6 +451,24 @@ func addChild(n: Node) -> void:
 ```
 
 `Pong` is responsible for adding the FrameRate object to the SceneTree. via `addChild()`.
+
+## Duck Typing, Polymorphism, Function Overloading and Function Overriding
+
+GDScript is (GdScript supports ["Duck](https://docs.godotengine.org/en/3.0/getting_started/scripting/gdscript/gdscript_advanced.html#duck-typing)) [Typed"](https://en.wikipedia.org/wiki/Duck_typing), meaning that it is not required to specify an argument type in the method parameter list. For example if we don't specify the type of the parameter accepted by `FrameRate.update(frame)` then  any type may be passed;
+
+```gdscript
+func update(frames) -> void:
+	if int(ceil(frames)) % interval == 0:
+		label.text = "FPS: " + str(frames)
+```
+
+But `update` will fail at runtime if it receives a parameter not of type `int` or `float`.
+
+Duck Typing is a form of [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) -- a single function that is able to accept different types for the same parameter.
+
+GDScript does not support [function overloading](https://en.wikipedia.org/wiki/Function_overloading#Rules_in_function_overloading) ([except for `_init()`)](#information-hiding-and-encapsulation) -- different functions with the same function name but different parameters, so methods may not share the same method name in a class.
+
+GDScript does support [Function overriding](https://en.wikipedia.org/wiki/Method_overriding) -- a function in a derived class providing an implemention already provided by a function in superclass. We see this with the virtual methods `_init()` and `_process()`.
 
 ## Alternative Implementation
 The `FrameRate`  object is able to add itself to the SceneTree by passing the `Pong` node in the `FrameRate` constructor `init(self, Vector2(0,0), UPDATE_INTERVAL)`. See the example below.
@@ -500,7 +516,7 @@ But this introduces the Godot engine as a dependency when testing `FrameRate.upd
 > HN: Game developers: don't use inheritance for your game objects
 -- https://news.ycombinator.com/item?id=3560408
 
-Inheritance vs composition is a design choice. GoDot definitely favors inheritance, however I prefer composition.
+Inheritance vs composition is a design choice. GoDot definitely favors inheritance, however composition is preferable in many scenarios.
 
 Our implementation uses composition where `FrameRate` contains a `Label` ("has-a"). But `FrameRate` can inherit from and extend `Label` ("is-a"), see the example below. 
 
@@ -531,7 +547,7 @@ Inheritance generally has the advantage of less code and this holds true here;
 * The logic from `FrameRate.update()` moves into the inherited virtual method `FrameRate_process()`,
 * `Pong._process()` no longer needs to call `FrameRate._process()` as the SceneTree calls `FrameRate_process()` on each frame.
 
-A limitation of inheritance is that rendering the frame rate in a 3D scene requires that `FrameRate` inherit from `Label3D` which means defining a new class `FrameRate3D`. This new class contains much the same logic as `Label` resulting in double the code. Inheritance generally leads to the proliferation of small classes.
+A disadvantage of inheritance is that rendering the frame rate in a 3D scene requires that `FrameRate` inherit from `Label3D` which means defining a new class `FrameRate3D`. This new class contains much the same logic as `Label` resulting in double the code. Inheritance generally leads to the proliferation of small classes.
 
 Using composition, we can modify `FrateRate` to support both `Label` and `Label3D` as follows;
 
@@ -563,6 +579,8 @@ func _init(n: Node, pos: Vector2, i: int):
 func node() -> Node: return label
 ```
 `Pong` creates either a `Label` or `Label3D` and passes this object to the `FrameRate.New()` constructor. Using composition actually results in less code and one less class.
+
+GDScript supports composition but unfortunately does not support ["Embedding"](https://go.dev/doc/effective_go#embedding), where the methods of the "contained" object are promoted to the same level as the methods of the container. If GDScript supported embedding then instead of `label.position = pos`, we could write `position = pos`.
 
 # Conclusion
 All that to display the current frame rate. If we had jumped right into the implementation we would also have had to consider loading assets, collision detection, implementing physics for ball strikes and bounces, sound effects, and player point scores for game start and game over. Never mind some rudimentary AI if we want to support single player mode against a computer opponent.

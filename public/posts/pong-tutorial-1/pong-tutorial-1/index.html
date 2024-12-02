@@ -14,72 +14,8 @@
 
 <meta name="author" content="Luke Crook">
 <meta name="description" content="(v0.1)
-
 Table of Contents
-
-Introduction
-The Godot Graphics Pipeline
-Install the Godot Engine
-Design 
-Create the Pong Project
-Viewport
-
-Classes and Class Inheritance
-
-
-Text Label
-
-Object Instantiation and Variables
-Dynamic vs Static Typing
-
-
-Frame Rate
-
-Singletons
-
-
-Game Loop
-
-The SceneTree 
-Variable Scope
-Static, Instance, and Virtual Methods
-Conditionals
-Constants
-
-
-Handling Player Input
-
-Handling Input
-
-
-Game Exit
-
-Object Constructors and Destructors, Finalizers 
-
-
-Information Hiding and Encapsulation
-
-Alternative Implementation
-
-
-Composition vs Inheritance
-Conclusion
-
-The Final Code
-
-
-Advanced Concepts
-Versions
-
-
-
-  Introduction
-  
-    
-    Link to heading
-  
-
-This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the engine, relying less on Godot&rsquo;s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to inspect properties of the Nodes in the SceneTree, for example.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons The Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Duck Typing, Polymorphism, Function Overloading and Function Overriding Alternative Implementation Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials that will build up to a basic Pong clone implemented using the Godot engine.">
 <meta name="keywords" content="blog,developer,personal">
 
 
@@ -88,14 +24,14 @@ This is the first in a series of tutorials building up to a basic Pong clone imp
   <meta name="twitter:title" content="Pong Tutorial in Godot; Part 1">
   <meta name="twitter:description" content="(v0.1)
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Alternative Implementation Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the engine, relying less on Godot’s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to inspect properties of the Nodes in the SceneTree, for example.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons The Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Duck Typing, Polymorphism, Function Overloading and Function Overriding Alternative Implementation Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials that will build up to a basic Pong clone implemented using the Godot engine.">
 
 <meta property="og:url" content="https://www.balooga.com/posts/pong-tutorial-1/pong-tutorial-1/">
   <meta property="og:site_name" content="Balooga.com">
   <meta property="og:title" content="Pong Tutorial in Godot; Part 1">
   <meta property="og:description" content="(v0.1)
 Table of Contents
-Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Alternative Implementation Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials building up to a basic Pong clone implemented using the Godot engine. We will try to accomplish as much as we can in GDScript, which is the native scripting language of the engine, relying less on Godot’s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; grepping over files in your project folder is much faster than having to inspect properties of the Nodes in the SceneTree, for example.">
+Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create the Pong Project Viewport Classes and Class Inheritance Text Label Object Instantiation and Variables Dynamic vs Static Typing Frame Rate Singletons The Game Loop The SceneTree Variable Scope Static, Instance, and Virtual Methods Conditionals Constants Handling Player Input Handling Input Game Exit Object Constructors and Destructors, Finalizers Information Hiding and Encapsulation Duck Typing, Polymorphism, Function Overloading and Function Overriding Alternative Implementation Composition vs Inheritance Conclusion The Final Code Advanced Concepts Versions Introduction Link to heading This is the first in a series of tutorials that will build up to a basic Pong clone implemented using the Godot engine.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -259,7 +195,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
 <li><a href="#singletons" >Singletons</a></li>
 </ul>
 </li>
-<li><a href="#game-loop" >Game Loop</a>
+<li><a href="#the-game-loop" >The Game Loop</a>
 <ul>
 <li><a href="#the-scenetree" >The SceneTree </a></li>
 <li><a href="#variable-scope" >Variable Scope</a></li>
@@ -280,6 +216,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
 </li>
 <li><a href="#information-hiding-and-encapsulation" >Information Hiding and Encapsulation</a>
 <ul>
+<li><a href="#duck-typing-polymorphism-function-overloading-and-function-overriding" >Duck Typing, Polymorphism, Function Overloading and Function Overriding</a></li>
 <li><a href="#alternative-implementation" >Alternative Implementation</a></li>
 </ul>
 </li>
@@ -300,7 +237,7 @@ Introduction The Godot Graphics Pipeline Install the Godot Engine Design Create 
     <span class="sr-only">Link to heading</span>
   </a>
 </h1>
-<p>This is the first in a series of tutorials building up to a basic Pong clone implemented using the <a href="https://godotengine.org/"  class="external-link" target="_blank" rel="noopener">Godot engine</a>. We will try to accomplish as much as we can in <a href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html"  class="external-link" target="_blank" rel="noopener">GDScript</a>, which is the native scripting language of the engine, relying less on Godot&rsquo;s SceneTree editor and Property Inspector. These tools, while useful for experimentation, can make refactoring code, debugging, and writing unit tests more difficult; <a href="https://en.wikipedia.org/wiki/Grep"  class="external-link" target="_blank" rel="noopener">grepping</a> over files in your project folder is much faster than having to inspect properties of the Nodes in the SceneTree, for example.</p>
+<p>This is the first in a series of tutorials that will build up to a basic Pong clone implemented using the <a href="https://godotengine.org/"  class="external-link" target="_blank" rel="noopener">Godot engine</a>. We will try to accomplish as much as we can in <a href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html"  class="external-link" target="_blank" rel="noopener">GDScript</a>, which is the native scripting language of the engine, relying less on Godot&rsquo;s SceneTree editor and Property Inspector. These tools, while incredibly useful, can make refactoring code, debugging, and writing unit tests more difficult; <a href="https://en.wikipedia.org/wiki/Grep"  class="external-link" target="_blank" rel="noopener">grepping</a> over files in your project folder is much faster than having to inspect properties of the Nodes in the SceneTree, for example.</p>
 <p><a href="https://en.wikipedia.org/wiki/Object-oriented_programming"  class="external-link" target="_blank" rel="noopener">OOP (Object-Oriented Programming)</a> is the driving paradigm in the design of <a href="https://docs.godotengine.org/en/stable/tutorials/best_practices/what_are_godot_classes.html"  class="external-link" target="_blank" rel="noopener">GDScript and the Godot engine</a>. You don&rsquo;t need to become an expert in Object Orientated programming to use the Godot engine or GDScript, but you should take the time to become somewhat proficient. This tutorial introduces some principles of OOP but OOP isn&rsquo;t covered in depth as this isn&rsquo;t a general programming tutorial.</p>
 <p>We start by implementing something seemingly straightforward, displaying the <a href="https://en.wikipedia.org/wiki/Frame_rate"  class="external-link" target="_blank" rel="noopener">frame rate</a> (fps &ndash; frames-per-second). Why start with the frame rate instead of jumping in and creating the Pong clone? See <a href="https://www.balooga.com/posts/software-estimation/" title="Software Development Estimation" >Software Development Estimation</a> as to why.</p>
 <p><img src="/posts/pong-tutorial-1/pong-execute.png" alt="Pong FPS Tutorial 1" title="Displaying the frame rate in Pong FPS Tutorial 1"></p>
@@ -743,16 +680,10 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">Node</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#f0883e;font-weight:bold">Node</span>: <span style="color:#ff7b72">return</span> label
 </span></span></code></pre></div><ul>
-<li>We implement <a href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#properties-setters-and-getters"  class="external-link" target="_blank" rel="noopener">getters and setters</a> for <code>label</code> and <code>interval</code> as an example of how to hide variables from direct access by external classes. This is useful when logic must run each time a variable is accessed. Here, we convert a value to an integer before assigning to <code>interval</code>.</li>
-<li>The <code>_init()</code> function accepts a <code>Vector</code> containing the position and an update interval as an <code>integer</code>. The ability to change the <code>_init()</code> constructor in this manner is called_<a href="https://en.wikipedia.org/wiki/Function_overloading#Constructor_overloading"  class="external-link" target="_blank" rel="noopener">constructor overloading</a>.
-<ul>
-<li>GDScript does not support <a href="https://en.wikipedia.org/wiki/Function_overloading#Rules_in_function_overloading"  class="external-link" target="_blank" rel="noopener">function overloading</a> &ndash; different functions with the same function name but different parameters,</li>
-<li>GDScript does support <a href="https://en.wikipedia.org/wiki/Polymorphism_%28computer_science%29"  class="external-link" target="_blank" rel="noopener">polymorphism</a> &ndash; a single function that is able to accept different types for the same parameter, and</li>
-<li><a href="https://en.wikipedia.org/wiki/Method_overriding"  class="external-link" target="_blank" rel="noopener">Function overriding</a> &ndash; a function in a derived class providing an implemention already provided by a function in superclass.</li>
-</ul>
-</li>
+<li>We implement <a href="https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#properties-setters-and-getters"  class="external-link" target="_blank" rel="noopener">getters and setters</a> for <code>label</code> and <code>interval</code> as an example of how GDScript allows hiding variables from direct access by external methods. Getters and Setters are useful when additional logic must execute each time a variable is accessed. Here for example, we convert a value to an integer before assigning to <code>interval</code>. GDScript does not support <a href="https://en.wikipedia.org/wiki/Access_modifiers"  class="external-link" target="_blank" rel="noopener">public or private methods</a> so getters/setters are as close as we can get.</li>
+<li>The <code>_init()</code> function accepts a <code>Vector</code> containing the position and an update interval as an <code>integer</code>. The ability to change the <code>_init()</code> constructor in this manner is called_<a href="https://en.wikipedia.org/wiki/Function_overloading#Constructor_overloading"  class="external-link" target="_blank" rel="noopener">constructor overloading</a>. Note that GDScript only allows a single <code>_init()</code> function in a class.</li>
 <li>The function <code>ceil(frames)</code> in <code>update()</code> rounds up a fractional frame rate to the nearest integer, e.g. <code>33.2</code> becomes <code>34</code>.</li>
-<li>The function <code>node()</code> is the common interface for retrieving the <code>Ndde</code> associated with the <code>FrameRate</code> object, in this case the <code>Label</code>. In If we had implemented <code>FrameRate</code> to extend<code>Label</code>, then <code>node()</code> would return the <code>FrameRate</code> object itself.</li>
+<li>We define a method <code>node()</code> as the interface for retrieving the <code>Label</code> <code>Ndde</code> associated with the <code>FrameRate</code> object. If <code>FrameRate</code> had instead extended<code>Label</code>, then <code>node()</code> would return the <code>FrameRate</code> object itself, see <a href="#composition-vs-inheritance" >Composition vs Inheritance</a>.</li>
 </ul>
 <p>Now <code>Pong</code> is refactored to remove the frame rate logic;</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In res://src/Pong.gd</span>
@@ -768,6 +699,21 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">addChild</span>(n: <span style="color:#f0883e;font-weight:bold">Node</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
 </span></span><span style="display:flex;"><span>	self<span style="color:#ff7b72;font-weight:bold">.</span><span style="color:#d2a8ff;font-weight:bold">call_deferred</span>(<span style="color:#a5d6ff">&#34;add_child&#34;</span>, n)
 </span></span></code></pre></div><p><code>Pong</code> is responsible for adding the FrameRate object to the SceneTree. via <code>addChild()</code>.</p>
+<h2 id="duck-typing-polymorphism-function-overloading-and-function-overriding">
+  Duck Typing, Polymorphism, Function Overloading and Function Overriding
+  <a class="heading-link" href="#duck-typing-polymorphism-function-overloading-and-function-overriding">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>GDScript is (GdScript supports <a href="https://docs.godotengine.org/en/3.0/getting_started/scripting/gdscript/gdscript_advanced.html#duck-typing"  class="external-link" target="_blank" rel="noopener">&ldquo;Duck</a>) <a href="https://en.wikipedia.org/wiki/Duck_typing"  class="external-link" target="_blank" rel="noopener">Typed&rdquo;</a>, meaning that it is not required to specify an argument type in the method parameter list. For example if we don&rsquo;t specify the type of the parameter accepted by <code>FrameRate.update(frame)</code> then  any type may be passed;</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">update</span>(frames) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#ff7b72">if</span> <span style="color:#ff7b72">int</span>(ceil(frames)) <span style="color:#ff7b72;font-weight:bold">%</span> interval <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">0</span>:
+</span></span><span style="display:flex;"><span>		label<span style="color:#ff7b72;font-weight:bold">.</span>text <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;FPS: &#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> str(frames)
+</span></span></code></pre></div><p>But <code>update</code> will fail at runtime if it receives a parameter not of type <code>int</code> or <code>float</code>.</p>
+<p>Duck Typing is a form of <a href="https://en.wikipedia.org/wiki/Polymorphism_%28computer_science%29"  class="external-link" target="_blank" rel="noopener">polymorphism</a> &ndash; a single function that is able to accept different types for the same parameter.</p>
+<p>GDScript does not support <a href="https://en.wikipedia.org/wiki/Function_overloading#Rules_in_function_overloading"  class="external-link" target="_blank" rel="noopener">function overloading</a> (<a href="#information-hiding-and-encapsulation" >except for <code>_init()</code>)</a> &ndash; different functions with the same function name but different parameters, so methods may not share the same method name in a class.</p>
+<p>GDScript does support <a href="https://en.wikipedia.org/wiki/Method_overriding"  class="external-link" target="_blank" rel="noopener">Function overriding</a> &ndash; a function in a derived class providing an implemention already provided by a function in superclass. We see this with the virtual methods <code>_init()</code> and <code>_process()</code>.</p>
 <h2 id="alternative-implementation">
   Alternative Implementation
   <a class="heading-link" href="#alternative-implementation">
@@ -819,7 +765,7 @@ This method is called when an object is instantiated in, for example, a call to 
 <p>HN: Game developers: don&rsquo;t use inheritance for your game objects
 &ndash; <a href="https://news.ycombinator.com/item?id=3560408"  class="external-link" target="_blank" rel="noopener">https://news.ycombinator.com/item?id=3560408</a></p>
 </blockquote>
-<p>Inheritance vs composition is a design choice. GoDot definitely favors inheritance, however I prefer composition.</p>
+<p>Inheritance vs composition is a design choice. GoDot definitely favors inheritance, however composition is preferable in many scenarios.</p>
 <p>Our implementation uses composition where <code>FrameRate</code> contains a <code>Label</code> (&ldquo;has-a&rdquo;). But <code>FrameRate</code> can inherit from and extend <code>Label</code> (&ldquo;is-a&rdquo;), see the example below.</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In res://src/Pong.gd</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">_process</span>(_delta: <span style="color:#ff7b72">float</span>) <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#ff7b72">void</span>:
@@ -846,7 +792,7 @@ This method is called when an object is instantiated in, for example, a call to 
 <li>The logic from <code>FrameRate.update()</code> moves into the inherited virtual method <code>FrameRate_process()</code>,</li>
 <li><code>Pong._process()</code> no longer needs to call <code>FrameRate._process()</code> as the SceneTree calls <code>FrameRate_process()</code> on each frame.</li>
 </ul>
-<p>A limitation of inheritance is that rendering the frame rate in a 3D scene requires that <code>FrameRate</code> inherit from <code>Label3D</code> which means defining a new class <code>FrameRate3D</code>. This new class contains much the same logic as <code>Label</code> resulting in double the code. Inheritance generally leads to the proliferation of small classes.</p>
+<p>A disadvantage of inheritance is that rendering the frame rate in a 3D scene requires that <code>FrameRate</code> inherit from <code>Label3D</code> which means defining a new class <code>FrameRate3D</code>. This new class contains much the same logic as <code>Label</code> resulting in double the code. Inheritance generally leads to the proliferation of small classes.</p>
 <p>Using composition, we can modify <code>FrateRate</code> to support both <code>Label</code> and <code>Label3D</code> as follows;</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript" data-lang="gdscript"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### In res://src/Pong.gd</span>
 </span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">### Specifying a 2D label, passing this object into FrameRate</span>
@@ -874,6 +820,7 @@ This method is called when an object is instantiated in, for example, a call to 
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">func</span> <span style="color:#d2a8ff;font-weight:bold">node</span>() <span style="color:#ff7b72;font-weight:bold">-&gt;</span> <span style="color:#f0883e;font-weight:bold">Node</span>: <span style="color:#ff7b72">return</span> label
 </span></span></code></pre></div><p><code>Pong</code> creates either a <code>Label</code> or <code>Label3D</code> and passes this object to the <code>FrameRate.New()</code> constructor. Using composition actually results in less code and one less class.</p>
+<p>GDScript supports composition but unfortunately does not support <a href="https://go.dev/doc/effective_go#embedding"  class="external-link" target="_blank" rel="noopener">&ldquo;Embedding&rdquo;</a>, where the methods of the &ldquo;contained&rdquo; object are promoted to the same level as the methods of the container. If GDScript supported embedding then instead of <code>label.position = pos</code>, we could write <code>position = pos</code>.</p>
 <h1 id="conclusion">
   Conclusion
   <a class="heading-link" href="#conclusion">
@@ -1038,6 +985,9 @@ This method is called when an object is instantiated in, for example, a call to 
 
 
   
+  
+
+
 
   
 
